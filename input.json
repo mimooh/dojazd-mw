@@ -1,0 +1,12 @@
+{
+	"vehicles": [
+		{ "type": "GBA"  , "position": [0 , 0] , "crew": 6 } ,
+		{ "type": "GCBA" , "position": [10 , 10] , "crew": 4 } 
+	],
+
+	"fire": {
+		"floor": 0,
+		"smoke_radius": 20
+	}
+
+}
