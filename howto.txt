@@ -1,0 +1,25 @@
+b0 Ustawiony (1) oznacza, że przebieg dotyczy rozwinięcia wewnętrznego
+b1 Ustawiony (1) oznacza rozwinięcie podstawowe
+b2 Ustawiony (1) oznacza, że przebieg obejmował wykorzystanie dźwigu ratowniczego
+b3 Ustawiony (1) oznacza, że przebieg dotyczył wykorzystania wew. sieci hydrantowej
+b4 Ustawiony (1) oznacza, że przebieg dotyczył wykorzystania wciągania linii po elewacji
+-
+b8 Ustawiony (1) oznacza, że przebieg dotyczy działań zewnętrznych
+b9 Ustawiony (1) oznacza, że przebieg dotyczy gaszenia z poziomu terenu
+b10 Ustawiony (1) oznacza,ze przebieg dotyczy gaszenia z drabiny przystawnej
+b11 Ustawiony (1) oznacza, że przebieg dotyczy gaszenia z drabiny mech., lub podnośnika
+-
+b15 Ustawiony (1) oznacza gaszenie stanowiskami z wysoką wydajnością
+
+
+b0 Ustawiony (1) oznacza, że odcinek drogi przebiega wewnątrz obiektu
+b1 Ustawiony (1) oznacza drogę w zadymieniu
+b2 Ustawiony (1) oznacza drogę w pionie drogami ogólnymi
+b3 Ustawiony (1) oznacza drogę w pionie dźwigiem ratowniczym
+b4 Ustawiony (1) oznacza odcinek drogi - punkt hydrantu wewnętrznego
+-
+b8 Ustawiony (1) oznacza, że przebieg dotyczy działań zewnętrznych
+b9 Ustawiony (1) oznacza drogę poziomą
+b10 Ustawiony (1) oznacza drogę pionową po drabinie przystawnej
+b11 Ustawiony (1) oznacza drogę pionową przy użyciu drabiny mech. lub podnośnika hydr.
+-
