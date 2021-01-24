@@ -19,7 +19,7 @@ scenariusz
 
 
 
-droga (jako kodować poziomą?)
+droga (jak kodować poziomą drogę?)
 =====
  0  wewnątrz obiektu
  1  w zadymieniu
