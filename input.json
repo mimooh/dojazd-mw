@@ -1,27 +1,56 @@
-{
-	"scenariusz": [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-	
-	"droga": [
-		{ "opis": [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 10 },
-		{ "opis": [1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 15 },
-		{ "opis": [1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 8 }
-	],
+[
+	{
+		"scenariusz": [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		
+		"droga": [
+			{ "opis": [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 10 },
+			{ "opis": [1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 15 },
+			{ "opis": [1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 8 }
+		],
 
-	"sis": {
-		"drabina": 1,
-		"gba": 2,
-		"m3_wody": 5,
-		"załoga": 12,
-		"metry_szybkie_natarcie": 20,
-		"metry_węże_w75": 100,
-		"metry_węże_w52": 100
-	},
+		"sis": {
+			"drabina": 1,
+			"gba": 2,
+			"m3_wody": 5,
+			"załoga": 12,
+			"metry_szybkie_natarcie": 20,
+			"metry_węże_w75": 100,
+			"metry_węże_w52": 100
+		},
 
-	"pożar": {
-		"piętro": 0,
-		"promien_dymu": 20,
-		"promien_ognia": 5,
-		"faza": "rozwinięty"
+		"pożar": {
+			"piętro": 0,
+			"promien_dymu": 20,
+			"promien_ognia": 5,
+			"faza": "rozwinięty"
+		}
+
+	}, 
+	{
+		"scenariusz": [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		
+		"droga": [
+			{ "opis": [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 10 },
+			{ "opis": [1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 15 },
+			{ "opis": [1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 8 }
+		],
+
+		"sis": {
+			"drabina": 1,
+			"gba": 2,
+			"m3_wody": 5,
+			"załoga": 12,
+			"metry_szybkie_natarcie": 20,
+			"metry_węże_w75": 100,
+			"metry_węże_w52": 100
+		},
+
+		"pożar": {
+			"piętro": 0,
+			"promien_dymu": 20,
+			"promien_ognia": 5,
+			"faza": "rozwinięty"
+		}
+
 	}
-
-}
+]
