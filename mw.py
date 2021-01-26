@@ -17,37 +17,49 @@ from include import Dump as dd
 class DojazdMW:
     def __init__(self):# {{{
         self.json=Json()
-        self.read_input()
         self.mksqlite()
+        self.read_input()
 # }}}
     def read_input(self):# {{{
-        f=self.json.read('input.json')
-        for i in f:
-            print(i, i['scenariusz'])
+        self.scenariusze=self.json.read('input.json')
+        for i in self.scenariusze:
+            self.eval_scenariusz(i)
 # }}}
     def mksqlite(self):# {{{
         if os.path.exists("db.sqlite"):
             os.remove("db.sqlite")
         self.s=Sqlite("db.sqlite")
-        self.s.query("create table rozwiniecia(rozwiniecie,opis,czas,osob)")
+        self.s.query("create table czynnosci(wewn,dym,pion_schody,pion_dzwig,wartosc,czynnosc)")
         data=[]
-        data.append(['r1', 'jakiś opis', 120, 2 ]),
-        data.append(['r2', 'jakiś opis', 130, 2 ]),
-        data.append(['r3', 'jakiś opis', 140, 2 ]),
 
-        self.s.executemany('insert into rozwiniecia values ({})'.format(','.join('?' * len(data[0]))), data)
-        dd(self.s.query("select * from rozwiniecia where czas < 130"))
+        #              wewn , dym , pion_schody , pion_dzwig , wartosc , czynnosc
+        data.append([ 0     , 0   , 0           , 0          , 50      , 't.przygotowania']) ,
+        data.append([ 0     , 0   , 0           , 0          , 1       , 'v.poziom'       ]) ,
+        data.append([ 1     , 0   , 0           , 0          , 0.8     , 'v.poziom'       ]) ,
+        data.append([ 1     , 1   , 0           , 0          , 0.36    , 'v.poziom'       ]) ,
+        data.append([ 1     , 0   , 1           , 0          , 100     , 't.pion.12m'     ]) ,
+        data.append([ 1     , 1   , 1           , 0          , 140     , 't.pion.12m'     ]) ,
+        data.append([ 1     , 0   , 1           , 0          , 330     , 't.pion.25m'     ]) ,
+        data.append([ 1     , 1   , 1           , 0          , 500     , 't.pion.25'      ]) ,
+
+        self.s.executemany('insert into czynnosci values ({})'.format(','.join('?' * len(data[0]))), data)
+# }}}
+    def eval_droga(self,d):# {{{
+        params={}
+        dd(d)
+        params['wewn']=1 if d['opis'][0]==1 else 0
+        dd(params)
+        exit()
+
+        val=d.s.query("select wartosc from czynnosci where czynnosc=? and wewn=? and dym=?", ('v.poziom', 1, 0))[0]['wartosc']
+        dd(d)
+        exit()
+# }}}
+    def eval_scenariusz(self, i):# {{{
+        for d in i['droga']:
+            self.eval_droga(d)
+        val=d.s.query("select wartosc from czynnosci where czynnosc=? and wewn=? and dym=?", ('v.poziom', 1, 0))[0]['wartosc']
+        print(val)
 # }}}
 
-# czynnosc        ; poziom ; wewn ; dym ; wartosc
-# t.przygotowania ;        ; 0    ; 0   ; 50
-# v.poziom        ; 1      ; 0    ; 0   ; 1
-# v.poziom        ; 1      ; 1    ; 0   ; 0.8
-# v.poziom        ; 1      ; 1    ; 1   ; 0.36
-# t.pion.12m      ; 0      ; 1    ; 0   ; 100
-# t.pion.12m      ; 0      ; 1    ; 1   ; 140
-# t.pion.25m      ; 0      ; 1    ; 0   ; 330
-# t.pion.25       ; 0      ; 1    ; 1   ; 500
-
-
-DojazdMW()
+d=DojazdMW()

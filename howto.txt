@@ -36,3 +36,24 @@ droga (jak kodować poziomą drogę?)
 13
 14
 15
+
+
+droga_alt 
+=====
+wewn                ; wewnątrz obiektu
+dym                 ; w zadymieniu
+pion_schody         ; w pionie drogami ogólnymi
+pion_dzwig          ; w pionie dźwigiem ratowniczym
+hydrant             ; punkt hydrantu wewnętrznego (?)
+zewn                ; na zewnątrz
+d_przystawna        ; pionowa, drabina przystawna
+d_mech              ; pionowa, drabina mech.
+
+v=[ 1,0,1,0,0,0,0,0,0,0 ] # dobre do checkboksów, a nie radio
+q=?
+
+v=[ 'wewn' , 'dym' , 'pion_dzwig' ]
+vv=" and ".join([ f"{i}=1" for i in v ])
+print(f"select * from drogi where {vv}")
+
+
