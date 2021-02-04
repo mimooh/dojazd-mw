@@ -1,15 +1,6 @@
 from collections import OrderedDict
-from datetime import datetime
-from math import sqrt
-from numpy.random import randint
-from subprocess import Popen
 import inspect
-import itertools
 import json
-import numpy as np
-import os
-import sqlite3
-import sys
 
 class Dump:# {{{
     def __init__(self,*args):
@@ -27,53 +18,6 @@ class Dump:# {{{
                     print (str(k)+':', v)
             else:
                 print(struct)
-# }}}
-class Sqlite: # {{{
-
-    def __init__(self, handle, must_exist=0):
-        '''
-        must_exist=0: we are creating the database
-        must_exist=1: Exception if there's no such file
-        '''
-
-        if must_exist == 1:
-            assert os.path.exists(handle), "Expected to find an existing sqlite file at: {}.\nCWD: {}".format(handle, os.getcwd())
-
-
-        self.SQLITE = sqlite3.connect(handle)
-        self.SQLITE.row_factory=self._sql_assoc
-        self.sqlitedb=self.SQLITE.cursor()
-
-    def _sql_assoc(self,cursor,row):
-        ''' Query results returned as dicts. '''
-        d = OrderedDict()
-        for id, col in enumerate(cursor.description):
-            d[col[0]] = row[id]
-        return d
-
-    def query(self,query,data=tuple()):
-        ''' Query sqlite, return results as dict. '''
-        self.sqlitedb.execute(query,data)
-        self.SQLITE.commit()
-        if query[:6] in("select", "SELECT"):
-            return self.sqlitedb.fetchall() 
-
-    def dict_insert(self, table, named_records):
-        columns = ', '.join(named_records.keys())
-        placeholders = ':'+', :'.join(named_records.keys())
-        query='INSERT INTO {} ({}) VALUES ({})'.format(table, columns, placeholders)
-        self.query(query, named_records)
-
-    def executemany(self,query,data=tuple()):
-        ''' Query sqlite, return results as dict. '''
-        self.sqlitedb.executemany(query,data)
-        self.SQLITE.commit()
-
-    def querydd(self,query,data=tuple()):
-        ''' Debug query, instead of connecting shows the exact query and params. '''
-        print(query)
-        print(data)
-
 # }}}
 class Json: # {{{
     def read(self,path): 
