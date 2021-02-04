@@ -88,7 +88,8 @@ class DojazdMW:
         f=self.json.read('input.json') 
         for i in f:
             print(i, i['scenariusz'])
+# }}}
 
 d=DojazdMW()
-print(d.query("v_linia_gaśn_w42_wewn_poziom_dym1_kasetony", 7))
+print(d.query("v_linia_gaśn_w42_wewn_poziom_dym0_kasetony", 7))
 
