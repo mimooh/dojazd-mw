@@ -1,51 +1,66 @@
 [
+
 	{
-		"scenariusz": [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		"scenariusz": "1000000000000000",
 		
 		"droga": [
-			{ "opis": [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 10 },
-			{ "opis": [1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 15 },
-			{ "opis": [1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 8 }
+			{ "segment": "1100000000000000", "długość": 10 }, 
+			{ "segment": "1110000000000000", "długość": 15 }, 
+			{ "segment": "1101000000000000", "długość": 8  }
 		],
 
-		"sis": {
-			"drabina": 1,
-			"gba": 2,
-			"m3_wody": 5,
-			"załoga": 12,
-			"metry_szybkie_natarcie": 20,
-			"metry_węże_w75": 100,
-			"metry_węże_w52": 100
-		},
+		"sis": [
+			{	
+				"jednostka": "GBA",
+				"m3_wody": 5,
+				"załoga": 12,
+				"metry_szybkie_natarcie": 20,
+				"metry_węże_w75": 100,
+				"metry_węże_w75_kasetony": 60,
+				"metry_węże_w52": 100
+			},
+			{	
+				"jednostka": "GCBA",
+				"m3_wody": 5,
+				"załoga": 12,
+				"metry_szybkie_natarcie": 20,
+				"metry_węże_w75": 100,
+				"metry_węże_w75_kasetony": 60,
+				"metry_węże_w52": 100
+			}
+		],
 
 		"pożar": {
+			"xyz": [10,20,30],
 			"piętro": 0,
 			"promien_dymu": 20,
 			"promien_ognia": 5,
 			"faza": "rozwinięty"
 		}
 
-	}, 
+	},
 	{
-		"scenariusz": [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		"scenariusz": "1100000000000000",
 		
 		"droga": [
-			{ "opis": [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 10 },
-			{ "opis": [1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 15 },
-			{ "opis": [1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0], "długość": 8 }
+			{ "segment": "1100000000000000", "długość": 10 },
+			{ "segment": "1110000000000000", "długość": 15 }
 		],
 
-		"sis": {
-			"drabina": 1,
-			"gba": 2,
-			"m3_wody": 5,
-			"załoga": 12,
-			"metry_szybkie_natarcie": 20,
-			"metry_węże_w75": 100,
-			"metry_węże_w52": 100
-		},
+		"sis": [
+			{	
+				"jednostka": "GCBA",
+				"m3_wody": 5,
+				"załoga": 12,
+				"metry_szybkie_natarcie": 20,
+				"metry_węże_w75": 100,
+				"metry_węże_w75_kasetony": 60,
+				"metry_węże_w52": 100
+			}
+		],
 
 		"pożar": {
+			"xyz": [10,20,30],
 			"piętro": 0,
 			"promien_dymu": 20,
 			"promien_ognia": 5,
