@@ -81,6 +81,35 @@ class DojazdMW:
 
             't_linia_gaśn_w52_elewacja'  : OrderedDict([(12,440),(25,880),(55,2120)]),
             't_linia_gaśn_w42_elewacja'  : OrderedDict([(12,430),(25,860),(55,1880)]),
+
+            't_przygotowanie_działań_drabina_dw10'                : OrderedDict([(20,260)]),
+            't_wejście_oknem_drabina_dw10'                        : OrderedDict([(20,230)]),
+            't_przygotowanie_działań_drabina_nasadkowa'           : OrderedDict([(20,280)]),
+            't_wejście_oknem_drabina_nasadkowa'                   : OrderedDict([(20,250)]),
+            't_przygotowanie_działań_drabina_mechaniczna'         : OrderedDict([(12,160), (25,180), (55,400)]),
+            't_przygotowanie_działań_podnośnik'                   : OrderedDict([(12,250), (25,290), (55,490)]),
+            't_przygotowanie_sprzęt_wentylacja'                   : OrderedDict([(20,120)]),
+            't_przygotowanie_roty_gotowość'                       : 25,
+            't_przygotowanie_medyczne'                            : 70,
+            't_przygotowanie_monitorowania_aparatów_powietrznych' : 30,
+            't_zabezpieczenie_pachołkami'                         : 170,
+            't_rozpoznanie_wstepne_3600'                          : 70,
+            't_przygotowanie_asekuracji_drabina_dw10'             : OrderedDict([(20,210)]),
+            't_przygotowanie_asekuracji_drabina_nasadkowa'        : OrderedDict([(20,230)]),
+            't_przygotowanie_asekuracji_drabina_mechaniczna'      : OrderedDict([(12,140), (25,160), (55,380)]),
+            't_przygotowanie_asekuracji_podnośnik'                : OrderedDict([(12,230), (25,260), (55,460)]),
+            't_przygotowanie_skokochronu'                         : OrderedDict([(20,130)]),
+            't_przygotowanie_asekuracji_rota_RIT'                 : 110,
+            't_dotarcie_roty_do_dźwigu_rozpoznanie_bojem'         : OrderedDict([(20,10)]),
+            't_przejazd_roty_dźwigiem'                            : 60,
+            'v_nie_gaśnicza_wewn_poziom_dym0'                     : 1.33,
+            'v_zewn'                                              : 2,
+            'v_nie_gaśnicza_wewn_pion_dym0'                       : OrderedDict([(12,100), (25,220), (55,1060)]),
+            't_wyważanie_drzwi_drewniane_dym0'                    : 80,
+            't_wyważanie_drzwi_drewniane_dym1'                    : 170,
+            't_wyważanie_drzwi_antywłamaniowe_dym0'               : 450,
+            't_wyważanie_drzwi_antywłamaniowe_dym1'               : 740,
+
         }
 
 # }}}
