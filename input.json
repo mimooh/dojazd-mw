@@ -9,8 +9,8 @@
         "sis": [
             {	
                 "jednostka": "GBA",
-                "m3_wody": 5,
-                "załoga": 12,
+                "m3_wody": 3,
+                "załoga": 6,
                 "metry_szybkie_natarcie": 20,
                 "metry_węże_w75": 100,
                 "metry_węże_w75_kasetony": 60,
@@ -19,7 +19,7 @@
             {	
                 "jednostka": "GCBA",
                 "m3_wody": 5,
-                "załoga": 12,
+                "załoga": 4,
                 "metry_szybkie_natarcie": 20,
                 "metry_węże_w75": 100,
                 "metry_węże_w75_kasetony": 60,
@@ -47,7 +47,7 @@
             {	
                 "jednostka": "GCBA",
                 "m3_wody": 5,
-                "załoga": 12,
+                "załoga": 4,
                 "metry_szybkie_natarcie": 20,
                 "metry_węże_w75": 100,
                 "metry_węże_w75_kasetony": 60,
