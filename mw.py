@@ -10,10 +10,10 @@ class DojazdMW:
         self.make_db()
         self.main()
 # }}}
-    def query(self, param, droga):# {{{
+    def query(self, param, dlugosc):# {{{
         if isinstance(self.db[param], dict):
             for t in list(self.db[param].keys()):
-                if t >= droga:
+                if t >= dlugosc:
                     return self.db[param][t]
         else:
             return self.db[param]
