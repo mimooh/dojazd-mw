@@ -3,18 +3,28 @@
         "droga": [
             { "segment": "1000000000000000", "długość": 10 }, 
             { "segment": "1010000000000000", "długość": 15 }, 
-            { "segment": "1110000000000000", "długość": 8  }
+            { "segment": "1110000000000000", "długość": 8  },
+            { "segment": "0000000000010001", "długość": 6  }
         ],
+
+        "środowisko": {
+            "wysokość_metry": 20,
+            "liczba_pięter": 7
+        },
 
         "sis": [
             {	
+                "comment": "auto dla wsadowego",
+                "comment": "czy dostanę SIS przez jsona",
                 "jednostka": "GBA",
                 "m3_wody": 3,
                 "załoga": 6,
                 "metry_szybkie_natarcie": 20,
                 "metry_węże_w75": 100,
                 "metry_węże_w75_kasetony": 60,
-                "metry_węże_w52": 100
+                "metry_węże_w52": 100,
+				"drabiny": [ "dw10", "nasadkowa" ]
+
             },
             {	
                 "jednostka": "GCBA",

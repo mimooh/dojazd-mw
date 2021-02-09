@@ -106,12 +106,6 @@ class DojazdMW:
 
 # }}}
     def make_segments_map(self):# {{{
-        ''' 
-        * Wyczerpałem kombinacje?
-        * Kod dla wewn_poziom ok?
-        * Hydrant?
-        * Nasadkowa vs DW10?
-        '''
 
         self.segments={
             '1000000000000000': 'wewn_dym0_poziom',
@@ -137,10 +131,12 @@ class DojazdMW:
         dd(segment)
 # }}}
     def wewn_dym0_dźwig(self, segment):# {{{
+
         dd(segment)
 # }}}
     def wewn_dym0_hydrant(self, segment):# {{{
-        dd(segment)
+        t=25
+        
 # }}}
     def wewn_dym1_poziom(self, segment):# {{{
         dd(segment)
