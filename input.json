@@ -1,11 +1,25 @@
 {
-    "1000000000000000": {
-        "droga": [
-            { "segment": "1000000000000000", "długość": 10 }, 
-            { "segment": "1010000000000000", "długość": 15 }, 
-            { "segment": "1110000000000000", "długość": 8  },
-            { "segment": "0000000000010001", "długość": 6  }
+    "scenariusze": {
+        "0000000000000001": [
+            { "segment": "0000000000000001", "długość": 10 }, 
+            { "segment": "0000000000000101", "długość": 15 }, 
+            { "segment": "0000000000000111", "długość": 8  }
         ],
+
+        "0000000000000011": [
+            { "segment": "0000000000000011", "długość": 10 },
+            { "segment": "0000000000000111", "długość": 15 }
+        ]
+    },
+
+    "conf": {
+        "pożar": {
+            "xyz": [10,20,30],
+            "piętro": 0,
+            "promien_dymu": 20,
+            "promien_ognia": 5,
+            "faza": "rozwinięty"
+        },
 
         "środowisko": {
             "wysokość_metry": 20,
@@ -17,60 +31,25 @@
                 "comment": "auto dla wsadowego",
                 "comment": "czy dostanę SIS przez jsona",
                 "jednostka": "GBA",
-                "m3_wody": 3,
+                "woda_m3": 3,
                 "załoga": 6,
-                "metry_szybkie_natarcie": 20,
-                "metry_węże_w75": 100,
-                "metry_węże_w75_kasetony": 60,
-                "metry_węże_w52": 100,
-				"drabiny": [ "dw10", "nasadkowa" ]
+                "szybkie_natarcie_metry": 20,
+                "węże_w75_metry": 100,
+                "węże_w75_kasetony_metry": 60,
+                "węże_w52_metry": 100,
+				"drabiny": [ "D10W", "nasadkowa" ]
 
             },
             {	
                 "jednostka": "GCBA",
-                "m3_wody": 5,
+                "woda_m3": 5,
                 "załoga": 4,
-                "metry_szybkie_natarcie": 20,
-                "metry_węże_w75": 100,
-                "metry_węże_w75_kasetony": 60,
-                "metry_węże_w52": 100
+                "szybkie_natarcie_metry": 20,
+                "węże_w75_metry": 100,
+                "węże_w75_kasetony_metry": 60,
+                "węże_w52_metry": 100,
+                "drabiny": []
             }
-        ],
-
-        "pożar": {
-            "xyz": [10,20,30],
-            "piętro": 0,
-            "promien_dymu": 20,
-            "promien_ognia": 5,
-            "faza": "rozwinięty"
-        }
-
-    },
-
-    "1100000000000000": {
-        "droga": [
-            { "segment": "1100000000000000", "długość": 10 },
-            { "segment": "1110000000000000", "długość": 15 }
-        ],
-
-        "sis": [
-            {	
-                "jednostka": "GCBA",
-                "m3_wody": 5,
-                "załoga": 4,
-                "metry_szybkie_natarcie": 20,
-                "metry_węże_w75": 100,
-                "metry_węże_w75_kasetony": 60,
-                "metry_węże_w52": 100
-            }
-        ],
-
-        "pożar": {
-            "xyz": [10,20,30],
-            "piętro": 0,
-            "promien_dymu": 20,
-            "promien_ognia": 5,
-            "faza": "rozwinięty"
-        }
+        ]
     }
 }

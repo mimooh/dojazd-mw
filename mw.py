@@ -4,6 +4,7 @@ from include import Json
 from include import Dump as dd
 
 class DojazdMW:
+
     def __init__(self):# {{{
         self.json=Json()
         self.make_segments_map()
@@ -107,18 +108,18 @@ class DojazdMW:
 # }}}
     def make_segments_map(self):# {{{
 
-        self.segments={
-            '1000000000000000': 'wewn_dym0_poziom',
-            '1010000000000000': 'wewn_dym0_pion',
-            '1001000000000000': 'wewn_dym0_dźwig',
-            '1000100000000000': 'wewn_dym0_hydrant',
-            '1100000000000000': 'wewn_dym1_poziom',
-            '1110000000000000': 'wewn_dym1_pion',
-            '1101000000000000': 'wewn_dym1_dźwig',
-            '1100100000000000': 'wewn_dym1_hydrant',
-            '0000000011000000': 'zewn_poziom',
-            '0000000010100000': 'zewn_drabina_przystawna',
-            '0000000010010000': 'zewn_drabina_mechaniczna',
+        self.segments_map={
+            '0000000000000001': 'wewn_dym0_poziom',
+            '0000000000000101': 'wewn_dym0_pion',
+            '0000000000001001': 'wewn_dym0_dzwig',
+            '0000000000010001': 'wewn_dym0_hydrant',
+            '0000000000000011': 'wewn_dym1_poziom',
+            '0000000000000111': 'wewn_dym1_pion',
+            '0000000000001011': 'wewn_dym1_dzwig',
+            '0000000000010011': 'wewn_dym1_hydrant',
+            '0000001100000000': 'zewn_poziom',
+            '0000010100000000': 'zewn_drabina_przystawna',
+            '0000100100000000': 'zewn_drabina_mechaniczna',
         }
 # }}}
 
@@ -130,7 +131,7 @@ class DojazdMW:
     def wewn_dym0_pion(self, segment):# {{{
         dd(segment)
 # }}}
-    def wewn_dym0_dźwig(self, segment):# {{{
+    def wewn_dym0_dzwig(self, segment):# {{{
 
         dd(segment)
 # }}}
@@ -144,7 +145,7 @@ class DojazdMW:
     def wewn_dym1_pion(self, segment):# {{{
         dd(segment)
 # }}}
-    def wewn_dym1_dźwig(self, segment):# {{{
+    def wewn_dym1_dzwig(self, segment):# {{{
         dd(segment)
 # }}}
     def wewn_dym1_hydrant(self, segment):# {{{
@@ -161,13 +162,13 @@ class DojazdMW:
 # }}}
 
     def main(self):# {{{
-        self.scenariusze=self.json.read('input.json') 
-        for scenariusz,conf in self.scenariusze.items():
-            for d in conf['droga']: 
-                handler=getattr(self, self.segments[d['segment']])
-                d['segment']=self.segments[d['segment']]
-                d['scenariusz']=scenariusz
-                handler(d)
+        self.scenariusze=self.json.read('input.json')['scenariusze'] 
+        for scenariusz,segmenty in self.scenariusze.items():
+            for s in segmenty:
+                handler=getattr(self, self.segments_map[s['segment']])
+                s['segment']=self.segments_map[s['segment']]
+                s['scenariusz']=scenariusz
+                handler(s)
                 dd("=======")
 # }}}
 
