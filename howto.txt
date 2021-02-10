@@ -192,3 +192,15 @@ Pokonywanie przeszkody  ; wyważenie drzwi antywłamaniowych praca w zadymieniu 
 Przejście zewnętrzne    ; poruszanie się roty ratowniczej na zewnątrz budynku, każde 20 m drogi                                                                                                           ; 2          ; 10             ; 2           ; 2
 Sprawienie drabiny      ; sprawienie drabiny przystawnej typu DW10 o max. wysuwie  w odległości do 20 m od pojazdu pożarniczego i wejście ratownika przez otwór okienny                                   ; 2          ; 230            ; 2           ; 0
 Sprawienie drabiny      ; sprawienie drabiny przystawnej nasadkowej  (z czterech przęseł) w odległości do 20 m od pojazdu pożarniczego i wejście ratownika przez otwór okienny                            ; 2          ; 250            ; 2           ; 0
+
+iteracja samochody droga (zrobię dwa rysunki)
+iteracja pożaru po siatce (zrobię rysunek)
+
+GUI:
+gęstość siatki: 10
+SiS dodaj wirtualne [ ] (mapowanie wirtualnych ok?)
+SiS realne X-code pobierze od abakusa (dzisiaj Poznań, jutro Szczecin)
+
+profile: śląski / lotniskowy 
+
+
