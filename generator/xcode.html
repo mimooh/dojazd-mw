@@ -3,22 +3,24 @@
 <META http-equiv=Content-Type content='text/html; charset=utf-8' />
 <br><br>
 <h1>Generator scenariuszy</h1>
-SiS pobierane dla danej jednostki z bazy Abakus<br>
-<br><br>
 <table>
 	<tr><td>gęstość siatki pożaru<td><input name='param[sgestosc]' value=10 size=5>
 	<tr><td>gęstość linii samochodów<td><input name='param[lgestosc]' value=10 size=5>
 	<tr><td>promień dymu <td><input name='param[rdym]' value=30 size=5> ± <input name='param[rdym_dev]' value=50 size=2> %
 	<tr><td>promień ognia <td><input name='param[rogien]' value=4 size=5> ±  <input name='param[rogien_dev]' value=30 size=2> %
-	<tr><td>wirtualne SiS  <td> <input type=checkbox name=param[vsis]> (użyj drabiny jeżeli wymaga tego sytuacja, mimo że dana jednostka nie ma drabiny)
+	<tr><td>faza pożaru<td><select name="param[faza]">
+		<option value="losowo">losowo</option>
+		<option value="wczesny">wczesny</option>
+		<option value="rozwinięty">rozwinięty</option>
+		<option value="bardzo rozwinięty">bardzo rozwinięty</option>
+	</select> (wpływa na korzystanie z wind itp.)
 	<tr><td>profil SiS<td>
 	<select name="param[profil]">
 		<option value="slaski">Śląski</option>
 		<option value="ciezki">Ciężkie wozy</option>
-	</select>
-
+	</select> (SGSP doprecyzuje)
 
 </table>
 
-<img style='margin-top:1000px' src=img.svg>
+<img style='margin-top:200px' src=img.svg>
 

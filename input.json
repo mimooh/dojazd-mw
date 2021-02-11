@@ -1,5 +1,5 @@
 {
-    "scenariusze": {
+    "warianty": {
         "0000000000000001": [
             { "segment": "0000000000000001", "długość": 10 }, 
             { "segment": "0000000000000101", "długość": 15 }, 
@@ -24,12 +24,11 @@
         "środowisko": {
             "wysokość_metry": 20,
             "liczba_pięter": 7
+			"offset_budynku": [ 10,20 ]
         },
 
         "sis": [
             {	
-                "comment": "auto dla wsadowego",
-                "comment": "czy dostanę SIS przez jsona",
                 "jednostka": "GBA",
                 "woda_m3": 3,
                 "załoga": 6,
