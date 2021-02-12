@@ -1,4 +1,4 @@
-scenariusz
+wariant
 
  0  rozwinięcie wewnętrzne
  1  rozwinięcie podstawowe
@@ -19,8 +19,7 @@ scenariusz
 
 
 
-droga (jak kodować poziomą drogę?)
-
+segment drogi
  0  wewnątrz obiektu
  1  w zadymieniu
  2  w pionie drogami ogólnymi
