@@ -23,8 +23,8 @@
 
         "środowisko": {
             "wysokość_metry": 20,
-            "liczba_pięter": 7
-			"offset_budynku": [ 10,20 ]
+            "liczba_pięter": 7,
+			"offset_bbox_budynku": [ 10,20 ]
         },
 
         "sis": [

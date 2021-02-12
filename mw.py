@@ -162,8 +162,8 @@ class DojazdMW:
 # }}}
 
     def main(self):# {{{
-        self.scenariusze=self.json.read('input.json')['scenariusze'] 
-        for scenariusz,segmenty in self.scenariusze.items():
+        self.warianty=self.json.read('scenariusz.json')['warianty'] 
+        for scenariusz,segmenty in self.warianty.items():
             for s in segmenty:
                 handler=getattr(self, self.segments_map[s['segment']])
                 s['segment']=self.segments_map[s['segment']]
