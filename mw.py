@@ -8,20 +8,21 @@ class DojazdMW:
     def __init__(self):# {{{
         self.json=Json()
         self.make_segments_map()
-        self.make_db()
+        self.make_db_czynnosci()
+        self.make_db_drabiny()
         self.main()
 # }}}
     def query(self, param, dlugosc):# {{{
-        if isinstance(self.db[param], dict):
-            for t in list(self.db[param].keys()):
+        if isinstance(self.db_czynnosci[param], dict):
+            for t in list(self.db_czynnosci[param].keys()):
                 if t >= dlugosc:
-                    return self.db[param][t]
+                    return self.db_czynnosci[param][t]
         else:
-            return self.db[param]
+            return self.db_czynnosci[param]
 
 # }}}
-    def make_db(self):# {{{
-        self.db={
+    def make_db_czynnosci(self):# {{{
+        self.db_czynnosci={
             't_sprawianie_hydrantu_podziemnego'                     : 70,
             't_sprawianie_hydrantu_naziemnego'                      : 30,
             't_zasilenie_samochodu'                                 : OrderedDict([(20,30)]),
@@ -106,6 +107,12 @@ class DojazdMW:
         }
 
 # }}}
+    def make_db_drabiny(self):# {{{
+        self.db_drabiny={
+            "D10W":         { 'param1': 10 , 'param2': 20 },
+            "nasadkowa":    { 'param1': 5  , 'param2': 10 },
+        }
+# }}}
     def make_segments_map(self):# {{{
 
         self.segments_map={
@@ -160,9 +167,9 @@ class DojazdMW:
     def zewn_drabina_mechaniczna(self, segment):# {{{
         dd(segment)
 # }}}
-
     def main(self):# {{{
         self.warianty=self.json.read('scenariusz.json')['warianty'] 
+        self.scenariusz=self.json.read('scenariusz.json')['conf']
         for scenariusz,segmenty in self.warianty.items():
             for s in segmenty:
                 handler=getattr(self, self.segments_map[s['segment']])
@@ -173,4 +180,3 @@ class DojazdMW:
 # }}}
 
 d=DojazdMW()
-
