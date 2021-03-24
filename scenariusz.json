@@ -16,15 +16,18 @@
         "pożar": {
             "xyz": [10,20,30],
             "piętro": 0,
-            "promien_dymu": 20,
-            "promien_ognia": 5,
+            "promień_dymu": 20,
+            "promień_ognia": 5,
             "faza": "rozwinięty"
         },
 
-        "środowisko": {
+        "ogólne": {
+			"użyto_drabiny": "D10W",
+			"wejście": [ 50,200 ],
+			"samochody": [200,200],
+			"geometria": [ [5,10], [10,20], [20,0] ],
             "wysokość_metry": 20,
-            "liczba_pięter": 7,
-			"offset_bbox_budynku": [ 10,20 ]
+            "liczba_pięter": 7
         },
 
         "sis": [
@@ -36,8 +39,7 @@
                 "węże_w75_metry": 100,
                 "węże_w75_kasetony_metry": 60,
                 "węże_w52_metry": 100,
-				"drabiny": [ "D10W", "nasadkowa" ]
-
+				"drabiny": []
             },
             {	
                 "jednostka": "GCBA",
@@ -47,7 +49,7 @@
                 "węże_w75_metry": 100,
                 "węże_w75_kasetony_metry": 60,
                 "węże_w52_metry": 100,
-                "drabiny": []
+				"drabiny": []
             }
         ]
     }
