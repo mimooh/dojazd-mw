@@ -22,6 +22,7 @@
         },
 
         "ogólne": {
+			"kraj": "en",
 			"użyto_drabiny": "D10W",
 			"wejście": [ 50,200 ],
 			"samochody": [200,200],
@@ -30,27 +31,6 @@
             "liczba_pięter": 7
         },
 
-        "sis": [
-            {	
-                "jednostka": "GBA",
-                "woda_m3": 3,
-                "załoga": 6,
-                "szybkie_natarcie_metry": 20,
-                "węże_w75_metry": 100,
-                "węże_w75_kasetony_metry": 60,
-                "węże_w52_metry": 100,
-				"drabiny": []
-            },
-            {	
-                "jednostka": "GCBA",
-                "woda_m3": 5,
-                "załoga": 4,
-                "szybkie_natarcie_metry": 20,
-                "węże_w75_metry": 100,
-                "węże_w75_kasetony_metry": 60,
-                "węże_w52_metry": 100,
-				"drabiny": []
-            }
-        ]
+        "sis": [ "g1", "g2" ]
     }
 }
