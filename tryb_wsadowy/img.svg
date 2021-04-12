@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="596.0379"
-   height="1582.2828"
-   viewBox="0 0 157.7017 418.64569"
+   width="1289.49"
+   height="729.15167"
+   viewBox="0 0 341.17757 192.92139"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.088388348"
-     inkscape:cx="-2786.7576"
-     inkscape:cy="-791.55347"
+     inkscape:zoom="0.5"
+     inkscape:cx="801.44143"
+     inkscape:cy="150.51912"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -60,10 +60,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(3349.7623,1518.9344)">
+     transform="translate(3347.9015,1518.9344)">
     <g
        id="g5082"
-       transform="matrix(0.70542081,0,0,0.70542081,-963.54247,-385.78433)">
+       transform="matrix(0.68220191,0,0,0.68220191,-1036.4086,-419.90693)">
       <rect
          y="-1606.3463"
          x="-3380.052"
@@ -191,7 +191,7 @@
     </g>
     <g
        id="g5056"
-       transform="matrix(0.70542081,0,0,0.70542081,-963.54247,-385.78433)">
+       transform="matrix(0.62804318,0,0,0.62804318,-1026.6102,-693.05763)">
       <g
          id="g5028">
         <rect
