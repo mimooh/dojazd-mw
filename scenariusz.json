@@ -31,6 +31,9 @@
             "liczba_pięter": 7
         },
 
-        "sis": [ "g1", "g2" ]
+        "sis": [ 
+			{ "id": "g1", "załoga": 6 },
+			{ "id": "g2", "załoga": 4 }
+		]
     }
 }
