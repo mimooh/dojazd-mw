@@ -12,16 +12,19 @@ echo "update cnbop set generic='g2' where id>12;" | sqlite3 mw.db;
 echo "update cnbop set generic='g3' where id>23;" | sqlite3 mw.db;
 echo "update cnbop set generic='g4' where id>48;" | sqlite3 mw.db;
 
-echo "create table generics(id serial primary key,generic text, kraj text , w52 int , w75 int , d10w int, noszaki int)" | sqlite3 mw.db
-echo "insert into generics(generic,kraj,w52,w75,d10w,noszaki) values
 
-('g1', 'pl', 10, 12, 7, 1),
-('g2', 'pl', 20, 20, 7, 1),
-('g3', 'pl', 20, 40, 0, 1),
-('g4', 'pl', 20, 40, 0, 0),
-('g1', 'en', 10, 12, 7, 1),
-('g2', 'en', 20, 20, 7, 1),
-('g1', 'de', 20, 40, 0, 1),
-('g2', 'de', 20, 40, 0, 0)
+echo "create table generics(id,opis,kategoria , pojemnosc_woda , pojemnosc_piana , nom_wyd_autopompy , nom_wyd_motopompy , nom_wyd_autopompy30bar, dod_sr_gasn, nom_zaloga, dzialko_wod_pian, dzialko_wod_pian_przenosne, aparaty_pow, zapasowe_butle, w_110, w_75, w_52, szybkie_natarcie, rozdzielacz_75_110, rozdzielacz_75_52, pradownica_pw_75, pradownica_pw_52, pradownica_pp2, pradownica_pp4, pradownica_pp8, wytwornica_wp2_75, wytwornica_wp4_75, stojak_hydrant, drabina_wysuw_2p, drabina_slup, drabina_nasad, wentylator, kosz_rat, pion_wodny, duszczyk, zwijadlo, noszaki_75, noszaki_52, noszaki_38, noszaki_42, harmonijka_w_75, harmonijka_w_52, petla_w_52, petla_w_38, petla_w_42)" | sqlite3 mw.db
+echo "insert into generics(id,opis) values
+
+('gen1'    , 'standard wyposażenia typoszeregu GBA 2/16'   ),
+('gen2'    , 'standard wyposażenia typoszeregu GCBA 4/24'  ),
+('gen3'    , 'standard wyposażenia typoszeregu GCBA 7/40'  ),
+('gen4'    , 'standard wyposażenia typoszeregu GCBA 11/60' ),
+('gen5'    , 'standard wyposażenia typoszeregu SD'         ),
+('gen6'    , 'standard wyposażenia typoszeregu SH'         ),
+('gen_eur' , 'modyfikacja pojazdy europejskie'             ),
+('gen_usa' , 'modyfikacja pojazdy anglosaskie'             )
+
 ;
 " | sqlite3 mw.db
+
