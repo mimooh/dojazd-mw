@@ -1,6 +1,7 @@
 {
     "warianty": {
         "0000000000000001": [
+			{ "xy": [ 0,0 ] },
             { "segment": "0000000000000001", "długość": 10 }, 
             { "segment": "0000000000000101", "długość": 15 }, 
             { "segment": "0000000000000111", "długość": 8  }
@@ -23,17 +24,12 @@
 
         "ogólne": {
 			"kraj": "en",
-			"użyto_drabiny": "D10W",
-			"wejście": [ 50,200 ],
 			"samochody": [200,200],
 			"geometria": [ [5,10], [10,20], [20,0] ],
             "wysokość_metry": 20,
             "liczba_pięter": 7
         },
 
-        "sis": [ 
-			{ "id": "g1", "załoga": 6 },
-			{ "id": "g2", "załoga": 4 }
-		]
+        "sis": ".txt"
     }
 }
