@@ -28,8 +28,8 @@
             "liczba_pięter": 7
         },
 
-        "zestawy_samochodowe": "pluton ciężki śląski.json"
-		"interaktywny": [ "g1", "g2" ], 
+        "zestawy_samochodowe": "pluton ciężki śląski.json",
+		"interaktywny": [ "cały rekord" ],
         "meta": "konfiguracja1.txt"
     }
 }

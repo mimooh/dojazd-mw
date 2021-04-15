@@ -1,9 +1,14 @@
-"interaktywny": [ "g1", "g2" ] zmiennosc?
-interaktywny results
-kraj w scenariusz.json?
-abakus wysyła 1,3, czy umieszczać od razu do scenie
-czy interaktywny na pewno nie zagląda w folder zestawy_samochodów
-do którego piętra drabiny przystawne
-ile generycznych drabin (czasze)
+abakus wysyła 1,3, czy umieszczać od razu do scenie (jednak przeciąga z filtrowanej droplisty)
+do którego piętra drabiny przystawne (do wysokości 7 metrów)
 jeżeli iterujemy samochody i wszystkie są w [10,10] to jak to się ma do czasza vs elewacja
 { "xy": [ 0,0 ] } ?
+
+
+1. Obrazek nie
+2. Wybór drogi pożarowej tak
+
+
+id ; gen   ;
+1  ; gen1  ;
+1  ; gen17 ;
+2  ; gen17 ;
