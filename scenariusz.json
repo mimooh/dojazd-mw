@@ -1,15 +1,22 @@
 {
     "warianty": {
-        "0000000000000001": [
-            { "segment": "0000000000000001", "długość": 10 }, 
-            { "segment": "0000000000000101", "długość": 15 }, 
-            { "segment": "0000000000000111", "długość": 8  }
-        ],
-
-        "0000000000000011": [
-            { "segment": "0000000000000011", "długość": 10 },
-            { "segment": "0000000000000111", "długość": 15 }
-        ]
+        "0000000000000001": {
+			"wejście": [ 10,20 ],
+			"segmenty":
+				[
+					{ "segment": "0000000000000001", "długość": 10 }, 
+					{ "segment": "0000000000000101", "długość": 15 }, 
+					{ "segment": "0000000000000111", "długość": 8  }
+				]
+		},
+        "0000000000000101": {
+			"wejście": [ 60,30 ],
+			"segmenty":
+				[
+					{ "segment": "0000000000000001", "długość": 100 }, 
+					{ "segment": "0000000000000101", "długość": 150 }
+				]
+		}
     },
 
     "conf": {
@@ -28,8 +35,11 @@
             "liczba_pięter": 7
         },
 
-        "zestawy_samochodowe": "pluton ciężki śląski.json"
-		"interaktywny": [ "g1", "g2" ], 
+        "zestawy_samochodowe": "pluton ciężki śląski.json",
+		"interaktywny": [ 
+			{ "id": "g1", "attr1":1, "attr2":2 }, 
+			{ "id": "g2", "attr1":1, "attr2":2 }
+		],
         "meta": "konfiguracja1.txt"
     }
 }

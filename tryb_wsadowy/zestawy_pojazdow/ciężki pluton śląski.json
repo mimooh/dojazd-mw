@@ -2,18 +2,22 @@
     {
         "id": "gen1",
         "załoga": 7,
-        "noszaki_w52": 70
+        "noszaki_w52": 70,
+		"probability": 0.9
     },
     {
         "id": "gen1",
         "załoga": 2,
-        "noszaki_w52": 70
+        "noszaki_w52": 70,
+		"probability": 0.3
     },
     {
         "id": "gen2",
-        "noszaki_w52": 70
+        "noszaki_w52": 70,
+		"probability": 0.1
     },
     {
-        "id": "gen3"
+        "id": "gen3",
+		"probability": 0.2
     }
 ]
