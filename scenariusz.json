@@ -29,15 +29,15 @@
         },
 
         "ogólne": {
-			"xy_pojazdy": [200,200],
+			"xy_samochody": [200,200],
 			"obrys_budynku": [ [5,10], [10,20], [20,0] ],
             "wysokość_budynku": 20,
             "liczba_pięter": 7
         },
 
         "tryb_wsadowy_meta": "konfiguracja1.txt"
-        "tryb_wsadowy_pojazdy": "pluton ciężki śląski.json",
-		"tryb_interaktywny_pojazdy": [ 
+        "tryb_wsadowy_samochody": "pluton ciężki śląski.json",
+		"tryb_interaktywny_samochody": [ 
 			{ "id": "g1", "załoga": 6 }, 
 			{ "id": "g2", "załoga": 4 }
 		],
