@@ -37,8 +37,8 @@
 
         "zestawy_samochodowe": "pluton ciężki śląski.json",
 		"interaktywny": [ 
-			{ "id": "g1", "attr1":1, "attr2":2 }, 
-			{ "id": "g2", "attr1":1, "attr2":2 }
+			{ "id": "g1", "załoga": 6 }, 
+			{ "id": "g2", "załoga": 4 }
 		],
         "meta": "konfiguracja1.txt"
     }
