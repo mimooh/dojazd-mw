@@ -35,11 +35,11 @@
             "liczba_pięter": 7
         },
 
-        "tryb_wsadowy_meta": "konfiguracja1.txt"
+        "tryb_wsadowy_meta": "konfiguracja1.txt",
         "tryb_wsadowy_samochody": "pluton ciężki śląski.json",
 		"tryb_interaktywny_samochody": [ 
 			{ "id": "g1", "załoga": 6 }, 
 			{ "id": "g2", "załoga": 4 }
-		],
+		]
     }
 }

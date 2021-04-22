@@ -171,7 +171,7 @@ class DojazdMW:
         self.warianty=self.json.read('scenariusz.json')['warianty'] 
         self.scenariusz=self.json.read('scenariusz.json')['conf']
         for scenariusz,segmenty in self.warianty.items():
-            for s in segmenty:
+            for s in segmenty['segmenty']:
                 handler=getattr(self, self.segments_map[s['segment']])
                 s['segment']=self.segments_map[s['segment']]
                 s['scenariusz']=scenariusz
