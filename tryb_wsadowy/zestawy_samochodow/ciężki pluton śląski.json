@@ -1,23 +1,30 @@
-[
-    {
-        "id": "gen1",
-        "załoga": 7,
-        "noszaki_w52": 70,
-		"probability": 0.9
+{
+    "comment": "Losujemy od min do max samochodów w każdej symulacji",
+    "meta": {
+        "min": 3,
+        "max": 4
     },
-    {
-        "id": "gen1",
-        "załoga": 2,
-        "noszaki_w52": 70,
-		"probability": 0.3
-    },
-    {
-        "id": "gen2",
-        "noszaki_w52": 70,
-		"probability": 0.1
-    },
-    {
-        "id": "gen3",
-		"probability": 0.2
-    }
-]
+    "samochody": [
+        {
+            "id": "gen1",
+            "załoga": 7,
+            "noszaki_w52": 70,
+            "probability": 0.6
+        },
+        {
+            "id": "gen1",
+            "załoga": 2,
+            "noszaki_w52": 70,
+            "probability": 0.2
+        },
+        {
+            "id": "gen2",
+            "noszaki_w52": 70,
+            "probability": 0.15
+        },
+        {
+            "id": "gen3",
+            "probability": 0.05
+        }
+    ]
+}
