@@ -35,6 +35,28 @@
 			"teryt": "example teryt",
 			"adres": "example adres"
 		},
+		"hydranty": [
+		   {
+			 "objectId": 41,
+			 "sceneId": 7,
+			 "name": "hydrant1",
+			 "type": "type1",
+			 "address": "Białystok,Warszawska,2",
+			 "distance": 34,
+			 "upElevationProfile": 12,
+			 "downElevationProfile": 2
+		   },
+		   {
+			 "objectId": 42,
+			 "sceneId": 7,
+			 "name": "hydrant2",
+			 "type": "type1",
+			 "address": "Białystok,Hulakula,2",
+			 "distance": 35,
+			 "upElevationProfile": 12,
+			 "downElevationProfile": 2
+		   }
+		],
 		"tryb_wsadowy_meta": "konfiguracja1.txt",
 		"tryb_wsadowy_samochody": "pluton ciężki śląski.json",
 		"tryb_interaktywny_samochody": [ 
