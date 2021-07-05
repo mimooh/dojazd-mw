@@ -32,7 +32,8 @@
 			"obrys_budynku": [ [5,10], [10,20], [20,0] ],
 			"wysokość_budynku": 20,
 			"liczba_pięter": 7,
-			"teryt": "example teryt"
+			"teryt": "example teryt",
+			"adres": "example adres"
 		},
 		"tryb_wsadowy_meta": "konfiguracja1.txt",
 		"tryb_wsadowy_samochody": "pluton ciężki śląski.json",
