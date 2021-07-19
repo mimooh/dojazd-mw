@@ -8,7 +8,7 @@ wariant
  5
  6
  7
- 8  rozwinięcie zewnętrzne
+ 8  działanie zewnętrzno-wewnętrzne (wejście z drabiny a później wewn)
  9  gaszenie z poziomu terenu
 10  gaszenie z drabiny przystawnej
 11  gaszenie z drabiny mechanicznej
