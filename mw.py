@@ -2,6 +2,7 @@ import json
 from collections import OrderedDict
 from include import Json
 from include import Dump as dd
+from datetime import datetime
 
 # jezeli start=1 to wygneruj nowy plik symulacja_data.godzina.txt
 # wykluczenie ze wzgledu na: a) przekroczenie sumy wezy
@@ -13,7 +14,6 @@ class DojazdMW:
         self.json=Json()
         self.make_segments_map()
         self.make_db_czynnosci()
-        self.make_db_drabiny()
         self.main()
 # }}}
     def query(self, param, dlugosc):# {{{
@@ -27,8 +27,6 @@ class DojazdMW:
 # }}}
     def make_db_czynnosci(self):# {{{
         self.db_czynnosci={
-            't_sprawianie_hydrantu_podziemnego'                     : 70,
-            't_sprawianie_hydrantu_naziemnego'                      : 30,
             't_zasilenie_samochodu'                                 : OrderedDict([(20,30)]),
             't_zasilenie_instalacji_w75x1'                          : OrderedDict([(20,70)]),
             't_zasilenie_instalacji_w75x2'                          : OrderedDict([(20,100)]),
@@ -99,7 +97,6 @@ class DojazdMW:
             't_przygotowanie_skokochronu'                           : OrderedDict([(20,130)]),
             't_przygotowanie_asekuracji_rota_RIT'                   : 110,
             't_dotarcie_roty_do_dźwigu_rozpoznanie_bojem'           : OrderedDict([(20,10)]),
-            't_przejazd_roty_dźwigiem'                              : 60,
             'v_nie_gaśnicza_wewn_poziom_dym0'                       : 1.33,
             'v_zewn'                                                : 2,
             'v_nie_gaśnicza_wewn_pion_dym0'                         : OrderedDict([(12,100), (25,220), (55,1060)]),
@@ -110,19 +107,6 @@ class DojazdMW:
 
         }
 
-# }}}
-    def make_db_drabiny(self):# {{{
-        # składniki czasu: 
-        # 1. zdjęcie drabiny (wart. stała): 60s
-        # 2. podróż z drabiną (1.36 m/s): 30s dla 20m
-        # 3. drabinę spraw: 190
-        # 4. wejście po drabinie
-
-        # logika typu: jezeli segment wynosi 10m to czas wynosi 35
-        # 280: 80 biegu + 200 drabinę spraw
-        self.db_drabiny={
-            "drabina_przystawna":         { '10': 20 },
-        }
 # }}}
     def make_segments_map(self):# {{{
 
@@ -141,23 +125,50 @@ class DojazdMW:
         }
 # }}}
 
+    def save(self,results):# {{{
+        if self.conf['start']:
+            ff="symulacja_{}.txt".format(datetime.today().strftime('%Y-%m-%d-%H:%M:%S'))
+            self.json.write(results,ff)
+            dd(ff)
+# }}}
     def wewn_dym0_poziom(self, segment):# {{{
-        # z wariantu wynika czy idą z wężami
-        dd(segment)
-        t=segment['długość'] * self.query("v_linia_gaśn_w52_wewn_poziom_dym0_kregi", segment['długość'])
-        dd(t)
+        # TODO: kiedy która prędkość?
+
+        #  bit1=1  rozwinięcie podstawowe
+        if segment['wariant'][-2] == '1':
+            if self.weze_nawodnione == 1:
+                return segment['długość'] / self.query("v_linia_gaśn_w52_wewn_poziom_dym0_kregi", segment['długość'])
+            else:
+                return segment['długość'] / self.query("v_rota_gaśn_wewn_poziom_dym0", segment['długość'])
+
+        #  bit1=0  rozwinięcie niepodstawowe, czyli gaśnica?
+        else:
+            return segment['długość'] / self.query("v_rota_gaśn_wewn_poziom_dym0", segment['długość'])
 # }}}
     def wewn_dym0_pion(self, segment):# {{{
-        # z wariantu wynika czy idą z wężami
-        dd(segment)
+        # TODO: kiedy która prędkość?
+
+        #  bit1=1  rozwinięcie podstawowe
+        if segment['wariant'][-2] == '1':
+            if self.weze_nawodnione == 1:
+                return self.query("t_linia_gaśn_w52_wewn_pion_dym0_kregi_1rota", segment['długość'])
+            else:
+                return self.query("t_rota_gaśn_wewn_pion_dym0", segment['długość'])
+
+        #  bit1=0  rozwinięcie niepodstawowe, czyli gaśnica?
+        else:
+            return self.query("t_rota_gaśn_wewn_pion_dym0", segment['długość'])
 # }}}
     def wewn_dym0_dzwig(self, segment):# {{{
-        # Przejazd dźwigiem wzgledem danej konfiguracji pieter
-        dd(segment)
+        pieter_w_podrozy=segment['długość'] / 3
+        pieter_w_budynku=self.conf['ogólne']['liczba_pięter']
+        return 60 * pieter_w_podrozy / pieter_w_budynku
 # }}}
     def wewn_dym0_hydrant(self, segment):# {{{
-        ''' Od Marcina czas na podłączenie hydrantu'''
-        dd(25)
+        # 't_sprawianie_hydrantu_podziemnego'                     : 70,
+        # 't_sprawianie_hydrantu_naziemnego'                      : 30,
+        self.weze_nawodnione=1
+        return 30
         
 # }}}
     def wewn_dym1_poziom(self, segment):# {{{
@@ -175,23 +186,45 @@ class DojazdMW:
     def zewn_poziom(self, segment):# {{{
         dd(segment)
 # }}}
-    def zewn_drabina_przystawna(self, segment):# {{{
-        dd(segment)
+    def zewn_drabina_przystawna(self,segment):# {{{
+        zdjecie_drabiny=60 
+        bieg_z_drabina=segment['długość'] * 1.36
+        drabine_spraw=190
+        wspinaczka=20
+
+        return zdjecie_drabiny + bieg_z_drabina + drabine_spraw + wspinaczka
 # }}}
     def zewn_drabina_mechaniczna(self, segment):# {{{
         dd(segment)
 # }}}
     def main(self):# {{{
-        self.warianty=self.json.read('scenariusz.json')['warianty'] 
-        self.scenariusz=self.json.read('scenariusz.json')['conf']
-        for scenariusz,segmenty in self.warianty.items():
-            print("WARIANT")
-            for s in segmenty['segmenty']:
-                handler=getattr(self, self.segments_map[s['segment']])
-                s['segment_name']=self.segments_map[s['segment']]
-                s['segment_code']=scenariusz
-                handler(s)
-                dd("=======")
+        self.weze_nawodnione=0
+        xj=self.json.read('scenariusz.json')
+        self.warianty=xj['warianty'] 
+        self.conf=xj['conf']
+        results=OrderedDict()
+        for wariant,data in self.warianty.items():
+            czas_wariantu=0
+            debug=[]
+            for s in data['segmenty']:
+                if s['segment'] not in self.segments_map:
+                    print("ignoruję nierozpoznany segment: {}".format(s['segment']))
+                    debug.append('{},s:{},t:{} '.format(s['segment'],None,None))
+                    continue
+                else:
+                    #s['segment']='0000010100000000' # temp zewn_drabina_przystawna()
+                    #s['segment']='0000000000000001' # temp wewn_dym0_poziom()
+                    #s['segment']='0000000000001001' # temp wewn_dym0_dzwig()
+                    s['segment']='0000000000010001' # temp wewn_dym0_hydrant()
+
+                    handler=getattr(self, self.segments_map[s['segment']])
+                    s['segmentx']=self.segments_map[s['segment']]
+                    s['wariant']=wariant
+                    czas=handler(s)
+                    czas_wariantu+=czas
+                    debug.append('{},s:{},t:{} '.format(s['segmentx'],s['długość'],round(czas)))
+            results[wariant]={ 'wynik':round(czas_wariantu), 'debug': debug}
+        self.save(results)
 # }}}
 
 d=DojazdMW()

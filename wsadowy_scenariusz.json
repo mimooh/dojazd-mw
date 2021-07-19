@@ -37,37 +37,15 @@
 			"teryt": "example teryt",
 			"adres": "example adres"
 		},
-		"hydrants": [
-			{ 
-				"id": 1, 
-				"objectId": 41, 
-				"longitude": 50.0541115, 
-				"latitude": 19.9332343, 
-				"name": "hydrant1", 
-				"type": "type1", 
-				"distance": 34.5, 
-				"upElevationProfile": 12.5, 
-				"downElevationProfile": 2.5 
-			},
-			{ 
-				"id": 2, 
-				"objectId": 42, 
-				"longitude": 50.0541125, 
-				"latitude": 19.9332345, 
-				"name": "hydrant2", 
-				"type": "type1", 
-				"distance": 38.5, 
-				"upElevationProfile": 12.5, 
-				"downElevationProfile": 2.5 
-			}
-
-		],
 		"tryb_wsadowy_meta": "konfiguracja1.txt",
 		"tryb_wsadowy_profil": "pluton ciężki śląski.json",
-		"tryb_wsadowy_samochody": [
-			{ "id": "g1", "załoga": 6 }, 
-			{ "id": "g2", "załoga": 4 }
-		],
-		"tryb_interaktywny_samochody": [ ]
-	}
+		"samochody": [
+			{ "id": "gen1", "załoga": 6 }, 
+			{ "id": "gen2", "załoga": 4 }
+		]
+	},
+	"hydrants": [
+		{ "id": 1, "objectId": 41, "longitude": 50.0541115, "latitude": 19.9332343, "name": "hydrant1", "type": "type1", "distance": 34.5, "upElevationProfile": 12.5, "downElevationProfile": 2.5 },
+		{ "id": 2, "objectId": 42, "longitude": 50.0541125, "latitude": 19.9332345, "name": "hydrant2", "type": "type1", "distance": 38.5, "upElevationProfile": 12.5, "downElevationProfile": 2.5 }
+	]
 }

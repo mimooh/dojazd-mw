@@ -291,6 +291,7 @@
     },
     "conf": {
 		"tryb": "interaktywny",
+        "start": 1,
         "pożar": {
             "xyz": [
                 7.993721387960717,
@@ -587,12 +588,9 @@
             "adres": null
         },
         "tryb_wsadowy_meta": null,
-        "tryb_wsadowy_samochody": null,
-        "tryb_interaktywny_samochody": [
-            {
-                "id": "gen5",
-                "załoga": 2
-            }
+		"tryb_wsadowy_profil": null,
+        "samochody": [
+            { "id": "gen5", "załoga": 2 }
         ]
     },
     "hydrants": []
