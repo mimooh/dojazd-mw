@@ -2,8 +2,7 @@ import json
 from collections import OrderedDict
 from include import Json
 from include import Dump as dd
-
-# wykluczenie ze wzgledu na: a) przekroczenie sumy wezy
+from include import Sqlite
 
 class DojazdMW:
 
@@ -11,6 +10,7 @@ class DojazdMW:
         self.json=Json()
         self.make_segments_map()
         self.make_db_czynnosci()
+        self.s=Sqlite("sqlite/firetrucks.db")
         self.main()
 # }}}
     def query(self, param, dlugosc):# {{{
@@ -133,6 +133,30 @@ class DojazdMW:
                 f.write(x+"\n")
 # }}}
 
+    def czy_wykluczamy_bo_droga(self,wariant,data):# {{{
+        # TODO: czy suma_segmentow dotyczy tylko wewn budynkow?
+        total_w52=0
+        total_w75=0
+        for s in self.conf['samochody']:
+            total_w52 += int(self.s.query("select w_52,w_75 from Generics where id=?", (s['id'],))[0]['w_52'])
+            total_w75 += int(self.s.query("select w_52,w_75 from Generics where id=?", (s['id'],))[0]['w_75'])
+        total = total_w75 + total_w52
+
+        suma_segmentow=0
+        for i in data['segmenty']:
+            suma_segmentow += i['długość']
+
+        if suma_segmentow > total:
+            #print(suma_segmentow, total)
+            return 1
+        else:
+            return 0
+# }}}
+    def czy_wykluczamy(self,wariant,data):# {{{
+        if self.czy_wykluczamy_bo_droga(wariant,data) == 1:
+            return 1
+# }}}
+
     def wewn_dym0_poziom(self, segment):# {{{
         # TODO: kiedy która prędkość?
 
@@ -206,6 +230,8 @@ class DojazdMW:
         self.conf=xj['conf']
         results=OrderedDict()
         for wariant,data in self.warianty.items():
+            if self.czy_wykluczamy(wariant,data) == 1:
+                continue
             czas_wariantu=0
             debug=[]
             for s in data['segmenty']:

@@ -25,14 +25,12 @@ class DojazdMWResults:
             self.img['samochody'].append(i['conf']['ogólne']['xy_samochody'])
 # }}}
     def svgwrite(self):# {{{
-        dd(self.img)
         dwg = svgwrite.Drawing('img.svg', profile='tiny')
-
         dwg.add(dwg.polyline(self.img['obrys'], fill='#fff', stroke_width=0.2, stroke='blue'))
         for i in self.img['pozary']:
-            dwg.add(dwg.ellipse(center=(i[0],i[1]), r=(3, 3), fill='#f40'))
+            dwg.add(dwg.ellipse(center=(i[0],i[1]), r=(3, 3), fill='#f40', opacity=0.5))
         for i in self.img['samochody']:
-            dwg.add(dwg.rect(insert=(i[0],i[1]), size=(3, 3), fill='#888', opacity=0.5))
+            dwg.add(dwg.rect(insert=(i[0],i[1]), size=(3, 3), fill='#000', opacity=0.1))
         dwg.save()
 # }}}
     def main(self):# {{{
