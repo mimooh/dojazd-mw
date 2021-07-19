@@ -291,7 +291,7 @@
     },
     "conf": {
 		"tryb": "interaktywny",
-        "start": 1,
+        "start": 0,
         "pożar": {
             "xyz": [
                 7.993721387960717,

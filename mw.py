@@ -2,11 +2,8 @@ import json
 from collections import OrderedDict
 from include import Json
 from include import Dump as dd
-from datetime import datetime
 
-# jezeli start=1 to wygneruj nowy plik symulacja_data.godzina.txt
 # wykluczenie ze wzgledu na: a) przekroczenie sumy wezy
-# wypełnić funkcje
 
 class DojazdMW:
 
@@ -124,13 +121,18 @@ class DojazdMW:
             '0000100100000000': 'zewn_drabina_mechaniczna',
         }
 # }}}
-
     def save(self,results):# {{{
-        if self.conf['start']:
-            ff="symulacja_{}.txt".format(datetime.today().strftime('%Y-%m-%d-%H:%M:%S'))
-            self.json.write(results,ff)
-            dd(ff)
+        # TODO: Nie mogę polegać na plik_2021-01-07.15:30, bo muszę go odnaleźć i do tego ewentualnie wybrać z podobnych plików
+
+        x=json.dumps({'results': results, 'conf': self.conf})
+        if self.conf['start'] == 1:
+            with open('wyniki.txt', "w") as f: 
+                f.write(x+"\n") 
+        else:
+            with open('wyniki.txt', "a") as f: 
+                f.write(x+"\n")
 # }}}
+
     def wewn_dym0_poziom(self, segment):# {{{
         # TODO: kiedy która prędkość?
 
@@ -208,7 +210,7 @@ class DojazdMW:
             debug=[]
             for s in data['segmenty']:
                 if s['segment'] not in self.segments_map:
-                    print("ignoruję nierozpoznany segment: {}".format(s['segment']))
+                    #print("ignoruję nierozpoznany segment: {}".format(s['segment']))
                     debug.append('{},s:{},t:{} '.format(s['segment'],None,None))
                     continue
                 else:
