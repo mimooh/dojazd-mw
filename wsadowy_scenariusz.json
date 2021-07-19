@@ -21,6 +21,7 @@
 
 	"conf": {
 		"tryb": "wsadowy",
+        "start": 1,
 		"pożar": {
 			"xyz": [10,20,30],
 			"piętro": 0,

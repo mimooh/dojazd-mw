@@ -3,6 +3,10 @@ from collections import OrderedDict
 from include import Json
 from include import Dump as dd
 
+# jezeli start=1 to wygneruj nowy plik symulacja_data.godzina.txt
+# wykluczenie ze wzgledu na: a) przekroczenie sumy wezy
+# wypełnić funkcje
+
 class DojazdMW:
 
     def __init__(self):# {{{
@@ -108,9 +112,16 @@ class DojazdMW:
 
 # }}}
     def make_db_drabiny(self):# {{{
+        # składniki czasu: 
+        # 1. zdjęcie drabiny (wart. stała): 60s
+        # 2. podróż z drabiną (1.36 m/s): 30s dla 20m
+        # 3. drabinę spraw: 190
+        # 4. wejście po drabinie
+
+        # logika typu: jezeli segment wynosi 10m to czas wynosi 35
+        # 280: 80 biegu + 200 drabinę spraw
         self.db_drabiny={
-            "D10W":         { 'param1': 10 , 'param2': 20 },
-            "nasadkowa":    { 'param1': 5  , 'param2': 10 },
+            "drabina_przystawna":         { '10': 20 },
         }
 # }}}
     def make_segments_map(self):# {{{
@@ -131,19 +142,22 @@ class DojazdMW:
 # }}}
 
     def wewn_dym0_poziom(self, segment):# {{{
+        # z wariantu wynika czy idą z wężami
         dd(segment)
-        t=segment['długość'] * self.query("v_linia_gaśn_w42_wewn_poziom_dym0_kasetony", segment['długość'])
+        t=segment['długość'] * self.query("v_linia_gaśn_w52_wewn_poziom_dym0_kregi", segment['długość'])
         dd(t)
 # }}}
     def wewn_dym0_pion(self, segment):# {{{
+        # z wariantu wynika czy idą z wężami
         dd(segment)
 # }}}
     def wewn_dym0_dzwig(self, segment):# {{{
-
+        # Przejazd dźwigiem wzgledem danej konfiguracji pieter
         dd(segment)
 # }}}
     def wewn_dym0_hydrant(self, segment):# {{{
-        t=25
+        ''' Od Marcina czas na podłączenie hydrantu'''
+        dd(25)
         
 # }}}
     def wewn_dym1_poziom(self, segment):# {{{
@@ -171,10 +185,11 @@ class DojazdMW:
         self.warianty=self.json.read('scenariusz.json')['warianty'] 
         self.scenariusz=self.json.read('scenariusz.json')['conf']
         for scenariusz,segmenty in self.warianty.items():
+            print("WARIANT")
             for s in segmenty['segmenty']:
                 handler=getattr(self, self.segments_map[s['segment']])
-                s['segment']=self.segments_map[s['segment']]
-                s['scenariusz']=scenariusz
+                s['segment_name']=self.segments_map[s['segment']]
+                s['segment_code']=scenariusz
                 handler(s)
                 dd("=======")
 # }}}
