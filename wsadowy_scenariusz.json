@@ -1,0 +1,72 @@
+{
+	"warianty": {
+		"0000000000000001": {
+			"wejście": [ 10,20 ],
+			"segmenty":
+				[
+					{ "segment": "0000000000000001", "długość": 10 }, 
+					{ "segment": "0000000000000101", "długość": 15 }, 
+					{ "segment": "0000000000000111", "długość": 8  }
+				]
+		},
+		"0000000000000101": {
+			"wejście": [ 60,30 ],
+			"segmenty":
+				[
+					{ "segment": "0000000000000001", "długość": 100 }, 
+					{ "segment": "0000000000000101", "długość": 150 }
+				]
+		}
+	},
+
+	"conf": {
+		"tryb": "wsadowy",
+		"pożar": {
+			"xyz": [10,20,30],
+			"piętro": 0,
+			"promień_dymu": 20,
+			"promień_ognia": 5,
+			"faza": "rozwinięty"
+		},
+		"ogólne": {
+			"xy_samochody": [200,200],
+			"obrys_budynku": [ [5,10], [10,20], [20,0] ],
+			"wysokość_budynku": 20,
+			"liczba_pięter": 7,
+			"teryt": "example teryt",
+			"adres": "example adres"
+		},
+		"hydrants": [
+			{ 
+				"id": 1, 
+				"objectId": 41, 
+				"longitude": 50.0541115, 
+				"latitude": 19.9332343, 
+				"name": "hydrant1", 
+				"type": "type1", 
+				"distance": 34.5, 
+				"upElevationProfile": 12.5, 
+				"downElevationProfile": 2.5 
+			},
+			{ 
+				"id": 2, 
+				"objectId": 42, 
+				"longitude": 50.0541125, 
+				"latitude": 19.9332345, 
+				"name": "hydrant2", 
+				"type": "type1", 
+				"distance": 38.5, 
+				"upElevationProfile": 12.5, 
+				"downElevationProfile": 2.5 
+			}
+
+		],
+		"tryb_wsadowy_meta": "konfiguracja1.txt",
+		"tryb_wsadowy_profil": "pluton ciężki śląski.json",
+		"tryb_wsadowy_samochody": [
+			{ "id": "g1", "załoga": 6 }, 
+			{ "id": "g2", "załoga": 4 }
+		],
+		"tryb_interaktywny_samochody": [ ]
+	}
+}
