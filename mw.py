@@ -134,7 +134,7 @@ class DojazdMW:
 # }}}
 
     def czy_wykluczamy_bo_droga(self,wariant,data):# {{{
-        # TODO: czy suma_segmentow dotyczy tylko wewn budynkow?
+        # TODO: jak sumujemy suma_segmentow, bo duże długości mamy
         total_w52=0
         total_w75=0
         for s in self.conf['samochody']:
@@ -173,6 +173,7 @@ class DojazdMW:
 # }}}
     def wewn_dym0_pion(self, segment):# {{{
         # TODO: kiedy która prędkość?
+        # 'v_nie_gaśnicza_wewn_pion_dym0'                         : OrderedDict([(12,100), (25,220), (55,1060)]),
 
         #  bit1=1  rozwinięcie podstawowe
         if segment['wariant'][-2] == '1':
@@ -180,6 +181,7 @@ class DojazdMW:
                 return self.query("t_linia_gaśn_w52_wewn_pion_dym0_kregi_1rota", segment['długość'])
             else:
                 return self.query("t_rota_gaśn_wewn_pion_dym0", segment['długość'])
+
 
         #  bit1=0  rozwinięcie niepodstawowe, czyli gaśnica?
         else:
@@ -198,19 +200,43 @@ class DojazdMW:
         
 # }}}
     def wewn_dym1_poziom(self, segment):# {{{
-        dd(segment)
+        #  bit1=1  rozwinięcie podstawowe
+        if segment['wariant'][-2] == '1':
+            if self.weze_nawodnione == 1:
+                return segment['długość'] / self.query("v_linia_gaśn_w52_wewn_poziom_dym1_kregi", segment['długość'])
+            else:
+                return segment['długość'] / self.query("v_rota_gaśn_wewn_poziom_dym1", segment['długość'])
+
+        #  bit1=0  rozwinięcie niepodstawowe, czyli gaśnica?
+        else:
+            return segment['długość'] / self.query("v_rota_gaśn_wewn_poziom_dym1", segment['długość'])
 # }}}
     def wewn_dym1_pion(self, segment):# {{{
-        dd(segment)
+        # TODO: kiedy która prędkość?
+
+        #  bit1=1  rozwinięcie podstawowe
+        if segment['wariant'][-2] == '1':
+            if self.weze_nawodnione == 1:
+                return self.query("t_linia_gaśn_w52_wewn_pion_dym1_kregi_1rota", segment['długość'])
+            else:
+                return self.query("t_rota_gaśn_wewn_pion_dym1", segment['długość'])
+
+
+        #  bit1=0  rozwinięcie niepodstawowe, czyli gaśnica?
+        else:
+            return self.query("t_rota_gaśn_wewn_pion_dym1", segment['długość'])
 # }}}
     def wewn_dym1_dzwig(self, segment):# {{{
-        dd(segment)
+        pieter_w_podrozy=segment['długość'] / 3
+        pieter_w_budynku=self.conf['ogólne']['liczba_pięter']
+        return 60 * pieter_w_podrozy / pieter_w_budynku
 # }}}
     def wewn_dym1_hydrant(self, segment):# {{{
+        # TODO: skąd dane?
         dd(segment)
 # }}}
     def zewn_poziom(self, segment):# {{{
-        dd(segment)
+        return segment['długość'] / self.query("v_zewn", segment['długość'])
 # }}}
     def zewn_drabina_przystawna(self,segment):# {{{
         zdjecie_drabiny=60 
@@ -221,8 +247,16 @@ class DojazdMW:
         return zdjecie_drabiny + bieg_z_drabina + drabine_spraw + wspinaczka
 # }}}
     def zewn_drabina_mechaniczna(self, segment):# {{{
-        dd(segment)
+        # TODO, sprawdzić
+        # 't_przygotowanie_działań_drabina_mechaniczna'           : OrderedDict([(12,160), (25,180), (55,400)]),
+        # 't_przygotowanie_asekuracji_drabina_mechaniczna'        : OrderedDict([(12,140), (25,160), (55,380)]),
+
+        if segment['wariant'][-9] == '1':
+            return self.query("t_przygotowanie_asekuracji_drabina_mechaniczna", segment['długość'])
+        else:
+            return self.query("t_przygotowanie_działań_drabina_mechaniczna", segment['długość'])
 # }}}
+
     def main(self):# {{{
         self.weze_nawodnione=0
         xj=self.json.read('scenariusz.json')
@@ -243,7 +277,8 @@ class DojazdMW:
                     #s['segment']='0000010100000000' # temp zewn_drabina_przystawna()
                     #s['segment']='0000000000000001' # temp wewn_dym0_poziom()
                     #s['segment']='0000000000001001' # temp wewn_dym0_dzwig()
-                    s['segment']='0000000000010001' # temp wewn_dym0_hydrant()
+                    #s['segment']='0000000000010001' # temp wewn_dym0_hydrant()
+                    s['segment']='0000100100000000' #'zewn_drabina_mechaniczna()
 
                     handler=getattr(self, self.segments_map[s['segment']])
                     s['segmentx']=self.segments_map[s['segment']]
@@ -252,6 +287,7 @@ class DojazdMW:
                     czas_wariantu+=czas
                     debug.append('{},s:{},t:{} '.format(s['segmentx'],s['długość'],round(czas)))
             results[wariant]={ 'wynik':round(czas_wariantu), 'debug': debug}
+        dd(results)
         self.save(results)
 # }}}
 
