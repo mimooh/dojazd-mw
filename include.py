@@ -96,38 +96,6 @@ class Sqlite: # {{{
         print()
         for i in self.query('SELECT * FROM aamks_geom order by floor,type_pri,global_type_id'):
             print(i)
-
-    def dump_geoms(self,floor='all'):
-        print("dump_geom() from caller: {}, {}".format(inspect.stack()[1][1], inspect.stack()[1][3]))
-        print("project: {}".format(os.environ['AAMKS_PROJECT']))
-        print()
-        if floor=='all':
-            print("f;name;x0;y0;x1;y1;z0;z1;pri;sec")
-            for i in self.query('SELECT floor,name,x0,y0,x1,y1,z0,z1,type_pri,type_sec FROM aamks_geom ORDER BY floor,type_pri,global_type_id'):
-                print("{};{};{};{};{};{};{};{};{};{}".format(i['floor'],i['name'],i['x0'], i['y0'], i['x1'], i['y1'], i['z0'], i['z1'], i['type_pri'], i['type_sec']))
-        else:
-            print("name;x0;y0;x1;y1;z0;z1")
-            for i in self.query('SELECT name,x0,y0,x1,y1,z0,z1 FROM aamks_geom WHERE floor=? ORDER BY type_pri,global_type_id', (floor,)):
-                print("{};{};{};{};{};{};{}".format(i['name'],i['x0'], i['y0'], i['x1'], i['y1'], i['z0'], i['z1']))
-
-    def dumpall(self):
-        ''' Remember to add all needed sqlite tables here '''
-        print("dump() from caller: {}, {}".format(inspect.stack()[1][1], inspect.stack()[1][3]))
-        print("project: {}".format(os.environ['AAMKS_PROJECT']))
-        print()
-        for i in ('aamks_geom', 'floors_meta', 'obstacles', 'partition', 'cell2compa', 'navmeshes'):
-            try:
-                print("\n=======================")
-                print("table:", i)
-                print("=======================\n")
-                z=self.query("SELECT * FROM {}".format(i))
-                try:
-                    z=json.loads(z[0]['json'], object_pairs_hook=OrderedDict)
-                except:
-                    pass
-                Dump(z)
-            except:
-                pass
 # }}}
 
 dd=Dump
