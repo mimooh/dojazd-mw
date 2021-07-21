@@ -8,6 +8,7 @@ class DojazdMW:
 
     def __init__(self):# {{{
         self.json=Json()
+        self.debug=1
         self.make_segments_map()
         self.make_db_czynnosci()
         self.s=Sqlite("sqlite/firetrucks.db")
@@ -147,7 +148,8 @@ class DojazdMW:
             suma_segmentow += i['długość']
 
         if suma_segmentow > total:
-            #print(suma_segmentow, total)
+            if self.debug==1:
+                print("{}: wykluczam bo droga. Droga:{}[m], Węży:{}[m]".format(wariant, round(suma_segmentow), total))
             return 1
         else:
             return 0
@@ -287,7 +289,8 @@ class DojazdMW:
                     czas_wariantu+=czas
                     debug.append('{},s:{},t:{} '.format(s['segmentx'],s['długość'],round(czas)))
             results[wariant]={ 'wynik':round(czas_wariantu), 'debug': debug}
-        dd(results)
+        if self.debug==1:
+            dd("Udane:", results)
         self.save(results)
 # }}}
 
