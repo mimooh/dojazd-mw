@@ -1,4 +1,5 @@
 import json
+import sys
 from collections import OrderedDict
 from include import Json
 from include import Dump as dd
@@ -7,12 +8,16 @@ import svgwrite
 class DojazdMWResults:
 
     def __init__(self):# {{{
+        if len(sys.argv) < 2:
+            self.zbior='office123/sesja1'
+        else:
+            self.zbior=sys.argv[1]
         self.json=Json()
         self.main()
 # }}}
 
     def read_wyniki(self):# {{{
-        with open('wyniki.txt') as f: 
+        with open('symulacje/{}/wyniki.txt'.format(self.zbior)) as f: 
             x=f.readlines()
         dat=[]
         self.img={'obrys':None, 'pozary':[], 'samochody':[]}
@@ -25,7 +30,8 @@ class DojazdMWResults:
             self.img['samochody'].append(i['conf']['ogólne']['xy_samochody'])
 # }}}
     def svgwrite(self):# {{{
-        dwg = svgwrite.Drawing('img.svg', profile='tiny')
+        dd(222)
+        dwg = svgwrite.Drawing('symulacje/{}/best.svg'.format(self.zbior), profile='tiny')
         dwg.add(dwg.polyline(self.img['obrys'], fill='#fff', stroke_width=0.2, stroke='blue'))
         for i in self.img['pozary']:
             dwg.add(dwg.ellipse(center=(i[0],i[1]), r=(3, 3), fill='#f40', opacity=0.5))

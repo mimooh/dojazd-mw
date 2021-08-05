@@ -1,16 +1,17 @@
 import sys
+import os
 import json
 from collections import OrderedDict
 from include import Json
 from include import Dump as dd
 from include import Sqlite
 
-if len(sys.argv) < 2:
-    sys.argv.append('office321/sesja1')
-
 class DojazdMW:
-
     def __init__(self):# {{{
+        if len(sys.argv) < 2:
+            self.zbior='office123/sesja1'
+        else:
+            self.zbior=sys.argv[1]
         self.json=Json()
         self.debug=1
         self.make_segments_map()
@@ -134,11 +135,15 @@ class DojazdMW:
     def save(self,results):# {{{
         x=json.dumps({'results': results, 'conf': self.conf})
         if self.conf['status'] == 'Start':
-            with open('wyniki.txt', "w") as f: 
+            with open('symulacje/{}/wyniki.txt'.format(self.zbior), "w") as f: 
                 f.write(x+"\n") 
         else:
-            with open('wyniki.txt', "a") as f: 
+            with open('symulacje/{}/wyniki.txt'.format(self.zbior), "a") as f: 
                 f.write(x+"\n")
+
+        if self.conf['status'] == 'Koniec':
+            os.system("python3 results.py '{}'".format(self.zbior))
+
 # }}}
 
     def czy_wykluczamy_bo_droga(self,wariant,data):# {{{
@@ -287,7 +292,6 @@ class DojazdMW:
 # }}}
 
     def main(self):# {{{
-        self.zbior=sys.argv[1]
         self.weze_nawodnione=0
         xj=self.json.read('symulacje/{}/scenariusz.json'.format(self.zbior))
         self.warianty=xj['warianty'] 
@@ -325,3 +329,5 @@ class DojazdMW:
 # }}}
 
 d=DojazdMW()
+
+# symulacje/office123/sesja1/wyniki.txt
