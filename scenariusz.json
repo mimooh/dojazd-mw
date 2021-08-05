@@ -275,7 +275,7 @@
     },
     "conf": {
         "tryb": "interaktywny",
-        "status": "start|trwa|koniec",
+        "status": "Start|Trwa|Koniec",
         "pożar": {
             "xyz": [
                 106.97833696092033,

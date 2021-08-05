@@ -112,14 +112,19 @@ class DojazdMW:
             '0000000000000001': 'wewn_dym0_poziom',
             '0000000000000101': 'wewn_dym0_pion',
             '0000000000001001': 'wewn_dym0_dzwig',
-            '0000000000010001': 'wewn_dym0_hydrant',
+            '0000000000100001': 'wewn_dym0_poziom_lina_elewacja',
             '0000000000000011': 'wewn_dym1_poziom',
             '0000000000000111': 'wewn_dym1_pion',
             '0000000000001011': 'wewn_dym1_dzwig',
-            '0000000000010011': 'wewn_dym1_hydrant',
+            '0000000000100011': 'wewn_dym1_poziom_lina_elewacja',
             '0000001100000000': 'zewn_poziom',
             '0000010100000000': 'zewn_drabina_przystawna',
             '0000100100000000': 'zewn_drabina_mechaniczna',
+            '0000000100000000': 'zewn_pion',
+            '0000000000100101': 'wewn_pion_lina_elewacja',
+            '0000000000010101': 'wewn_dym0_hydrant_pion',
+            '0000000000010001': 'wewn_dym0_hydrant_poziom',
+            '0000000000010011': 'wewn_dym1_hydrant_poziom',
         }
 # }}}
     def save(self,results):# {{{
@@ -194,11 +199,17 @@ class DojazdMW:
         pieter_w_budynku=self.conf['ogólne']['liczba_pięter']
         return 60 * pieter_w_podrozy / pieter_w_budynku
 # }}}
-    def wewn_dym0_hydrant(self, segment):# {{{
+    def wewn_dym0_hydrant_poziom(self, segment):# {{{
         # 't_sprawianie_hydrantu_podziemnego'                     : 70,
         # 't_sprawianie_hydrantu_naziemnego'                      : 30,
         self.weze_nawodnione=1
         return 30
+        
+# }}}
+    def wewn_dym0_hydrant_pion(self, segment):# {{{
+        # 't_sprawianie_hydrantu_podziemnego'                     : 70,
+        # 't_sprawianie_hydrantu_naziemnego'                      : 30,
+        return 0
         
 # }}}
     def wewn_dym1_poziom(self, segment):# {{{
@@ -233,12 +244,15 @@ class DojazdMW:
         pieter_w_budynku=self.conf['ogólne']['liczba_pięter']
         return 60 * pieter_w_podrozy / pieter_w_budynku
 # }}}
-    def wewn_dym1_hydrant(self, segment):# {{{
+    def wewn_dym1_hydrant_poziom(self, segment):# {{{
         # TODO: skąd dane?
         dd(segment)
 # }}}
     def zewn_poziom(self, segment):# {{{
         return segment['długość'] / self.query("v_zewn", segment['długość'])
+# }}}
+    def zewn_pion(self, segment):# {{{
+        return 0
 # }}}
     def zewn_drabina_przystawna(self,segment):# {{{
         zdjecie_drabiny=60 
@@ -247,6 +261,14 @@ class DojazdMW:
         wspinaczka=20
 
         return zdjecie_drabiny + bieg_z_drabina + drabine_spraw + wspinaczka
+# }}}
+    def wewn_dym0_poziom_lina_elewacja(self, segment):# {{{
+        # todo
+        return 0
+# }}}
+    def wewn_dym1_poziom_lina_elewacja(self, segment):# {{{
+        # todo
+        return 0
 # }}}
     def zewn_drabina_mechaniczna(self, segment):# {{{
         # TODO, sprawdzić
@@ -258,6 +280,9 @@ class DojazdMW:
         else:
             return self.query("t_przygotowanie_działań_drabina_mechaniczna", segment['długość'])
 # }}}
+    def wewn_pion_lina_elewacja(self, segment):# {{{
+        return 0
+    # }}}
 
     def main(self):# {{{
         self.weze_nawodnione=0
