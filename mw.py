@@ -1,8 +1,12 @@
+import sys
 import json
 from collections import OrderedDict
 from include import Json
 from include import Dump as dd
 from include import Sqlite
+
+if len(sys.argv) < 2:
+    sys.argv.append('office321/sesja1')
 
 class DojazdMW:
 
@@ -128,10 +132,8 @@ class DojazdMW:
         }
 # }}}
     def save(self,results):# {{{
-        # TODO: Nie mogę polegać na plik_2021-01-07.15:30, bo muszę go odnaleźć i do tego ewentualnie wybrać z podobnych plików
-
         x=json.dumps({'results': results, 'conf': self.conf})
-        if self.conf['start'] == 1:
+        if self.conf['status'] == 'Start':
             with open('wyniki.txt', "w") as f: 
                 f.write(x+"\n") 
         else:
@@ -248,6 +250,17 @@ class DojazdMW:
         # TODO: skąd dane?
         dd(segment)
 # }}}
+    def wewn_dym0_poziom_lina_elewacja(self, segment):# {{{
+        # todo
+        return 0
+# }}}
+    def wewn_dym1_poziom_lina_elewacja(self, segment):# {{{
+        # todo
+        return 0
+# }}}
+    def wewn_pion_lina_elewacja(self, segment):# {{{
+        return 0
+    # }}}
     def zewn_poziom(self, segment):# {{{
         return segment['długość'] / self.query("v_zewn", segment['długość'])
 # }}}
@@ -262,14 +275,6 @@ class DojazdMW:
 
         return zdjecie_drabiny + bieg_z_drabina + drabine_spraw + wspinaczka
 # }}}
-    def wewn_dym0_poziom_lina_elewacja(self, segment):# {{{
-        # todo
-        return 0
-# }}}
-    def wewn_dym1_poziom_lina_elewacja(self, segment):# {{{
-        # todo
-        return 0
-# }}}
     def zewn_drabina_mechaniczna(self, segment):# {{{
         # TODO, sprawdzić
         # 't_przygotowanie_działań_drabina_mechaniczna'           : OrderedDict([(12,160), (25,180), (55,400)]),
@@ -280,13 +285,11 @@ class DojazdMW:
         else:
             return self.query("t_przygotowanie_działań_drabina_mechaniczna", segment['długość'])
 # }}}
-    def wewn_pion_lina_elewacja(self, segment):# {{{
-        return 0
-    # }}}
 
     def main(self):# {{{
+        self.zbior=sys.argv[1]
         self.weze_nawodnione=0
-        xj=self.json.read('scenariusz.json')
+        xj=self.json.read('symulacje/{}/scenariusz.json'.format(self.zbior))
         self.warianty=xj['warianty'] 
         self.conf=xj['conf']
         results=OrderedDict()
@@ -305,12 +308,14 @@ class DojazdMW:
                     #s['segment']='0000000000000001' # temp wewn_dym0_poziom()
                     #s['segment']='0000000000001001' # temp wewn_dym0_dzwig()
                     #s['segment']='0000000000010001' # temp wewn_dym0_hydrant()
-                    s['segment']='0000100100000000' #'zewn_drabina_mechaniczna()
+                    #s['segment']='0000100100000000' #'zewn_drabina_mechaniczna()
 
                     handler=getattr(self, self.segments_map[s['segment']])
                     s['segmentx']=self.segments_map[s['segment']]
                     s['wariant']=wariant
                     czas=handler(s)
+                    if czas == None: # trzeba wyłączyć i w każdej funkcji zadbać o return not None
+                        czas=999
                     czas_wariantu+=czas
                     debug.append('{},s:{},t:{} '.format(s['segmentx'],s['długość'],round(czas)))
             results[wariant]={ 'wynik':round(czas_wariantu), 'debug': debug}
