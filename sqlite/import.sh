@@ -4,9 +4,9 @@
 #echo "create table FireTrucks(Id,generic,IdDescription,IdIndication,MassClass,Category,Chassis,Drive,RegistrationNumber,OperationalNumber,VIN,DevelopmentNumber,AdmissionNumber,PNENMarking,CrewCapacity,OuterLong,InnerLong,DriveReadyWidth,InnerWidth,OuterOperationalWidth,DriveReadyHeight,InnerHeight,MinSteerLeftWidth,MinSteerRigthWidth,MinTurnBackInnerLeftDiameter,MinTurnBackInnerRightDiameter,MinTurnBackOuterLeftDiameter,MinTurnBackOuterRightDiameter,TangentialWheelRadius,FaceAngle,DescensionAngle,RampAngleA,RampAngleB,RampAngleH,RampAngle,FrontSlack,RearSlack,MMR,LeftMMROverload,RightMMROverload,MMROverloadFirstAxis,MMROverloadSecondAxis,MMROverloadThirdAxis,FirstAxisHeadroom,SecondAxisHeadroom,ThirdAxisHeadroom,HeadroomBesideAxis,TransverseHeadroomBetweenWheels,MirrorGeometryAbstract,LadderGeometryAbstract,LadderLiftParametersId,FirefightingParametersId,ObjectModelFilePath)" | sqlite3 firetrucks.db
 
 echo "delete from Generics" | sqlite3 firetrucks.db
-cat csv/generyki.csv | sqlite3 -csv firetrucks.db ".import /dev/stdin Generics"
+cat csv/generyki.csv | grep -v '^id' | sqlite3 -csv firetrucks.db ".import /dev/stdin Generics"
 echo "select * from Generics" | sqlite3 -header firetrucks.db
 
-echo "delete from FireTrucks" | sqlite3 firetrucks.db
-cat csv/firetrucks.csv | sqlite3 -csv firetrucks.db ".import /dev/stdin FireTrucks"
-echo "select * from FireTrucks" | sqlite3 -header firetrucks.db
+# echo "delete from FireTrucks" | sqlite3 firetrucks.db
+# cat csv/firetrucks.csv | sqlite3 -csv firetrucks.db ".import /dev/stdin FireTrucks"
+# echo "select * from FireTrucks" | sqlite3 -header firetrucks.db
