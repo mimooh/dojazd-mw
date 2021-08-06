@@ -24,7 +24,7 @@ segment drogi
  1  w zadymieniu
  2  w pionie drogami ogólnymi
  3  w pionie dźwigiem ratowniczym
- 4  punkt hydrantu wewnętrznego (?)
+ 4  punkt hydrantu wewnętrznego 
  6
  7
  8  na zewnątrz 

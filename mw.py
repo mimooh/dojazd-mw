@@ -6,6 +6,9 @@ from include import Json
 from include import Dump as dd
 from include import Sqlite
 
+# skalować (12,20), (20,40) do długość
+# przekroczenie limitu wyklucza wariant
+
 class DojazdMW:
     def __init__(self):# {{{
         if len(sys.argv) < 2:
@@ -30,6 +33,11 @@ class DojazdMW:
 # }}}
     def make_db_czynnosci(self):# {{{
         self.db_czynnosci={
+            't_przejazd_dzwig_ostatnia_kondygnacja'                 : 60,
+            't_sprawianie_hydrantu_podziemnego_zewn_dym0'           : 70,
+            't_sprawianie_hydrantu_naziemnego_zewn_dym0'            : 30,
+            't_sprawianie_hydrantu_wewn_dym0'                       : 30,
+            't_sprawianie_hydrantu_wewn_dym1'                       : 60,
             't_zasilenie_samochodu'                                 : OrderedDict([(20,30)]),
             't_zasilenie_instalacji_w75x1'                          : OrderedDict([(20,70)]),
             't_zasilenie_instalacji_w75x2'                          : OrderedDict([(20,100)]),
@@ -128,8 +136,8 @@ class DojazdMW:
             '0000000100000000': 'zewn_pion',
             '0000000000100101': 'wewn_pion_lina_elewacja',
             '0000000000010101': 'wewn_dym0_hydrant_pion',
-            '0000000000010001': 'wewn_dym0_hydrant_poziom',
-            '0000000000010011': 'wewn_dym1_hydrant_poziom',
+            '0000000000010001': 'wewn_dym0_hydrant',
+            '0000000000010011': 'wewn_dym1_hydrant',
         }
 # }}}
     def save(self,results):# {{{
@@ -148,6 +156,7 @@ class DojazdMW:
 
     def czy_wykluczamy_bo_droga(self,wariant,data):# {{{
         # TODO: jak sumujemy suma_segmentow, bo duże długości mamy
+        # oddzielić pozyskiwanie sis od logiki
         total_w52=0
         total_w75=0
         for s in self.conf['samochody']:
@@ -167,6 +176,7 @@ class DojazdMW:
             return 0
 # }}}
     def czy_wykluczamy(self,wariant,data):# {{{
+        # todo: gaśnica do dużych pożarów
         if self.czy_wykluczamy_bo_droga(wariant,data) == 1:
             return 1
 # }}}
@@ -202,11 +212,12 @@ class DojazdMW:
             return self.query("t_rota_gaśn_wewn_pion_dym0", segment['długość'])
 # }}}
     def wewn_dym0_dzwig(self, segment):# {{{
+        # todo: baza
         pieter_w_podrozy=segment['długość'] / 3
         pieter_w_budynku=self.conf['ogólne']['liczba_pięter']
         return 60 * pieter_w_podrozy / pieter_w_budynku
 # }}}
-    def wewn_dym0_hydrant_poziom(self, segment):# {{{
+    def wewn_dym0_hydrant(self, segment):# {{{
         # 't_sprawianie_hydrantu_podziemnego'                     : 70,
         # 't_sprawianie_hydrantu_naziemnego'                      : 30,
         self.weze_nawodnione=1
@@ -214,9 +225,10 @@ class DojazdMW:
         
 # }}}
     def wewn_dym0_hydrant_pion(self, segment):# {{{
+        # odebrane
         # 't_sprawianie_hydrantu_podziemnego'                     : 70,
         # 't_sprawianie_hydrantu_naziemnego'                      : 30,
-        return 0
+        return self.query("t_sprawianie_hydrantu_naziemnego")*2
         
 # }}}
     def wewn_dym1_poziom(self, segment):# {{{
@@ -249,14 +261,15 @@ class DojazdMW:
     def wewn_dym1_dzwig(self, segment):# {{{
         pieter_w_podrozy=segment['długość'] / 3
         pieter_w_budynku=self.conf['ogólne']['liczba_pięter']
-        return 60 * pieter_w_podrozy / pieter_w_budynku
+        t=self.query("t_przejazd_dzwig_ostatnia_kondygnacja")
+        return t * pieter_w_podrozy / pieter_w_budynku
 # }}}
-    def wewn_dym1_hydrant_poziom(self, segment):# {{{
+    def wewn_dym1_hydrant(self, segment):# {{{
         # TODO: skąd dane?
         dd(segment)
 # }}}
     def wewn_dym0_poziom_lina_elewacja(self, segment):# {{{
-        # todo
+        # todo jest to punkt, jak hydrant, nazwać punkt, 
         return 0
 # }}}
     def wewn_dym1_poziom_lina_elewacja(self, segment):# {{{
@@ -273,6 +286,7 @@ class DojazdMW:
         return 0
 # }}}
     def zewn_drabina_przystawna(self,segment):# {{{
+        # przenieść do bazy
         zdjecie_drabiny=60 
         bieg_z_drabina=segment['długość'] * 1.36
         drabine_spraw=190
@@ -318,8 +332,6 @@ class DojazdMW:
                     s['segmentx']=self.segments_map[s['segment']]
                     s['wariant']=wariant
                     czas=handler(s)
-                    if czas == None: # trzeba wyłączyć i w każdej funkcji zadbać o return not None
-                        czas=999
                     czas_wariantu+=czas
                     debug.append('{},s:{},t:{} '.format(s['segmentx'],s['długość'],round(czas)))
             results[wariant]={ 'wynik':round(czas_wariantu), 'debug': debug}
