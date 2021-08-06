@@ -20,16 +20,17 @@ from include import Sqlite
 
 # * W generics są tylko w52 i w75, bez w42
 
-# * v_zewn_poziom=2, przyjmuję v_zewn_pion=1.5
+# * v_zewn_poziom=2, przyjmuję v_zewn_pion=1.5 # * v_zewn_poziom=2, przyjmuję v_zewn_pion=1.5
 
 # * czy_wykluczamy_wariant_bo_droga(self,wariant,data)  w52 vs w75? 
 
 # * gaśnica do dużych pożarów
 
-#  pion/poziom wewn_pion_lina_elewacja? Nie za dużo segmentów używa xcode?
+#  * pion/poziom wewn_pion_lina_elewacja? Nie za dużo segmentów używa xcode?
 # '0000000000100001': 'wewn_dym0_poziom_lina_elewacja',
 # '0000000000100011': 'wewn_dym1_poziom_lina_elewacja',
 # '0000000000100101': 'wewn_pion_lina_elewacja',
+
 
 # Problem metrów / pięter w budynku. 3m/piętro dla 32m daje jazdę na 10 piętro w budynku 5 pięter. Czy może się zdarzyć?
 # wariant 0000000000000011
@@ -45,10 +46,14 @@ class DojazdMW:
     def __init__(self):# {{{
         if len(sys.argv) < 2:
             self.zbior='office123/sesja1'
+            self.debugging=1
         else:
             self.zbior=sys.argv[1]
+            self.debugging=0
+
         self.json=Json()
-        self.debug=1
+        self.debug("symulacje/{}/scenariusz.json".format(self.zbior))
+        self.debug("symulacje/{}/wyniki.txt".format(self.zbior))
         self.make_segments_map()
         self.make_db_czynnosci()
         self.s=Sqlite("sqlite/firetrucks.db")
@@ -74,17 +79,9 @@ class DojazdMW:
 
 # }}}
     def make_sis(self):# {{{
-        total_w52=0
-        total_w75=0
+        self.sis={ 'total_w52': 0 }
         for s in self.conf['samochody']:
-            total_w52 += int(self.s.query("select w_52,w_75 from Generics where id=?", (s['id'],))[0]['w_52'])
-            total_w75 += int(self.s.query("select w_52,w_75 from Generics where id=?", (s['id'],))[0]['w_75'])
-        total_wezy = total_w75 + total_w52
-
-        self.sis={}
-        self.sis['total_w52']=total_w52
-        self.sis['total_w75']=total_w75
-        self.sis['total_wezy']=total_wezy
+            self.sis['total_w52'] += int(self.s.query("select w_52 from Generics where id=?", (s['id'],))[0]['w_52'])
 # }}}
     def make_db_czynnosci(self):# {{{
         self.db_czynnosci={
@@ -144,10 +141,11 @@ class DojazdMW:
             't_szybkie_natarcie_zewn_pion_elewacja'                 : OrderedDict([(12,190)]),
             't_linia_gaśn_w52_elewacja'                             : OrderedDict([(12,440),(25,880),(55,2120)]),
             't_linia_gaśn_w42_elewacja'                             : OrderedDict([(12,430),(25,860),(55,1880)]),
-            't_przygotowanie_działań_drabina_dw10'                  : OrderedDict([(20,260)]),
-            't_wejście_oknem_drabina_dw10'                          : OrderedDict([(20,230)]),
-            't_przygotowanie_działań_drabina_nasadkowa'             : OrderedDict([(20,280)]),
-            't_wejście_oknem_drabina_nasadkowa'                     : OrderedDict([(20,250)]),
+            't_drabina_przystawna_zdjecie'                          : 60,
+            't_drabina_przystawna_sprawianie'                       : 190,
+            't_drabina_przystawna_wspinanie'                        : 20,
+            'v_drabina_przystawna_bieg'                             : 1.36,
+            't_drabina_przystawna_przygotowanie_asekuracji'         : OrderedDict([(20,220)]),
             't_przygotowanie_działań_drabina_mechaniczna'           : OrderedDict([(12,160), (25,180), (55,400)]),
             't_przygotowanie_działań_podnośnik'                     : OrderedDict([(12,250), (25,290), (55,490)]),
             't_przygotowanie_sprzęt_wentylacja'                     : OrderedDict([(20,120)]),
@@ -156,8 +154,6 @@ class DojazdMW:
             't_przygotowanie_monitorowania_aparatów_powietrznych'   : 30,
             't_zabezpieczenie_pachołkami'                           : 170,
             't_rozpoznanie_wstepne_3600'                            : 70,
-            't_przygotowanie_asekuracji_drabina_dw10'               : OrderedDict([(20,210)]),
-            't_przygotowanie_asekuracji_drabina_nasadkowa'          : OrderedDict([(20,230)]),
             't_przygotowanie_asekuracji_drabina_mechaniczna'        : OrderedDict([(12,140), (25,160), (55,380)]),
             't_przygotowanie_asekuracji_podnośnik'                  : OrderedDict([(12,230), (25,260), (55,460)]),
             't_przygotowanie_skokochronu'                           : OrderedDict([(20,130)]),
@@ -197,10 +193,15 @@ class DojazdMW:
         }
 # }}}
     def save(self,udane):# {{{
-        x=json.dumps({'results': udane, 'conf': self.conf})
+        #x=json.dumps({'results': udane, 'conf': self.conf})
+
+        x=json.dumps({'results': udane, 'xy_samochody': self.conf['ogólne']['xy_samochody'], 'xyz_pozar': self.conf['pożar']['xyz']})
         if self.conf['status'] == 'Start':
             with open('symulacje/{}/wyniki.txt'.format(self.zbior), "w") as f: 
                 f.write(x+"\n") 
+            with open('symulacje/{}/conf.txt'.format(self.zbior), "w") as f: 
+                conf=json.dumps({'conf': self.conf})
+                f.write(conf+"\n") 
         else:
             with open('symulacje/{}/wyniki.txt'.format(self.zbior), "a") as f: 
                 f.write(x+"\n")
@@ -210,23 +211,25 @@ class DojazdMW:
 
 # }}}
     def czy_wykluczamy_wariant_bo_droga(self,wariant,data):# {{{
-        suma_segmentow=0
+        potrzeba_w52=0
         for i in data['segmenty']:
-            suma_segmentow += i['długość']
+            if i['segment'][-1] == '1':
+                potrzeba_w52 += i['długość']
 
-        if suma_segmentow > self.sis['total_wezy']:
-            if self.debug==1:
-                print("{}: wykluczam bo droga. Droga:{}[m], Węży:{}[m]".format(wariant, round(suma_segmentow), self.sis['total_wezy']))
-            return 1
+        if potrzeba_w52 > self.sis['total_w52']:
+            return { "status": "ERR", "debug":  "Długość segmentów wewnątrz {}[m] przekracza sis_w52 {}[m]".format(round(potrzeba_w52), self.sis['total_w52']) }
         else:
-            return 0
+            return { "status": "OK" }
 # }}}
     def czy_wykluczamy_wariant(self,wariant,data):# {{{
-        if self.czy_wykluczamy_wariant_bo_droga(wariant,data) == 1:
-            return 1
+        x=self.czy_wykluczamy_wariant_bo_droga(wariant,data)
+        if x['status'] == "ERR":
+            return x
+        return { "status": "OK" }
 # }}}
 
     def wewn_dym0_poziom(self, segment):# {{{
+        # 0000000000000001
         # TODO: kiedy która prędkość? 1/10
 
         #  bit1=1  rozwinięcie podstawowe
@@ -241,6 +244,7 @@ class DojazdMW:
             return segment['długość'] / self.query("v_rota_gaśn_wewn_poziom_dym0", segment['długość'])
 # }}}
     def wewn_dym1_poziom(self, segment):# {{{
+        # 0000000000000011 0/10
         #  bit1=1  rozwinięcie podstawowe
         if segment['wariant'][-2] == '1':
             if self.weze_nawodnione == 1:
@@ -253,6 +257,8 @@ class DojazdMW:
             return segment['długość'] / self.query("v_rota_gaśn_wewn_poziom_dym1", segment['długość'])
 # }}}
     def wewn_dym0_pion(self, segment):# {{{
+        # 0000000000000101 1/10
+
         # TODO: kiedy która prędkość? 1/10
         # 'v_nie_gaśnicza_wewn_pion_dym0' : OrderedDict([(12,100), (25,220), (55,1060)]),
 
@@ -269,6 +275,7 @@ class DojazdMW:
             return self.query("t_rota_gaśn_wewn_pion_dym0", segment['długość'])
 # }}}
     def wewn_dym1_pion(self, segment):# {{{
+        # 0000000000000111 1/10
         # TODO: kiedy która prędkość?
 
         #  bit1=1  rozwinięcie podstawowe
@@ -305,7 +312,6 @@ class DojazdMW:
         # 0000000000010101 9/10
         self.weze_nawodnione=1
         return self.query("t_pkt_sprawianie_hydrantu_wewn_dym0")
-        
 # }}}
     def wewn_dym1_hydrant(self, segment):# {{{
         # 0000000000010011 9/10
@@ -318,30 +324,26 @@ class DojazdMW:
         return segment['długość'] / self.query("v_zewn_poziom", segment['długość'])
 # }}}
     def zewn_pion(self, segment):# {{{
-        # 10/10
+        # 0000000100000000 10/10
         return segment['długość'] / self.query("v_zewn_pion", segment['długość'])
 # }}}
     def zewn_drabina_przystawna(self,segment):# {{{
-        # przenieść do bazy
-        zdjecie_drabiny=60 
-        bieg_z_drabina=segment['długość'] * 1.36
-        drabine_spraw=190
-        wspinaczka=20
+        # 0000010100000000 9/10
+        zdjecie_drabiny=self.query("t_drabina_przystawna_zdjecie")
+        bieg_z_drabina=segment['długość'] * self.query("v_drabina_przystawna_bieg")
+        drabine_spraw=self.query("t_drabina_przystawna_sprawianie")
+        wspinaczka=self.query("t_drabina_przystawna_wspinanie")
 
         return zdjecie_drabiny + bieg_z_drabina + drabine_spraw + wspinaczka
 # }}}
     def zewn_drabina_mechaniczna(self, segment):# {{{
-        # TODO, sprawdzić
-        # 't_przygotowanie_działań_drabina_mechaniczna'           : OrderedDict([(12,160), (25,180), (55,400)]),
-        # 't_przygotowanie_asekuracji_drabina_mechaniczna'        : OrderedDict([(12,140), (25,160), (55,380)]),
+        # 0000100100000000 9/10
 
-        if segment['wariant'][-9] == '1':
-            return self.query("t_przygotowanie_asekuracji_drabina_mechaniczna", segment['długość'])
-        else:
-            return self.query("t_przygotowanie_działań_drabina_mechaniczna", segment['długość'])
+        return self.query("t_przygotowanie_działań_drabina_mechaniczna", segment['długość'])
 # }}}
 
     def wewn_dym0_poziom_lina_elewacja(self, segment):# {{{
+        # 0000000000100001 0/10
         # todo jest to punkt, jak hydrant, nazwać punkt, 
         return 0
 # }}}
@@ -353,12 +355,16 @@ class DojazdMW:
         return 0
     # }}}
 
+    def debug(self,msg):# {{{
+        if self.debugging == 1:
+            print(msg)
+# }}}
     def main_process_segment(self, wariant, s):# {{{
-        #s['segment']='0000010100000000' # temp zewn_drabina_przystawna()
         #s['segment']='0000000000001011' # 'wewn_dym1_dzwig()
-        #s['segment']='0000000000010101' #'wewn_dym0_hydrant',
-        s['segment']='0000000000010011' # 'wewn_dym1_hydrant',
-
+        #s['segment']='0000000000010101' # 'wewn_dym0_hydrant',
+        #s['segment']='0000000000010011' # 'wewn_dym1_hydrant',
+        #s['segment']='0000010100000000' # 'zewn_drabina_przystawna',
+        #s['segment']='0000100100000000' # 'zewn_drabina_mechaniczna',
 
         if s['segment'] not in self.segments_map:
             return { "segment_status": "ERR", "debug": "{}: nieznany segment".format(s['segment']) }
@@ -373,14 +379,14 @@ class DojazdMW:
     def main_process_wariant(self, wariant, data):# {{{
         self.weze_nawodnione=0
         czas_wariantu=0
-        if self.debug == 1:
+        if self.debugging == 1:
             print("\nwariant", wariant)
-        if self.czy_wykluczamy_wariant(wariant,data) == 1:
-            return { "wariant_status": "ERR", "wynik": None, "debug": "Err.wykluczam_wariant" }
+        xx=self.czy_wykluczamy_wariant(wariant,data)
+        if xx['status'] == 'ERR':
+            return { "wariant_status": "ERR", "wynik": None, "debug": xx['debug'] }
         for segment in data['segmenty']:
             x=self.main_process_segment(wariant,segment)
-            if self.debug == 1:
-                print(x)
+            self.debug(x)
             if x['segment_status'] == "OK":
                 czas_wariantu+=x['czas']
             else:
@@ -393,18 +399,22 @@ class DojazdMW:
         self.conf=xj['conf']
         self.make_sis()
         udane=OrderedDict()
+        udane['best']={ 'wariant': None, 'czas': 9999999999 }
+        udane['warianty']=OrderedDict()
         nieudane=OrderedDict()
         for wariant,data in self.warianty.items():
             w=self.main_process_wariant(wariant,data)
-            if self.debug == 1:
-                print(w)
+            self.debug(w)
             if w['wariant_status'] == 'OK':
-                udane[wariant]=w
+                udane['warianty'][wariant]=w
+                if w['czas'] < udane['best']['czas']:
+                    udane['best']={ 'wariant': wariant, 'czas': w['czas'] }
             else:
                 nieudane[wariant]=w
 
-        if self.debug==1:
-            dd("Warianty OK:"    , udane)
+        if self.debugging == 1:
+            print("\nBest:"    , udane['best'])
+            dd("Warianty OK:"  , udane['warianty'])
             dd("Warianty ERR:" , nieudane)
         self.save(udane)
 # }}}

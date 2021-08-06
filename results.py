@@ -1,9 +1,10 @@
 import json
+import os
 import sys
+import svgwrite
 from collections import OrderedDict
 from include import Json
 from include import Dump as dd
-import svgwrite
 
 class DojazdMWResults:
 
@@ -15,32 +16,47 @@ class DojazdMWResults:
         self.json=Json()
         self.main()
 # }}}
-
+    def make_chunks(self, lst, n):# {{{
+        """Yield successive n-sized chunks from lst."""
+        for i in range(0, len(lst), n):
+            yield lst[i:i + n]
+# }}}
+    def ranking(self):# {{{
+        s=sorted(self.bests)
+        cc=int(len(s) / 5)
+        chunks=list(self.make_chunks(s, cc))
+        self.img['samochody']={ (5,5): chunks[0], (4,4): chunks[1], (3,3): chunks[2], (2,2):chunks[3], (1,1): chunks[4] }
+# }}}
     def read_wyniki(self):# {{{
         with open('symulacje/{}/wyniki.txt'.format(self.zbior)) as f: 
             x=f.readlines()
         dat=[]
-        self.img={'obrys':None, 'pozary':[], 'samochody':[]}
+        self.bests=[]
+        self.img={'pozary':[], 'samochody':[]}
         for i in x:
             dat.append(json.loads(i))
 
-        self.img['obrys']=dat[0]['conf']['ogólne']['obrys_budynku']
+        self.img['obrys']=self.json.read('symulacje/{}/conf.txt'.format(self.zbior))['conf']['ogólne']['obrys_budynku']
         for i in dat:
-            self.img['pozary'].append(i['conf']['pożar']['xyz'])
-            self.img['samochody'].append(i['conf']['ogólne']['xy_samochody'])
+            self.img['pozary'].append(i['xyz_pozar'])
+            self.bests.append((i['results']['best']['czas'], i['xy_samochody']))
 # }}}
     def svgwrite(self):# {{{
-        dd(222)
         dwg = svgwrite.Drawing('symulacje/{}/best.svg'.format(self.zbior), profile='tiny')
         dwg.add(dwg.polyline(self.img['obrys'], fill='#fff', stroke_width=0.2, stroke='blue'))
         for i in self.img['pozary']:
             dwg.add(dwg.ellipse(center=(i[0],i[1]), r=(3, 3), fill='#f40', opacity=0.5))
-        for i in self.img['samochody']:
-            dwg.add(dwg.rect(insert=(i[0],i[1]), size=(3, 3), fill='#000', opacity=0.1))
+        for i,pozycje in self.img['samochody'].items():
+            for p in pozycje:
+                dwg.add(dwg.rect(insert=(p[1][0],p[1][1]), size=i, fill='#000', opacity=0.1))
         dwg.save()
+
+        if os.environ['USERNAME']=='mimooh': # temp
+            os.system('inkscape symulacje/{}/best.svg -b white -h 1000  -T -D -e /tmp/1.png 1>/dev/null; feh /tmp/1.png '.format(self.zbior))
 # }}}
     def main(self):# {{{
         self.read_wyniki()
+        self.ranking()
         self.svgwrite()
 # }}}
 
