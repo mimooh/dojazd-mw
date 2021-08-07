@@ -8,11 +8,18 @@ from include import Sqlite
 
 # todo{{{
 
-# noszaki = 0.9 * kregi
+# noszaki = 0.9 * kregi 
+# OK, w db
 
-# * obsługa w75 
-# * ile m węża wykorzystano na zewn w poziomie łącznie % węży używamy w praktyce
-# * ile m węża wykorzystano na wewn łącznie
+# * ile m węża wykorzystano na zewn w poziomie łącznie % węży używamy w praktyce 
+# * ile m węża wykorzystano na wewn łącznie OK
+# OK: self.raport_potrzeb + w db
+
+# podnosnik vs drabina
+# OK
+
+# naprawić wysokość piętra 
+# OK
 
 # poprosic x-code o wyrzucenie pion/poziom
 # '0000000000010001': 'wewn_dym0_hydrant',
@@ -29,7 +36,6 @@ from include import Sqlite
 # {'segment_status': 'OK' , 'segment': '0000000000010001' , 'funkcja': 'wewn_dym0_hydrant' , 'czas': 30 , 'nawodniona': 1}
 # {'segment_status': 'OK' , 'segment': '0000000000010101' , 'funkcja': 'wewn_dym0_hydrant' , 'czas': 30 , 'nawodniona': 1}
 
-# naprawić wysokość piętra
 
 # }}}
 
@@ -70,12 +76,26 @@ class DojazdMW:
 
 # }}}
     def make_sis(self):# {{{
-        self.sis={ 'total_w52': 0 }
+        self.sis={ 'total_w52': 0, 'total_w75': 0, 'jest_drabina_mechaniczna': 0, 'jest_podnosnik': 0, 'załoga':0 }
         for s in self.conf['samochody']:
             self.sis['total_w52'] += int(self.s.query("select w_52 from Generics where id=?", (s['id'],))[0]['w_52'])
+            self.sis['total_w75'] += int(self.s.query("select w_75 from Generics where id=?", (s['id'],))[0]['w_75'])
+
+        self.sis['total_w52'] *= self.query("skaluj_efektywne_sis_w52")
+        self.sis['total_w75'] *= self.query("skaluj_efektywne_sis_w75")
+
+        for i in self.conf['samochody']:
+            if i['id'] == 'gen5':
+                self.sis['jest_drabina_mechaniczna']=1
+            if i['id'] == 'gen6':
+                self.sis['jest_podnosnik']=1
+            self.sis['załoga']+=i['załoga']
 # }}}
     def make_db_czynnosci(self):# {{{
         self.db_czynnosci={
+            'skaluj_efektywne_sis_w52'                              : 0.9,
+            'skaluj_efektywne_sis_w75'                              : 0.9,
+            'skaluj_działania_noszaki_przez_działania_kregi'        : 0.8,
             't_przejazd_dzwig_ostatnia_kondygnacja'                 : 60,
             't_pkt_sprawianie_hydrantu_podziemnego_zewn_dym0'       : 70,
             't_pkt_sprawianie_hydrantu_naziemnego_zewn_dym0'        : 30,
@@ -183,34 +203,53 @@ class DojazdMW:
             '0000000000100101': 'wewn_pion_dym0_lina_elewacja',
         }
 # }}}
+    def save_interaktywny(self,udane):# {{{
+        collect=[]
+        for x,z in udane['warianty'].items():
+            collect.append([z['czas'], z['wariant']])
+        c=sorted(collect)
+        out=OrderedDict()
+        for i in c:
+            out[i[1]]=i[0]
+        print(json.dumps(out))
+# }}}
     def save(self,udane):# {{{
-        #x=json.dumps({'results': udane, 'conf': self.conf})
-
-        x=json.dumps({'results': udane, 'xy_samochody': self.conf['ogólne']['xy_samochody'], 'xyz_pozar': self.conf['pożar']['xyz']})
-        if self.conf['status'] == 'Start':
-            with open('symulacje/{}/wyniki.txt'.format(self.zbior), "w") as f: 
-                f.write(x+"\n") 
-            with open('symulacje/{}/conf.txt'.format(self.zbior), "w") as f: 
-                conf=json.dumps({'conf': self.conf})
-                f.write(conf+"\n") 
+        if self.conf['tryb'] == 'interaktywny':
+            self.save_interaktywny(udane)
         else:
-            with open('symulacje/{}/wyniki.txt'.format(self.zbior), "a") as f: 
-                f.write(x+"\n")
+            x=json.dumps({'results': udane, 'xy_samochody': self.conf['ogólne']['xy_samochody'], 'xyz_pozar': self.conf['pożar']['xyz']})
+            if self.conf['status'] == 'Start':
+                with open('symulacje/{}/wyniki.txt'.format(self.zbior), "w") as f: 
+                    f.write(x+"\n") 
+                with open('symulacje/{}/conf.txt'.format(self.zbior), "w") as f: 
+                    conf=json.dumps({'conf': self.conf})
+                    f.write(conf+"\n") 
+            else:
+                with open('symulacje/{}/wyniki.txt'.format(self.zbior), "a") as f: 
+                    f.write(x+"\n")
 
-        if self.conf['status'] == 'Koniec':
-            os.system("python3 results.py '{}'".format(self.zbior))
+            if self.conf['status'] == 'Koniec':
+                os.system("python3 results.py '{}'".format(self.zbior))
 
 # }}}
     def czy_wykluczamy_wariant_bo_droga(self,wariant,data):# {{{
         potrzeba_w52=0
+        potrzeba_w75=0
         for i in data['segmenty']:
             if i['segment'][-1] == '1':
                 potrzeba_w52 += i['długość']
+            if i['segment'][-1] == '0':
+                potrzeba_w75 += i['długość']
+
+        self.raport_potrzeb={ 'w52': potrzeba_w52, 'w75': potrzeba_w75 }
 
         if potrzeba_w52 > self.sis['total_w52']:
             return { "status": "ERR", "debug":  "Długość segmentów wewnątrz {}[m] przekracza sis_w52 {}[m]".format(round(potrzeba_w52), self.sis['total_w52']) }
-        else:
-            return { "status": "OK" }
+
+        if potrzeba_w75 > self.sis['total_w75']:
+            return { "status": "ERR", "debug":  "Długość segmentów na zewnątrz {}[m] przekracza sis_w75 {}[m]".format(round(potrzeba_w75), self.sis['total_w75']) }
+
+        return { "status": "OK" }
 # }}}
     def czy_wykluczamy_wariant(self,wariant,data):# {{{
         x=self.czy_wykluczamy_wariant_bo_droga(wariant,data)
@@ -294,10 +333,10 @@ class DojazdMW:
         # 0000000000001001 8/10
         conf=OrderedDict()
         conf['długość']=segment['długość']
-        conf['pieter_w_podrozy']=segment['długość'] / 3
-        conf['pieter_w_budynku']=self.conf['ogólne']['liczba_pięter']
-        conf['t']=self.query("t_przejazd_dzwig_ostatnia_kondygnacja")
-        return conf['t'] * conf['pieter_w_podrozy'] / conf['pieter_w_budynku']
+        conf['wysokość_budynku']=self.conf['ogólne']['wysokość_budynku']
+        conf['t_ostatnia']=self.query("t_przejazd_dzwig_ostatnia_kondygnacja")
+        conf['t']=conf['t_ostatnia'] * conf['długość'] / conf['wysokość_budynku']
+        return conf['t']
 # }}}
     def wewn_dym1_dzwig(self, segment):# {{{
         # 0000000000001011 8/10
@@ -341,21 +380,29 @@ class DojazdMW:
 # }}}
     def zewn_drabina_mechaniczna(self, segment):# {{{
         # 0000100100000000 5/10
-        # gen5 to drabina, gen6 podnośnik
 
-        # gaszenie z drabiny dużą wydajnością
+        if self.sis['jest_drabina_mechaniczna'] == 1:
+            QQ='t_przygotowanie_działań_drabina_mechaniczna'
+        else:
+            QQ='t_przygotowanie_działań_podnośnik'
+
+        # return None spowoduje odrzucenie wariantu, nie chcemy poniżej None w arytmetyce
+        if self.query(QQ, segment['długość']) == None:
+            return None
+
+        # gaszenie z drabiny dużą wydajnością, scenariusz.json musi przekazywać czas_duza_woda
         if (segment['wariant'][-11] == '1' or segment['wariant'][-12] == '1') and (segment['wariant'][-16] == '1'):
-            # TODO: dodać dostarczenie_dużej_wody
-            return self.query("t_przygotowanie_działań_drabina_mechaniczna", segment['długość'])
+            czas_duza_woda=1200 
+            return czas_duza_woda + self.query(QQ, segment['długość'])
 
         # gaszenie z drabiny lub podnośnika
         if segment['wariant'][-11] == '1' or segment['wariant'][-12] == '1': 
-            return self.query("t_przygotowanie_działań_drabina_mechaniczna", segment['długość'])
+            return self.query(QQ, segment['długość'])
 
         # strażak wchodzi przez okno z drabiny
         if segment['wariant'][-9] == '1': 
-            # t_przygotowanie_roty_gaśn
-            return self.query("t_przygotowanie_działań_drabina_mechaniczna", segment['długość'])
+            return self.query("t_przygotowanie_roty_gaśn") + self.query(QQ, segment['długość'])
+        
 
 # }}}
 
@@ -381,7 +428,7 @@ class DojazdMW:
         #s['segment']='0000000000010101' # 'wewn_dym0_hydrant',
         #s['segment']='0000000000010011' # 'wewn_dym1_hydrant',
         #s['segment']='0000010100000000' # 'zewn_drabina_przystawna',
-        #s['segment']='0000100100000000' # 'zewn_drabina_mechaniczna',
+        #s['segment']='0000100100000000' # 'zewn_drabina_mechaniczna'
 
         if s['segment'] not in self.segments_map:
             return { "segment_status": "ERR", "debug": "{}: nieznany segment".format(s['segment']) }
