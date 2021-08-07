@@ -7,38 +7,29 @@ from include import Dump as dd
 from include import Sqlite
 
 # todo{{{
-# * skalowanie w query(): done
 
-# * przekroczenie limitu wyklucza wariant - db_err w main_process_segment()
+# noszaki = 0.9 * kregi
 
-# * '0000000000010101': 'wewn_dym0_hydrant', pionowy / poziomy?
-#   '0000000000010001': 'wewn_dym0_hydrant',
-# {'segment_status': 'OK' , 'segment': '0000000000010001' , 'funkcja': 'wewn_dym0_hydrant' , 'czas': 30 , 'nawodniona': 1}
-# {'segment_status': 'OK' , 'segment': '0000000000010101' , 'funkcja': 'wewn_dym0_hydrant' , 'czas': 30 , 'nawodniona': 1}
-# {'segment_status': 'OK' , 'segment': '0000000000010001' , 'funkcja': 'wewn_dym0_hydrant' , 'czas': 30 , 'nawodniona': 1}
-# {'segment_status': 'OK' , 'segment': '0000000000010101' , 'funkcja': 'wewn_dym0_hydrant' , 'czas': 30 , 'nawodniona': 1}
+# * obsługa w75 
+# * ile m węża wykorzystano na zewn w poziomie łącznie % węży używamy w praktyce
+# * ile m węża wykorzystano na wewn łącznie
 
-# * W generics są tylko w52 i w75, bez w42
+# poprosic x-code o wyrzucenie pion/poziom
+# '0000000000010001': 'wewn_dym0_hydrant',
+# '0000000000010001': 'wewn_dym0_hydrant',
+# '0000000000010011': 'wewn_dym1_hydrant',
 
-# * v_zewn_poziom=2, przyjmuję v_zewn_pion=1.5 # * v_zewn_poziom=2, przyjmuję v_zewn_pion=1.5
-
-# * czy_wykluczamy_wariant_bo_droga(self,wariant,data)  w52 vs w75? 
-
-# * gaśnica do dużych pożarów
-
-#  * pion/poziom wewn_pion_lina_elewacja? Nie za dużo segmentów używa xcode?
 # '0000000000100001': 'wewn_dym0_poziom_lina_elewacja',
 # '0000000000100011': 'wewn_dym1_poziom_lina_elewacja',
 # '0000000000100101': 'wewn_pion_lina_elewacja',
 
+# wskazac X-code konkretny scenariusz
+# {'segment_status': 'OK' , 'segment': '0000000000010001' , 'funkcja': 'wewn_dym0_hydrant' , 'czas': 30 , 'nawodniona': 1}
+# {'segment_status': 'OK' , 'segment': '0000000000010101' , 'funkcja': 'wewn_dym0_hydrant' , 'czas': 30 , 'nawodniona': 1}
+# {'segment_status': 'OK' , 'segment': '0000000000010001' , 'funkcja': 'wewn_dym0_hydrant' , 'czas': 30 , 'nawodniona': 1}
+# {'segment_status': 'OK' , 'segment': '0000000000010101' , 'funkcja': 'wewn_dym0_hydrant' , 'czas': 30 , 'nawodniona': 1}
 
-# Problem metrów / pięter w budynku. 3m/piętro dla 32m daje jazdę na 10 piętro w budynku 5 pięter. Czy może się zdarzyć?
-# wariant 0000000000000011
-# długość: 32.1
-# pieter_w_podrozy: 10.700000000000001
-# pieter_w_budynku: 5
-# t: 60
-# {'segment_status': 'OK', 'segment': '0000000000001011', 'funkcja': 'wewn_dym1_dzwig', 'długość': 32, 'czas': 128, 'nawodniona': 0}
+# naprawić wysokość piętra
 
 # }}}
 
@@ -189,7 +180,7 @@ class DojazdMW:
             '0000000000010011': 'wewn_dym1_hydrant',
             '0000000000100001': 'wewn_dym0_poziom_lina_elewacja',
             '0000000000100011': 'wewn_dym1_poziom_lina_elewacja',
-            '0000000000100101': 'wewn_pion_lina_elewacja',
+            '0000000000100101': 'wewn_pion_dym0_lina_elewacja',
         }
 # }}}
     def save(self,udane):# {{{
@@ -226,11 +217,18 @@ class DojazdMW:
         if x['status'] == "ERR":
             return x
         return { "status": "OK" }
+
+        # czy_wykluczamy_wariant_bo_zaloga()
 # }}}
 
     def wewn_dym0_poziom(self, segment):# {{{
-        # 0000000000000001
-        # TODO: kiedy która prędkość? 1/10
+        # 0000001000000001 1/10
+        # 0000000000000011 1/10
+
+        # xxxxxx11 
+        # xxxxxx01 
+
+        # TODO: kiedy która prędkość? 
 
         #  bit1=1  rozwinięcie podstawowe
         if segment['wariant'][-2] == '1':
@@ -238,6 +236,8 @@ class DojazdMW:
                 return segment['długość'] / self.query("v_linia_gaśn_w52_wewn_poziom_dym0_kregi", segment['długość'])
             else:
                 return segment['długość'] / self.query("v_rota_gaśn_wewn_poziom_dym0", segment['długość'])
+
+        #  000000000000
 
         #  bit1=0  rozwinięcie niepodstawowe, czyli gaśnica?
         else:
@@ -309,7 +309,7 @@ class DojazdMW:
         return conf['t'] * conf['pieter_w_podrozy'] / conf['pieter_w_budynku']
 # }}}
     def wewn_dym0_hydrant(self, segment):# {{{
-        # 0000000000010101 9/10
+        # 0000000000010001 9/10
         self.weze_nawodnione=1
         return self.query("t_pkt_sprawianie_hydrantu_wewn_dym0")
 # }}}
@@ -324,11 +324,14 @@ class DojazdMW:
         return segment['długość'] / self.query("v_zewn_poziom", segment['długość'])
 # }}}
     def zewn_pion(self, segment):# {{{
-        # 0000000100000000 10/10
+        # 0000000100000000 5/10
+        # analiza wariantu czy idzie (gaśnica, wciąganie po elewacji, hydrant wewn) czy rozwija
+
         return segment['długość'] / self.query("v_zewn_pion", segment['długość'])
 # }}}
     def zewn_drabina_przystawna(self,segment):# {{{
         # 0000010100000000 9/10
+        # dodać 2 przypadki z drabiny_mechanicznej bity wariantu -9 i -11
         zdjecie_drabiny=self.query("t_drabina_przystawna_zdjecie")
         bieg_z_drabina=segment['długość'] * self.query("v_drabina_przystawna_bieg")
         drabine_spraw=self.query("t_drabina_przystawna_sprawianie")
@@ -337,9 +340,23 @@ class DojazdMW:
         return zdjecie_drabiny + bieg_z_drabina + drabine_spraw + wspinaczka
 # }}}
     def zewn_drabina_mechaniczna(self, segment):# {{{
-        # 0000100100000000 9/10
+        # 0000100100000000 5/10
+        # gen5 to drabina, gen6 podnośnik
 
-        return self.query("t_przygotowanie_działań_drabina_mechaniczna", segment['długość'])
+        # gaszenie z drabiny dużą wydajnością
+        if (segment['wariant'][-11] == '1' or segment['wariant'][-12] == '1') and (segment['wariant'][-16] == '1'):
+            # TODO: dodać dostarczenie_dużej_wody
+            return self.query("t_przygotowanie_działań_drabina_mechaniczna", segment['długość'])
+
+        # gaszenie z drabiny lub podnośnika
+        if segment['wariant'][-11] == '1' or segment['wariant'][-12] == '1': 
+            return self.query("t_przygotowanie_działań_drabina_mechaniczna", segment['długość'])
+
+        # strażak wchodzi przez okno z drabiny
+        if segment['wariant'][-9] == '1': 
+            # t_przygotowanie_roty_gaśn
+            return self.query("t_przygotowanie_działań_drabina_mechaniczna", segment['długość'])
+
 # }}}
 
     def wewn_dym0_poziom_lina_elewacja(self, segment):# {{{
@@ -351,7 +368,7 @@ class DojazdMW:
         # todo
         return 0
 # }}}
-    def wewn_pion_lina_elewacja(self, segment):# {{{
+    def wewn_pion_dym0_lina_elewacja(self, segment):# {{{
         return 0
     # }}}
 
