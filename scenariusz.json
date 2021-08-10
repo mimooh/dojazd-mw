@@ -288,6 +288,7 @@
             "faza": "wczesny"
         },
         "ogólne": {
+            "odległość_duza_woda": 2000,
             "xy_samochody": [
                 66.74368198364134,
                 88.5756939808376
