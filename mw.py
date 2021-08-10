@@ -30,7 +30,7 @@ class DojazdMW:
     def __init__(self):# {{{
         if len(sys.argv) < 2:
             self.zbior='office123/sesja1'
-            self.debugging=0
+            self.debugging=1
         else:
             self.zbior=sys.argv[1]
             self.debugging=0
@@ -85,38 +85,30 @@ class DojazdMW:
             'skaluj_efektywne_sis_w75'                              : 0.9,
             'skaluj_działania_noszaki_przez_działania_kregi'        : 0.8,
             't_przejazd_dzwig_ostatnia_kondygnacja'                 : 60,
-            't_pkt_sprawianie_hydrantu_wewn_dym0'                   : 30,
-            't_pkt_sprawianie_hydrantu_wewn_dym1'                   : 60,
+            't_sprawianie_hydrantu_wewn_dym0'                       : 30,
+            't_sprawianie_hydrantu_wewn_dym1'                       : 60,
+            't_przygotowanie_roty_gaśn'                             : 50,
             'v_duża_woda'                                           : 1.4,
 
-
-
-
             'v_linia_główna_w75_do_rozdzielacza_poziom'             : 0.66,
-            'v_linia_główna_w75_do_rozdzielacza_pion'               : 0.5
+            'v_linia_główna_w75_do_rozdzielacza_pion'               : 0.5,
             'v_zewn_poziom_bez_węża_dym0'                           : 2,
             'v_zewn_pion_bez_węża_dym0'                             : 1.5,
-
             'v_wewn_poziom_bez_węża_dym0'                           : 1.33,
-            'v_wewn_poziom_bez_węża_dym1'                           : 0.4
-
+            'v_wewn_poziom_bez_węża_dym1'                           : 0.4,
             't_wewn_pion_bez_węża_dym0'                             : OrderedDict([(12 , 100) , (25 , 220) , (55 , 1060)]) ,
             't_wewn_pion_bez_węża_dym1'                             : OrderedDict([(12 , 140) , (25 , 310) , (55 , 1500)])  ,
-
-            'v_rozwijanie_kregi_wewn_poziom_dym0'                   : 0.8              ,
-            'v_rozwijanie_kregi_wewn_poziom_dym1'                   : 0.5              ,
+            'v_rozwijanie_kregi_wewn_poziom_dym0'                   : 0.8 ,
+            'v_rozwijanie_kregi_wewn_poziom_dym1'                   : 0.5 ,
             't_rozwijanie_kregi_wewn_pion_dym0'                     : OrderedDict([(12 , 200) , (25 , 700)  , (55 , 1500)]) ,
             't_rozwijanie_kregi_wewn_pion_dym1'                     : OrderedDict([(12 , 280) , (25 , 1000) , (55 , 2100)]) ,
-
             'v_poruszenie_węże_nawodnione_wew_poziom_dym0'          : 0.5,
             'v_poruszenie_węże_nawodnione_wew_poziom_dym1'          : 0.2,
             'v_poruszenie_węże_nawodnione_wew_pion_dym0'            : 0.4,
             'v_poruszenie_węże_nawodnione_wew_pion_dym1'            : 0.1,
 
-
-
-            't_pkt_sprawianie_hydrantu_podziemnego_zewn_dym0'       : 70,
-            't_pkt_sprawianie_hydrantu_naziemnego_zewn_dym0'        : 30,
+            't_sprawianie_hydrantu_podziemnego_zewn_dym0'           : 70,
+            't_sprawianie_hydrantu_naziemnego_zewn_dym0'            : 30,
             't_zasilenie_samochodu'                                 : OrderedDict([(20,30)]),
             't_zasilenie_instalacji_w75x1'                          : OrderedDict([(20,70)]),
             't_zasilenie_instalacji_w75x2'                          : OrderedDict([(20,100)]),
@@ -125,7 +117,6 @@ class DojazdMW:
             't_sprawianie_zbiornika_2i5m3'                          : 290,
             't_sprawianie_zbiornika_5m3'                            : 150,
             't_linia_główna_w75x2_do_rozdzielacza_harmonijka'       : 15,
-            't_przygotowanie_roty_gaśn'                             : 50,
             'v_rota_gaśn_zewn_poziom_dym0'                          : 1,
             'v_rota_gaśn_wewn_poziom_dym0'                          : 0.8,
             'v_rota_gaśn_wewn_poziom_dym1'                          : 0.38,
@@ -269,7 +260,10 @@ class DojazdMW:
 
         # czy_wykluczamy_wariant_bo_zaloga()
 # }}}
-    def sprawdz_czy_rozwiniecie(self, segment):# {{{
+    def czy_rozwiniecie_wezowe(self, segment):# {{{
+        # 0000000000000000 gaśnica schodami (droga tak jak rozwinięcie podstawowe)
+        # 0000000000000100 gaśnica dźwigiem
+
         if segment['wariant'][-5] == '1' or segment['wariant'][-4] == '1' or segment['wariant'] == '0000000000000000' or segment['wariant'] == '0000000000000100' :
             return 0
         else:
@@ -279,19 +273,17 @@ class DojazdMW:
 # dobre
     def zewn_pion(self, segment):# {{{
         # 0000000100000000 8/10
-        # 0000000000000000 gaśnica schodami (droga tak jak rozwinięcie podstawowe)
-        # 0000000000000100 gaśnica dźwigiem
         
-        if self.sprawdz_czy_rozwiniecie(segment):
-            return segment['długość'] / self.query("v_zewn_pion", segment['długość'])
+        if self.czy_rozwiniecie_wezowe(segment) == 0:
+            return segment['długość'] / self.query("v_zewn_pion_bez_węża_dym0", segment['długość'])
         else:
             return segment['długość'] / self.query('v_linia_główna_w75_do_rozdzielacza_pion', segment['długość'])
 # }}}
     def zewn_poziom(self, segment):# {{{
         # 0000001100000000 8/10 
 
-        if self.sprawdz_czy_rozwiniecie(segment):
-            return segment['długość'] / self.query("v_zewn_poziom", segment['długość'])
+        if self.czy_rozwiniecie_wezowe(segment) == 0:
+            return segment['długość'] / self.query("v_zewn_poziom_bez_węża_dym0", segment['długość'])
         else:
             return segment['długość'] / self.query('v_linia_główna_w75_do_rozdzielacza_poziom', segment['długość'])
 
@@ -309,12 +301,12 @@ class DojazdMW:
     def wewn_dym0_hydrant(self, segment):# {{{
         # 0000000000010001 9/10
         self.weze_nawodnione=1
-        return self.query("t_pkt_sprawianie_hydrantu_wewn_dym0")
+        return self.query("t_sprawianie_hydrantu_wewn_dym0")
 # }}}
     def wewn_dym1_hydrant(self, segment):# {{{
         # 0000000000010011 9/10
         self.weze_nawodnione=1
-        return self.query("t_pkt_sprawianie_hydrantu_wewn_dym1")
+        return self.query("t_sprawianie_hydrantu_wewn_dym1")
         
 # }}}
     def zewn_drabina_przystawna(self,segment):# {{{
@@ -348,9 +340,9 @@ class DojazdMW:
         if przygotowanie_pojazdu == None:
             return None
 
-        # gaszenie z drabiny dużą wydajnością, scenariusz.json musi przekazywać czas_duza_woda
+        # gaszenie z drabiny dużą wydajnością
         if (segment['wariant'][-11] == '1' or segment['wariant'][-12] == '1') and (segment['wariant'][-16] == '1'):
-            czas_duza_woda=self.conf['ogólne']['odległość_duza_woda'] / self.query('v_duża_woda')
+            czas_duza_woda=self.conf['ogólne']['odległość_duża_woda'] / self.query('v_duża_woda')
             return max(czas_duza_woda, przygotowanie_pojazdu)
 
         # gaszenie

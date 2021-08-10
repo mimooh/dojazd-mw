@@ -2,6 +2,8 @@ import json
 import os
 import sys
 import svgwrite
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPM
 from collections import OrderedDict
 from include import Json
 from include import Dump as dd
@@ -64,9 +66,12 @@ class DojazdMWResults:
             for p in pozycje:
                 dwg.add(dwg.rect(insert=(p[1][0],p[1][1]), size=i, fill='#000', opacity=0.1))
         dwg.save()
+        drawing = svg2rlg('symulacje/{}/best.svg'.format(self.zbior))
+        renderPM.drawToFile(drawing, 'symulacje/{}/best.svg'.format(self.zbior), fmt='PNG')
 
         if os.environ['USERNAME']=='mimooh': # temp
-            os.system('inkscape symulacje/{}/best.svg -b white -h 1000  -T -D -e /tmp/1.png 1>/dev/null; feh /tmp/1.png '.format(self.zbior))
+            #os.system('inkscape symulacje/{}/best.svg -b white -h 1000  -T -D -e /tmp/1.png 1>/dev/null; feh /tmp/1.png '.format(self.zbior))
+            os.system('feh symulacje/{}/best.png'.format(self.zbior))
 # }}}
     def main(self):# {{{
         self.read_wyniki()
