@@ -2,8 +2,6 @@ import json
 import os
 import sys
 import svgwrite
-from svglib.svglib import svg2rlg
-from reportlab.graphics import renderPM
 from collections import OrderedDict
 from include import Json
 from include import Dump as dd
@@ -26,6 +24,9 @@ class DojazdMWResults:
     def make_ranking(self):# {{{
         s=sorted(self.bests)
         cc=int(len(s) / 5)
+        if cc < 1:
+            print("Potrzeba minimum 5 symulacji")
+            exit()
         chunks=list(self.make_chunks(s, cc))
         self.img['samochody']={ (5,5): chunks[0], (4,4): chunks[1], (3,3): chunks[2], (2,2):chunks[3], (1,1): chunks[4] }
 # }}}
@@ -59,19 +60,20 @@ class DojazdMWResults:
 # }}}
     def svgwrite(self):# {{{
         dwg = svgwrite.Drawing('symulacje/{}/best.svg'.format(self.zbior), profile='tiny')
-        dwg.add(dwg.polyline(self.img['obrys'], fill='#fff', stroke_width=0.2, stroke='blue'))
+        dwg.add(dwg.polyline(self.img['obrys'], fill='#fff', stroke_width=0.3, stroke='blue'))
         for i in self.img['pozary']:
             dwg.add(dwg.ellipse(center=(i[0],i[1]), r=(3, 3), fill='#f40', opacity=0.5))
         for i,pozycje in self.img['samochody'].items():
             for p in pozycje:
                 dwg.add(dwg.rect(insert=(p[1][0],p[1][1]), size=i, fill='#000', opacity=0.1))
         dwg.save()
-        drawing = svg2rlg('symulacje/{}/best.svg'.format(self.zbior))
-        renderPM.drawToFile(drawing, 'symulacje/{}/best.svg'.format(self.zbior), fmt='PNG')
-
-        if os.environ['USERNAME']=='mimooh': # temp
-            #os.system('inkscape symulacje/{}/best.svg -b white -h 1000  -T -D -e /tmp/1.png 1>/dev/null; feh /tmp/1.png '.format(self.zbior))
+        if os.environ['USERNAME']=='mimoohe': 
+            os.system('inkscape {} -b white -h 1000 -D -e {}'.format('symulacje/{}/best.svg'.format(self.zbior), 'symulacje/{}/best.png'.format(self.zbior)))
             os.system('feh symulacje/{}/best.png'.format(self.zbior))
+        else:
+            os.system('inkscape {} -b white -h 1000 -D -o {}'.format('symulacje/{}/best.svg'.format(self.zbior), 'symulacje/{}/best.png'.format(self.zbior)))
+
+
 # }}}
     def main(self):# {{{
         self.read_wyniki()
