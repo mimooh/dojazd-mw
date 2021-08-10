@@ -21,16 +21,29 @@ class DojazdMWResults:
         for i in range(0, len(lst), n):
             yield lst[i:i + n]
 # }}}
-    def ranking(self):# {{{
+    def make_ranking(self):# {{{
         s=sorted(self.bests)
         cc=int(len(s) / 5)
         chunks=list(self.make_chunks(s, cc))
         self.img['samochody']={ (5,5): chunks[0], (4,4): chunks[1], (3,3): chunks[2], (2,2):chunks[3], (1,1): chunks[4] }
 # }}}
+    def make_stats(self):# {{{
+        ''' Statystyka: ten był najlepszy 100 razy, a ten 20 razy '''
+
+        count={}
+        for i in self.stats:
+            if i[0] not in count:
+                count[i[0]]=0
+            count[i[0]]+=1
+        self.json.write(count, 'symulacje/{}/wyniki_stats.json'.format(self.zbior))
+        if os.environ['USERNAME']=='mimooh': # temp
+            print('symulacje/{}/wyniki_stats.json'.format(self.zbior))
+# }}}
     def read_wyniki(self):# {{{
         with open('symulacje/{}/wyniki.txt'.format(self.zbior)) as f: 
             x=f.readlines()
         dat=[]
+        self.stats=[]
         self.bests=[]
         self.img={'pozary':[], 'samochody':[]}
         for i in x:
@@ -39,6 +52,7 @@ class DojazdMWResults:
         self.img['obrys']=self.json.read('symulacje/{}/conf.txt'.format(self.zbior))['conf']['ogólne']['obrys_budynku']
         for i in dat:
             self.img['pozary'].append(i['xyz_pozar'])
+            self.stats.append((i['results']['best']['wariant'], i['results']['best']['czas']))
             self.bests.append((i['results']['best']['czas'], i['xy_samochody']))
 # }}}
     def svgwrite(self):# {{{
@@ -56,8 +70,11 @@ class DojazdMWResults:
 # }}}
     def main(self):# {{{
         self.read_wyniki()
-        self.ranking()
+        self.make_stats()
+        self.make_ranking()
         self.svgwrite()
 # }}}
 
 d=DojazdMWResults()
+
+# symulacje/office123/sesja1/wyniki_stats.json
