@@ -67,7 +67,7 @@ class DojazdMWResults:
             for p in pozycje:
                 dwg.add(dwg.rect(insert=(p[1][0],p[1][1]), size=i, fill='#000', opacity=0.1))
         dwg.save()
-        if os.environ['USERNAME']=='mimoohe': 
+        if os.environ['USERNAME']=='mimooh': 
             os.system('inkscape {} -b white -h 1000 -D -e {}'.format('symulacje/{}/best.svg'.format(self.zbior), 'symulacje/{}/best.png'.format(self.zbior)))
             os.system('feh symulacje/{}/best.png'.format(self.zbior))
         else:
