@@ -6,26 +6,6 @@ from include import Json
 from include import Dump as dd
 from include import Sqlite
 
-# todo{{{
-# wewn:
-# chodzenie gaśnica
-# rozwijanie węży
-# ciąganie węży nienawod
-# ciąganie węży nawod
-
-# best.svg / best.png
-
-# noszaki = 0.9 * kręgi
-# OK, w db
-
-# podnosnik vs drabina
-# OK
-
-# naprawić wysokość piętra 
-# OK
-
-# }}}
-
 class DojazdMW:
     def __init__(self):# {{{
         if len(sys.argv) < 2:
