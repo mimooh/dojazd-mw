@@ -39,8 +39,6 @@ class DojazdMWResults:
                 count[i[0]]=0
             count[i[0]]+=1
         self.json.write(count, 'symulacje/{}/wyniki_stats.json'.format(self.zbior))
-        if os.environ['USERNAME']=='mimooh': # temp
-            print('symulacje/{}/wyniki_stats.json'.format(self.zbior))
 # }}}
     def read_wyniki(self):# {{{
         with open('symulacje/{}/wyniki.txt'.format(self.zbior)) as f: 
@@ -68,12 +66,8 @@ class DojazdMWResults:
                 dwg.add(dwg.rect(insert=(p[1][0],p[1][1]), size=i, fill='#000', opacity=0.1))
         dwg.save()
         if os.environ['USERNAME']=='mimooh': 
-            os.system('inkscape {} -b white -h 1000 -D -e {}'.format('symulacje/{}/best.svg'.format(self.zbior), 'symulacje/{}/best.png'.format(self.zbior)))
+            os.system('inkscape {} -b white -h 1000 -D -e {} 2>/dev/null 1>/dev/null'.format('symulacje/{}/best.svg'.format(self.zbior), 'symulacje/{}/best.png'.format(self.zbior)))
             os.system('feh symulacje/{}/best.png'.format(self.zbior))
-        else:
-            os.system('inkscape {} -b white -h 1000 -D -o {}'.format('symulacje/{}/best.svg'.format(self.zbior), 'symulacje/{}/best.png'.format(self.zbior)))
-
-
 # }}}
     def main(self):# {{{
         self.read_wyniki()
