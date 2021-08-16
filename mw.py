@@ -23,21 +23,33 @@ class DojazdMW:
         self.s=Sqlite("sqlite/firetrucks.db")
         self.main()
 # }}}
+    def query_przedzialy(self, param, dlugosc):# {{{
+        '''
+        Przedziały są liniowe, ale tylko pierwszy (i=0) jest trywialny
+        '''
+
+        i=0
+        for limit,wynik in self.db_czynnosci[param]:
+            if dlugosc <= limit  and i==0:
+                return wynik * dlugosc/limit
+            else:
+                if dlugosc <= limit:
+                    x0=self.db_czynnosci[param][i-1][0]
+                    y0=self.db_czynnosci[param][i-1][1]
+                    x1=self.db_czynnosci[param][i][0]
+                    y1=self.db_czynnosci[param][i][1]
+                    wynik = y0 + ((y1 - y0) * (dlugosc - x0) ) / (x1 - x0)
+                    return wynik * dlugosc/limit
+            i+=1
+        return None
+# }}}
     def query(self, param, dlugosc=0):# {{{
         '''
-        query odpowiada wartością lub trafia na dict opisany poniżej:
-        query('t_rota_gaśn_wewn_pion_dym1', 6)
-
-        if isinstance(self.db_czynnosci[param], dict):
-            't_rota_gaśn_wewn_pion_dym0': OrderedDict([(12,100),(25,330),(55,1026)])
-            6 jest w przedziale (do 12m, 100 sekund)
-            czyli 100 * 6/12 
+        query odpowiada wartością lub trafia na listę przedziałów i do query_przedzialy()
         '''
 
-        if isinstance(self.db_czynnosci[param], dict):
-            for metry in list(self.db_czynnosci[param].keys()):
-                if metry >= dlugosc:
-                    return self.db_czynnosci[param][metry] * dlugosc/metry
+        if isinstance(self.db_czynnosci[param], list):
+            return self.query_przedzialy(param,dlugosc)
         else:
             return self.db_czynnosci[param]
 
@@ -76,88 +88,88 @@ class DojazdMW:
             'v_bez_węża_zewn_pion_dym0'                             : 1.5,
             'v_bez_węża_wewn_poziom_dym0'                           : 1.33,
             'v_bez_węża_wewn_poziom_dym1'                           : 0.4,
-            't_bez_węża_wewn_pion_dym0'                             : OrderedDict([(12 , 100) , (25 , 220) , (55 , 1060)]) ,
-            't_bez_węża_wewn_pion_dym1'                             : OrderedDict([(12 , 140) , (25 , 310) , (55 , 1500)])  ,
+            't_bez_węża_wewn_pion_dym0'                             : [(12 , 100) , (25 , 220) , (55 , 1060)] ,
+            't_bez_węża_wewn_pion_dym1'                             : [(12 , 140) , (25 , 310) , (55 , 1500)]  ,
             'v_rozwijanie_kręgi_wewn_poziom_dym0'                   : 0.8 ,
             'v_rozwijanie_kręgi_wewn_poziom_dym1'                   : 0.5 ,
-            't_rozwijanie_kręgi_wewn_pion_dym0'                     : OrderedDict([(12 , 200) , (25 , 700)  , (55 , 1500)]) ,
-            't_rozwijanie_kręgi_wewn_pion_dym1'                     : OrderedDict([(12 , 280) , (25 , 1000) , (55 , 2100)]) ,
+            't_rozwijanie_kręgi_wewn_pion_dym0'                     : [(12 , 200) , (25 , 700)  , (55 , 1500)] ,
+            't_rozwijanie_kręgi_wewn_pion_dym1'                     : [(12 , 280) , (25 , 1000) , (55 , 2100)] ,
             'v_poruszenie_węże_nawodnione_wewn_poziom_dym0'         : 0.5,
             'v_poruszenie_węże_nawodnione_wewn_poziom_dym1'         : 0.2,
             'v_poruszenie_węże_nawodnione_wewn_pion_dym0'           : 0.4,
             'v_poruszenie_węże_nawodnione_wewn_pion_dym1'           : 0.1,
-            't_linia_gaśn_w52_elewacja_dym0'                        : OrderedDict([(12,440),(25,880),(55,2120)]),
-            't_linia_gaśn_w52_elewacja_dym1'                        : OrderedDict([(12,999999),(25,99999999),(55,999999)]),
+            't_linia_gaśn_w52_elewacja_dym0'                        : [(12,440),(25,880),(55,2120)],
+            't_linia_gaśn_w52_elewacja_dym1'                        : [(12,999999),(25,99999999),(55,999999)],
 
             't_drabina_przystawna_zdjęcie'                          : 60,
             't_drabina_przystawna_sprawianie'                       : 190,
             't_drabina_przystawna_wspinanie'                        : 20,
             'v_drabina_przystawna_bieg'                             : 1.36,
-            't_drabina_przystawna_przygotowanie_asekuracji'         : OrderedDict([(20,220)]),
-            't_przygotowanie_działań_drabina_mechaniczna'           : OrderedDict([(12,160), (25,180), (55,400)]),
-            't_przygotowanie_działań_podnośnik'                     : OrderedDict([(12,250), (25,290), (55,490)]),
+            't_drabina_przystawna_przygotowanie_asekuracji'         : [(20,220)],
+            't_przygotowanie_działań_drabina_mechaniczna'           : [(12,160), (25,180), (55,400)],
+            't_przygotowanie_działań_podnośnik'                     : [(12,250), (25,290), (55,490)],
 
             't_sprawianie_hydrantu_podziemnego_zewn_dym0'           : 70,
             't_sprawianie_hydrantu_naziemnego_zewn_dym0'            : 30,
-            't_zasilenie_samochodu'                                 : OrderedDict([(20,30)]),
-            't_zasilenie_instalacji_w75x1'                          : OrderedDict([(20,70)]),
-            't_zasilenie_instalacji_w75x2'                          : OrderedDict([(20,100)]),
-            't_sprawianie_motopompy_MP81_z_linia_w75'               : OrderedDict([(20,320)]),
-            't_sprawianie_motopompy_szlam_z_linia_w75'              : OrderedDict([(20,510)]),
+            't_zasilenie_samochodu'                                 : [(20,30)],
+            't_zasilenie_instalacji_w75x1'                          : [(20,70)],
+            't_zasilenie_instalacji_w75x2'                          : [(20,100)],
+            't_sprawianie_motopompy_MP81_z_linia_w75'               : [(20,320)],
+            't_sprawianie_motopompy_szlam_z_linia_w75'              : [(20,510)],
             't_sprawianie_zbiornika_2i5m3'                          : 290,
             't_sprawianie_zbiornika_5m3'                            : 150,
             't_linia_główna_w75x2_do_rozdzielacza_harmonijka'       : 15,
             'v_rota_gaśn_zewn_poziom_dym0'                          : 1,
             'v_rota_gaśn_wewn_poziom_dym0'                          : 0.8,
             'v_rota_gaśn_wewn_poziom_dym1'                          : 0.38,
-            't_rota_gaśn_wewn_pion_dym0'                            : OrderedDict([(12,100),(25,330),(55,1026)]),
-            't_rota_gaśn_wewn_pion_dym1'                            : OrderedDict([(12,140),(25,500),(55,1520)]),
+            't_rota_gaśn_wewn_pion_dym0'                            : [(12,100),(25,330),(55,1026)],
+            't_rota_gaśn_wewn_pion_dym1'                            : [(12,140),(25,500),(55,1520)],
             'v_linia_gaśn_w52_wewn_poziom_dym1_kręgi'               : 0.25,
-            't_linia_gaśn_w52_wewn_pion_dym1_kręgi_1rota'           : OrderedDict([(12,620),(25,1120),(55,2120)]),
-            't_linia_gaśn_w52_wewn_pion_dym1_kręgi_2roty'           : OrderedDict([(12,500),(25,1060),(55,1520)]),
+            't_linia_gaśn_w52_wewn_pion_dym1_kręgi_1rota'           : [(12,620),(25,1120),(55,2120)],
+            't_linia_gaśn_w52_wewn_pion_dym1_kręgi_2roty'           : [(12,500),(25,1060),(55,1520)],
             'v_linia_gaśn_w52_wewn_poziom_dym0_kręgi'               : 0.8,
-            't_linia_gaśn_w52_wewn_pion_dym0_kręgi_1rota'           : OrderedDict([(12,230),(25,760),(55,1700)]),
-            't_linia_gaśn_w52_wewn_pion_dym0_kręgi_2roty'           : OrderedDict([(12,170),(25,700),(55,1520)]),
+            't_linia_gaśn_w52_wewn_pion_dym0_kręgi_1rota'           : [(12,230),(25,760),(55,1700)],
+            't_linia_gaśn_w52_wewn_pion_dym0_kręgi_2roty'           : [(12,170),(25,700),(55,1520)],
             'v_linia_gaśn_w42_wewn_poziom_dym1_kręgi'               : 0.26,
-            't_linia_gaśn_w42_wewn_pion_dym1_kręgi_1rota'           : OrderedDict([(12,620),(25,1120),(55,2120)]),
-            't_linia_gaśn_w42_wewn_pion_dym1_kręgi_2roty'           : OrderedDict([(12,500),(25,1060),(55,1520)]),
+            't_linia_gaśn_w42_wewn_pion_dym1_kręgi_1rota'           : [(12,620),(25,1120),(55,2120)],
+            't_linia_gaśn_w42_wewn_pion_dym1_kręgi_2roty'           : [(12,500),(25,1060),(55,1520)],
             'v_linia_gaśn_w42_wewn_poziom_dym0_kręgi'               : 1,
-            't_linia_gaśn_w42_wewn_pion_dym0_kręgi_1rota'           : OrderedDict([(12,230),(25,760),(55,1700)]),
-            't_linia_gaśn_w42_wewn_pion_dym0_kręgi_2roty'           : OrderedDict([(12,170),(25,700),(55,1520)]),
+            't_linia_gaśn_w42_wewn_pion_dym0_kręgi_1rota'           : [(12,230),(25,760),(55,1700)],
+            't_linia_gaśn_w42_wewn_pion_dym0_kręgi_2roty'           : [(12,170),(25,700),(55,1520)],
             'v_linia_gaśn_w52_wewn_poziom_dym1_kasetony'            : 0.4,
-            't_linia_gaśn_w52_wewn_pion_dym1_kasetony_1rota'        : OrderedDict([(12,560),(25,1000),(55,1940)]),
-            't_linia_gaśn_w52_wewn_pion_dym1_kasetony_2roty'        : OrderedDict([(12,320),(25,880),(55,1510)]),
+            't_linia_gaśn_w52_wewn_pion_dym1_kasetony_1rota'        : [(12,560),(25,1000),(55,1940)],
+            't_linia_gaśn_w52_wewn_pion_dym1_kasetony_2roty'        : [(12,320),(25,880),(55,1510)],
             'v_linia_gaśn_w52_wewn_poziom_dym0_kasetony'            : 1,
-            't_linia_gaśn_w52_wewn_pion_dym0_kasetony_1rota'        : OrderedDict([(12,500),(25,940),(55,1880)]),
-            't_linia_gaśn_w52_wewn_pion_dym0_kasetony_2roty'        : OrderedDict([(12,320),(25,700),(55,1510)]),
+            't_linia_gaśn_w52_wewn_pion_dym0_kasetony_1rota'        : [(12,500),(25,940),(55,1880)],
+            't_linia_gaśn_w52_wewn_pion_dym0_kasetony_2roty'        : [(12,320),(25,700),(55,1510)],
             'v_linia_gaśn_w42_wewn_poziom_dym1_kasetony'            : 0.4,
-            't_linia_gaśn_w42_wewn_pion_dym1_kasetony_1rota'        : OrderedDict([(12,500),(25,940),(55,1940)]),
-            't_linia_gaśn_w42_wewn_pion_dym1_kasetony_2roty'        : OrderedDict([(12,320),(25,880),(55,1510)]),
+            't_linia_gaśn_w42_wewn_pion_dym1_kasetony_1rota'        : [(12,500),(25,940),(55,1940)],
+            't_linia_gaśn_w42_wewn_pion_dym1_kasetony_2roty'        : [(12,320),(25,880),(55,1510)],
             'v_linia_gaśn_w42_wewn_poziom_dym0_kasetony'            : 1.33,
-            't_linia_gaśn_w42_wewn_pion_dym0_kasetony_1rota'        : OrderedDict([(12,500),(25,940),(55,1880)]),
-            't_linia_gaśn_w42_wewn_pion_dym0_kasetony_2roty'        : OrderedDict([(12,320),(25,700),(55,1510)]),
-            't_linia_gaśn_w52_wewn_pion_dym1_dusza_klatki_2roty'    : OrderedDict([(12,500),(25,940),(55,1940)]),
-            't_linia_gaśn_w52_wewn_pion_dym1_dusza_klatki_3roty'    : OrderedDict([(12,320),(25,880),(55,1510)]),
-            't_linia_gaśn_w52_wewn_pion_dym0_dusza_klatki_2roty'    : OrderedDict([(12,500),(25,940),(55,1880)]),
-            't_linia_gaśn_w52_wewn_pion_dym0_dusza_klatki_3roty'    : OrderedDict([(12,320),(25,700),(55,1510)]),
-            't_linia_gaśn_w42_wewn_pion_dym1_dusza_klatki_2roty'    : OrderedDict([(12,500),(25,940),(55,1940)]),
-            't_linia_gaśn_w42_wewn_pion_dym1_dusza_klatki_3roty'    : OrderedDict([(12,320),(25,880),(55,1510)]),
-            't_linia_gaśn_w42_wewn_pion_dym0_dusza_klatki_2roty'    : OrderedDict([(12,440),(25,940),(55,1880)]),
-            't_linia_gaśn_w42_wewn_pion_dym0_dusza_klatki_3roty'    : OrderedDict([(12,320),(25,700),(55,1510)]),
-            't_szybkie_natarcie_zewn_poziom'                        : OrderedDict([(20,50)]),
-            't_szybkie_natarcie_zewn_pion_elewacja'                 : OrderedDict([(12,190)]),
-            't_linia_gaśn_w42_elewacja'                             : OrderedDict([(12,430),(25,860),(55,1880)]),
-            't_przygotowanie_sprzęt_wentylacja'                     : OrderedDict([(20,120)]),
+            't_linia_gaśn_w42_wewn_pion_dym0_kasetony_1rota'        : [(12,500),(25,940),(55,1880)],
+            't_linia_gaśn_w42_wewn_pion_dym0_kasetony_2roty'        : [(12,320),(25,700),(55,1510)],
+            't_linia_gaśn_w52_wewn_pion_dym1_dusza_klatki_2roty'    : [(12,500),(25,940),(55,1940)],
+            't_linia_gaśn_w52_wewn_pion_dym1_dusza_klatki_3roty'    : [(12,320),(25,880),(55,1510)],
+            't_linia_gaśn_w52_wewn_pion_dym0_dusza_klatki_2roty'    : [(12,500),(25,940),(55,1880)],
+            't_linia_gaśn_w52_wewn_pion_dym0_dusza_klatki_3roty'    : [(12,320),(25,700),(55,1510)],
+            't_linia_gaśn_w42_wewn_pion_dym1_dusza_klatki_2roty'    : [(12,500),(25,940),(55,1940)],
+            't_linia_gaśn_w42_wewn_pion_dym1_dusza_klatki_3roty'    : [(12,320),(25,880),(55,1510)],
+            't_linia_gaśn_w42_wewn_pion_dym0_dusza_klatki_2roty'    : [(12,440),(25,940),(55,1880)],
+            't_linia_gaśn_w42_wewn_pion_dym0_dusza_klatki_3roty'    : [(12,320),(25,700),(55,1510)],
+            't_szybkie_natarcie_zewn_poziom'                        : [(20,50)],
+            't_szybkie_natarcie_zewn_pion_elewacja'                 : [(12,190)],
+            't_linia_gaśn_w42_elewacja'                             : [(12,430),(25,860),(55,1880)],
+            't_przygotowanie_sprzęt_wentylacja'                     : [(20,120)],
             't_przygotowanie_roty_gotowość'                         : 25,
             't_przygotowanie_medyczne'                              : 70,
             't_przygotowanie_monitorowania_aparatów_powietrznych'   : 30,
             't_zabezpieczenie_pachołkami'                           : 170,
             't_rozpoznanie_wstepne_3600'                            : 70,
-            't_przygotowanie_asekuracji_drabina_mechaniczna'        : OrderedDict([(12,140), (25,160), (55,380)]),
-            't_przygotowanie_asekuracji_podnośnik'                  : OrderedDict([(12,230), (25,260), (55,460)]),
-            't_przygotowanie_skokochronu'                           : OrderedDict([(20,130)]),
+            't_przygotowanie_asekuracji_drabina_mechaniczna'        : [(12,140), (25,160), (55,380)],
+            't_przygotowanie_asekuracji_podnośnik'                  : [(12,230), (25,260), (55,460)],
+            't_przygotowanie_skokochronu'                           : [(20,130)],
             't_przygotowanie_asekuracji_rota_RIT'                   : 110,
-            't_dotarcie_roty_do_dźwigu_rozpoznanie_bojem'           : OrderedDict([(20,10)]),
+            't_dotarcie_roty_do_dźwigu_rozpoznanie_bojem'           : [(20,10)],
             't_wyważanie_drzwi_drewniane_dym0'                      : 80,
             't_wyważanie_drzwi_drewniane_dym1'                      : 170,
             't_wyważanie_drzwi_antywłamaniowe_dym0'                 : 450,
