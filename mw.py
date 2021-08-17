@@ -224,7 +224,7 @@ class DojazdMW:
                     f.write(x+"\n")
 
             if self.conf['status'] == 'Koniec':
-                os.system("python3 results.py '{}'".format(self.zbior))
+                os.system("python3 results.py {}".format(self.zbior))
 
 # }}}
     def czy_wykluczamy_wariant_bo_droga(self,wariant,data):# {{{
