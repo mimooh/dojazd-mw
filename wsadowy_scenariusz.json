@@ -40,8 +40,8 @@
 		"tryb_wsadowy_meta": "konfiguracja1.txt",
 		"tryb_wsadowy_profil": "pluton ciężki śląski.json",
 		"samochody": [
-			{ "id": "gen1", "załoga": 6 }, 
-			{ "id": "gen2", "załoga": 4 }
+			{ "id": "gen1", "zaloga": 6 }, 
+			{ "id": "gen2", "zaloga": 4 }
 		]
 	},
 	"hydrants": [

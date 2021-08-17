@@ -55,7 +55,7 @@ class DojazdMW:
 
 # }}}
     def make_sis(self):# {{{
-        self.sis={ 'total_w52': 0, 'total_w75': 0, 'jest_drabina_mechaniczna': 0, 'jest_podnosnik': 0, 'załoga':0 }
+        self.sis={ 'total_w52': 0, 'total_w75': 0, 'jest_drabina_mechaniczna': 0, 'jest_podnosnik': 0, 'zaloga':0 }
         for s in self.conf['samochody']:
             self.sis['total_w52'] += int(self.s.query("select w_52 from Generics where id=?", (s['id'],))[0]['w_52'])
             self.sis['total_w75'] += int(self.s.query("select w_75 from Generics where id=?", (s['id'],))[0]['w_75'])
@@ -68,7 +68,7 @@ class DojazdMW:
                 self.sis['jest_drabina_mechaniczna']=1
             if i['id'] == 'gen6':
                 self.sis['jest_podnosnik']=1
-            self.sis['załoga']+=i['załoga']
+            self.sis['zaloga']+=i['zaloga']
 # }}}
 
     def make_db_czynnosci(self):# {{{

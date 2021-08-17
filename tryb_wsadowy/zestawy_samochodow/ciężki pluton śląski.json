@@ -16,25 +16,25 @@
     "samochody": [
         {
             "id": "gen1",
-            "załoga": [ 5, 7] ,
+            "zaloga": [ 5, 7] ,
             "noszaki_w52": 70,
             "waga": 0.9
         },
         {
             "id": "gen1",
-            "załoga": [ 2, 2] ,
+            "zaloga": [ 2, 2] ,
             "noszaki_w52": 70,
             "waga": 0.9
         },
         {
             "id": "gen2",
             "noszaki_w52": 70,
-            "załoga": [ 2, 3] ,
+            "zaloga": [ 2, 3] ,
             "waga": 0.3
         },
         {
             "id": "gen3",
-            "załoga": [ 1, 1] ,
+            "zaloga": [ 1, 1] ,
             "waga": 0.4
         }
     ]
