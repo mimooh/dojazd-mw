@@ -31,7 +31,7 @@ class DojazdMWResults:
         self.img['samochody']={ (5,5): chunks[0], (4,4): chunks[1], (3,3): chunks[2], (2,2):chunks[3], (1,1): chunks[4] }
 # }}}
     def make_stats(self):# {{{
-        ''' Statystyka: ten był najlepszy 100 razy, a ten 20 razy '''
+        ''' Statystyka: ten byl najlepszy 100 razy, a ten 20 razy '''
 
         count={}
         for i in self.stats:
@@ -50,7 +50,7 @@ class DojazdMWResults:
         for i in x:
             dat.append(json.loads(i))
 
-        self.img['obrys']=self.json.read('{}/conf.txt'.format(self.zbior))['conf']['ogólne']['obrys_budynku']
+        self.img['obrys']=self.json.read('{}/conf.txt'.format(self.zbior))['conf']['ogolne']['obrys_budynku']
         for i in dat:
             self.img['pozary'].append(i['xyz_pozar'])
             self.stats.append((i['results']['best']['wariant'], i['results']['best']['czas']))

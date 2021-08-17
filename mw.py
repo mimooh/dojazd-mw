@@ -25,7 +25,7 @@ class DojazdMW:
 # }}}
     def query_przedzialy(self, param, dlugosc):# {{{
         '''
-        Przedziały są liniowe, ale tylko pierwszy (i=0) jest trywialny
+        Przedzialy sa liniowe, ale tylko pierwszy (i=0) jest trywialny
         '''
 
         i=0
@@ -45,7 +45,7 @@ class DojazdMW:
 # }}}
     def query(self, param, dlugosc=0):# {{{
         '''
-        query odpowiada wartością lub trafia na listę przedziałów i do query_przedzialy()
+        query odpowiada wartoscia lub trafia na liste przedzialow i do query_przedzialy()
         '''
 
         if isinstance(self.db_czynnosci[param], list):
@@ -75,39 +75,39 @@ class DojazdMW:
         self.db_czynnosci={
             'skaluj_efektywne_sis_w52'                              : 0.9,
             'skaluj_efektywne_sis_w75'                              : 0.9,
-            'skaluj_działania_noszaki_przez_działania_kręgi'        : 0.8,
-            't_przejazd_dźwig_ostatnia_kondygnacja'                 : 60,
+            'skaluj_dzialania_noszaki_przez_dzialania_kregi'        : 0.8,
+            't_przejazd_dzwig_ostatnia_kondygnacja'                 : 60,
             't_sprawianie_hydrantu_wewn_dym0'                       : 30,
             't_sprawianie_hydrantu_wewn_dym1'                       : 60,
-            't_przygotowanie_roty_gaśn'                             : 50,
-            'v_duża_woda'                                           : 1.4,
+            't_przygotowanie_roty_gasn'                             : 50,
+            'v_duza_woda'                                           : 1.4,
 
-            'v_linia_główna_w75_do_rozdzielacza_poziom'             : 0.66,
-            'v_linia_główna_w75_do_rozdzielacza_pion'               : 0.5,
-            'v_bez_węża_zewn_poziom_dym0'                           : 2,
-            'v_bez_węża_zewn_pion_dym0'                             : 1.5,
-            'v_bez_węża_wewn_poziom_dym0'                           : 1.33,
-            'v_bez_węża_wewn_poziom_dym1'                           : 0.4,
-            't_bez_węża_wewn_pion_dym0'                             : [(12 , 100) , (25 , 220) , (55 , 1060)] ,
-            't_bez_węża_wewn_pion_dym1'                             : [(12 , 140) , (25 , 310) , (55 , 1500)]  ,
-            'v_rozwijanie_kręgi_wewn_poziom_dym0'                   : 0.8 ,
-            'v_rozwijanie_kręgi_wewn_poziom_dym1'                   : 0.5 ,
-            't_rozwijanie_kręgi_wewn_pion_dym0'                     : [(12 , 200) , (25 , 700)  , (55 , 1500)] ,
-            't_rozwijanie_kręgi_wewn_pion_dym1'                     : [(12 , 280) , (25 , 1000) , (55 , 2100)] ,
-            'v_poruszenie_węże_nawodnione_wewn_poziom_dym0'         : 0.5,
-            'v_poruszenie_węże_nawodnione_wewn_poziom_dym1'         : 0.2,
-            'v_poruszenie_węże_nawodnione_wewn_pion_dym0'           : 0.4,
-            'v_poruszenie_węże_nawodnione_wewn_pion_dym1'           : 0.1,
-            't_linia_gaśn_w52_elewacja_dym0'                        : [(12,440),(25,880),(55,2120)],
-            't_linia_gaśn_w52_elewacja_dym1'                        : [(12,999999),(25,99999999),(55,999999)],
+            'v_linia_glowna_w75_do_rozdzielacza_poziom'             : 0.66,
+            'v_linia_glowna_w75_do_rozdzielacza_pion'               : 0.5,
+            'v_bez_weza_zewn_poziom_dym0'                           : 2,
+            'v_bez_weza_zewn_pion_dym0'                             : 1.5,
+            'v_bez_weza_wewn_poziom_dym0'                           : 1.33,
+            'v_bez_weza_wewn_poziom_dym1'                           : 0.4,
+            't_bez_weza_wewn_pion_dym0'                             : [(12 , 100) , (25 , 220) , (55 , 1060)] ,
+            't_bez_weza_wewn_pion_dym1'                             : [(12 , 140) , (25 , 310) , (55 , 1500)]  ,
+            'v_rozwijanie_kregi_wewn_poziom_dym0'                   : 0.8 ,
+            'v_rozwijanie_kregi_wewn_poziom_dym1'                   : 0.5 ,
+            't_rozwijanie_kregi_wewn_pion_dym0'                     : [(12 , 200) , (25 , 700)  , (55 , 1500)] ,
+            't_rozwijanie_kregi_wewn_pion_dym1'                     : [(12 , 280) , (25 , 1000) , (55 , 2100)] ,
+            'v_poruszenie_weze_nawodnione_wewn_poziom_dym0'         : 0.5,
+            'v_poruszenie_weze_nawodnione_wewn_poziom_dym1'         : 0.2,
+            'v_poruszenie_weze_nawodnione_wewn_pion_dym0'           : 0.4,
+            'v_poruszenie_weze_nawodnione_wewn_pion_dym1'           : 0.1,
+            't_linia_gasn_w52_elewacja_dym0'                        : [(12,440),(25,880),(55,2120)],
+            't_linia_gasn_w52_elewacja_dym1'                        : [(12,999999),(25,99999999),(55,999999)],
 
-            't_drabina_przystawna_zdjęcie'                          : 60,
+            't_drabina_przystawna_zdjecie'                          : 60,
             't_drabina_przystawna_sprawianie'                       : 190,
             't_drabina_przystawna_wspinanie'                        : 20,
             'v_drabina_przystawna_bieg'                             : 1.36,
             't_drabina_przystawna_przygotowanie_asekuracji'         : [(20,220)],
-            't_przygotowanie_działań_drabina_mechaniczna'           : [(12,160), (25,180), (55,400)],
-            't_przygotowanie_działań_podnośnik'                     : [(12,250), (25,290), (55,490)],
+            't_przygotowanie_dzialan_drabina_mechaniczna'           : [(12,160), (25,180), (55,400)],
+            't_przygotowanie_dzialan_podnosnik'                     : [(12,250), (25,290), (55,490)],
 
             't_sprawianie_hydrantu_podziemnego_zewn_dym0'           : 70,
             't_sprawianie_hydrantu_naziemnego_zewn_dym0'            : 30,
@@ -118,62 +118,62 @@ class DojazdMW:
             't_sprawianie_motopompy_szlam_z_linia_w75'              : [(20,510)],
             't_sprawianie_zbiornika_2i5m3'                          : 290,
             't_sprawianie_zbiornika_5m3'                            : 150,
-            't_linia_główna_w75x2_do_rozdzielacza_harmonijka'       : 15,
-            'v_rota_gaśn_zewn_poziom_dym0'                          : 1,
-            'v_rota_gaśn_wewn_poziom_dym0'                          : 0.8,
-            'v_rota_gaśn_wewn_poziom_dym1'                          : 0.38,
-            't_rota_gaśn_wewn_pion_dym0'                            : [(12,100),(25,330),(55,1026)],
-            't_rota_gaśn_wewn_pion_dym1'                            : [(12,140),(25,500),(55,1520)],
-            'v_linia_gaśn_w52_wewn_poziom_dym1_kręgi'               : 0.25,
-            't_linia_gaśn_w52_wewn_pion_dym1_kręgi_1rota'           : [(12,620),(25,1120),(55,2120)],
-            't_linia_gaśn_w52_wewn_pion_dym1_kręgi_2roty'           : [(12,500),(25,1060),(55,1520)],
-            'v_linia_gaśn_w52_wewn_poziom_dym0_kręgi'               : 0.8,
-            't_linia_gaśn_w52_wewn_pion_dym0_kręgi_1rota'           : [(12,230),(25,760),(55,1700)],
-            't_linia_gaśn_w52_wewn_pion_dym0_kręgi_2roty'           : [(12,170),(25,700),(55,1520)],
-            'v_linia_gaśn_w42_wewn_poziom_dym1_kręgi'               : 0.26,
-            't_linia_gaśn_w42_wewn_pion_dym1_kręgi_1rota'           : [(12,620),(25,1120),(55,2120)],
-            't_linia_gaśn_w42_wewn_pion_dym1_kręgi_2roty'           : [(12,500),(25,1060),(55,1520)],
-            'v_linia_gaśn_w42_wewn_poziom_dym0_kręgi'               : 1,
-            't_linia_gaśn_w42_wewn_pion_dym0_kręgi_1rota'           : [(12,230),(25,760),(55,1700)],
-            't_linia_gaśn_w42_wewn_pion_dym0_kręgi_2roty'           : [(12,170),(25,700),(55,1520)],
-            'v_linia_gaśn_w52_wewn_poziom_dym1_kasetony'            : 0.4,
-            't_linia_gaśn_w52_wewn_pion_dym1_kasetony_1rota'        : [(12,560),(25,1000),(55,1940)],
-            't_linia_gaśn_w52_wewn_pion_dym1_kasetony_2roty'        : [(12,320),(25,880),(55,1510)],
-            'v_linia_gaśn_w52_wewn_poziom_dym0_kasetony'            : 1,
-            't_linia_gaśn_w52_wewn_pion_dym0_kasetony_1rota'        : [(12,500),(25,940),(55,1880)],
-            't_linia_gaśn_w52_wewn_pion_dym0_kasetony_2roty'        : [(12,320),(25,700),(55,1510)],
-            'v_linia_gaśn_w42_wewn_poziom_dym1_kasetony'            : 0.4,
-            't_linia_gaśn_w42_wewn_pion_dym1_kasetony_1rota'        : [(12,500),(25,940),(55,1940)],
-            't_linia_gaśn_w42_wewn_pion_dym1_kasetony_2roty'        : [(12,320),(25,880),(55,1510)],
-            'v_linia_gaśn_w42_wewn_poziom_dym0_kasetony'            : 1.33,
-            't_linia_gaśn_w42_wewn_pion_dym0_kasetony_1rota'        : [(12,500),(25,940),(55,1880)],
-            't_linia_gaśn_w42_wewn_pion_dym0_kasetony_2roty'        : [(12,320),(25,700),(55,1510)],
-            't_linia_gaśn_w52_wewn_pion_dym1_dusza_klatki_2roty'    : [(12,500),(25,940),(55,1940)],
-            't_linia_gaśn_w52_wewn_pion_dym1_dusza_klatki_3roty'    : [(12,320),(25,880),(55,1510)],
-            't_linia_gaśn_w52_wewn_pion_dym0_dusza_klatki_2roty'    : [(12,500),(25,940),(55,1880)],
-            't_linia_gaśn_w52_wewn_pion_dym0_dusza_klatki_3roty'    : [(12,320),(25,700),(55,1510)],
-            't_linia_gaśn_w42_wewn_pion_dym1_dusza_klatki_2roty'    : [(12,500),(25,940),(55,1940)],
-            't_linia_gaśn_w42_wewn_pion_dym1_dusza_klatki_3roty'    : [(12,320),(25,880),(55,1510)],
-            't_linia_gaśn_w42_wewn_pion_dym0_dusza_klatki_2roty'    : [(12,440),(25,940),(55,1880)],
-            't_linia_gaśn_w42_wewn_pion_dym0_dusza_klatki_3roty'    : [(12,320),(25,700),(55,1510)],
+            't_linia_glowna_w75x2_do_rozdzielacza_harmonijka'       : 15,
+            'v_rota_gasn_zewn_poziom_dym0'                          : 1,
+            'v_rota_gasn_wewn_poziom_dym0'                          : 0.8,
+            'v_rota_gasn_wewn_poziom_dym1'                          : 0.38,
+            't_rota_gasn_wewn_pion_dym0'                            : [(12,100),(25,330),(55,1026)],
+            't_rota_gasn_wewn_pion_dym1'                            : [(12,140),(25,500),(55,1520)],
+            'v_linia_gasn_w52_wewn_poziom_dym1_kregi'               : 0.25,
+            't_linia_gasn_w52_wewn_pion_dym1_kregi_1rota'           : [(12,620),(25,1120),(55,2120)],
+            't_linia_gasn_w52_wewn_pion_dym1_kregi_2roty'           : [(12,500),(25,1060),(55,1520)],
+            'v_linia_gasn_w52_wewn_poziom_dym0_kregi'               : 0.8,
+            't_linia_gasn_w52_wewn_pion_dym0_kregi_1rota'           : [(12,230),(25,760),(55,1700)],
+            't_linia_gasn_w52_wewn_pion_dym0_kregi_2roty'           : [(12,170),(25,700),(55,1520)],
+            'v_linia_gasn_w42_wewn_poziom_dym1_kregi'               : 0.26,
+            't_linia_gasn_w42_wewn_pion_dym1_kregi_1rota'           : [(12,620),(25,1120),(55,2120)],
+            't_linia_gasn_w42_wewn_pion_dym1_kregi_2roty'           : [(12,500),(25,1060),(55,1520)],
+            'v_linia_gasn_w42_wewn_poziom_dym0_kregi'               : 1,
+            't_linia_gasn_w42_wewn_pion_dym0_kregi_1rota'           : [(12,230),(25,760),(55,1700)],
+            't_linia_gasn_w42_wewn_pion_dym0_kregi_2roty'           : [(12,170),(25,700),(55,1520)],
+            'v_linia_gasn_w52_wewn_poziom_dym1_kasetony'            : 0.4,
+            't_linia_gasn_w52_wewn_pion_dym1_kasetony_1rota'        : [(12,560),(25,1000),(55,1940)],
+            't_linia_gasn_w52_wewn_pion_dym1_kasetony_2roty'        : [(12,320),(25,880),(55,1510)],
+            'v_linia_gasn_w52_wewn_poziom_dym0_kasetony'            : 1,
+            't_linia_gasn_w52_wewn_pion_dym0_kasetony_1rota'        : [(12,500),(25,940),(55,1880)],
+            't_linia_gasn_w52_wewn_pion_dym0_kasetony_2roty'        : [(12,320),(25,700),(55,1510)],
+            'v_linia_gasn_w42_wewn_poziom_dym1_kasetony'            : 0.4,
+            't_linia_gasn_w42_wewn_pion_dym1_kasetony_1rota'        : [(12,500),(25,940),(55,1940)],
+            't_linia_gasn_w42_wewn_pion_dym1_kasetony_2roty'        : [(12,320),(25,880),(55,1510)],
+            'v_linia_gasn_w42_wewn_poziom_dym0_kasetony'            : 1.33,
+            't_linia_gasn_w42_wewn_pion_dym0_kasetony_1rota'        : [(12,500),(25,940),(55,1880)],
+            't_linia_gasn_w42_wewn_pion_dym0_kasetony_2roty'        : [(12,320),(25,700),(55,1510)],
+            't_linia_gasn_w52_wewn_pion_dym1_dusza_klatki_2roty'    : [(12,500),(25,940),(55,1940)],
+            't_linia_gasn_w52_wewn_pion_dym1_dusza_klatki_3roty'    : [(12,320),(25,880),(55,1510)],
+            't_linia_gasn_w52_wewn_pion_dym0_dusza_klatki_2roty'    : [(12,500),(25,940),(55,1880)],
+            't_linia_gasn_w52_wewn_pion_dym0_dusza_klatki_3roty'    : [(12,320),(25,700),(55,1510)],
+            't_linia_gasn_w42_wewn_pion_dym1_dusza_klatki_2roty'    : [(12,500),(25,940),(55,1940)],
+            't_linia_gasn_w42_wewn_pion_dym1_dusza_klatki_3roty'    : [(12,320),(25,880),(55,1510)],
+            't_linia_gasn_w42_wewn_pion_dym0_dusza_klatki_2roty'    : [(12,440),(25,940),(55,1880)],
+            't_linia_gasn_w42_wewn_pion_dym0_dusza_klatki_3roty'    : [(12,320),(25,700),(55,1510)],
             't_szybkie_natarcie_zewn_poziom'                        : [(20,50)],
             't_szybkie_natarcie_zewn_pion_elewacja'                 : [(12,190)],
-            't_linia_gaśn_w42_elewacja'                             : [(12,430),(25,860),(55,1880)],
-            't_przygotowanie_sprzęt_wentylacja'                     : [(20,120)],
-            't_przygotowanie_roty_gotowość'                         : 25,
+            't_linia_gasn_w42_elewacja'                             : [(12,430),(25,860),(55,1880)],
+            't_przygotowanie_sprzet_wentylacja'                     : [(20,120)],
+            't_przygotowanie_roty_gotowosc'                         : 25,
             't_przygotowanie_medyczne'                              : 70,
-            't_przygotowanie_monitorowania_aparatów_powietrznych'   : 30,
-            't_zabezpieczenie_pachołkami'                           : 170,
+            't_przygotowanie_monitorowania_aparatow_powietrznych'   : 30,
+            't_zabezpieczenie_pacholkami'                           : 170,
             't_rozpoznanie_wstepne_3600'                            : 70,
             't_przygotowanie_asekuracji_drabina_mechaniczna'        : [(12,140), (25,160), (55,380)],
-            't_przygotowanie_asekuracji_podnośnik'                  : [(12,230), (25,260), (55,460)],
+            't_przygotowanie_asekuracji_podnosnik'                  : [(12,230), (25,260), (55,460)],
             't_przygotowanie_skokochronu'                           : [(20,130)],
             't_przygotowanie_asekuracji_rota_RIT'                   : 110,
-            't_dotarcie_roty_do_dźwigu_rozpoznanie_bojem'           : [(20,10)],
-            't_wyważanie_drzwi_drewniane_dym0'                      : 80,
-            't_wyważanie_drzwi_drewniane_dym1'                      : 170,
-            't_wyważanie_drzwi_antywłamaniowe_dym0'                 : 450,
-            't_wyważanie_drzwi_antywłamaniowe_dym1'                 : 740,
+            't_dotarcie_roty_do_dzwigu_rozpoznanie_bojem'           : [(20,10)],
+            't_wywazanie_drzwi_drewniane_dym0'                      : 80,
+            't_wywazanie_drzwi_drewniane_dym1'                      : 170,
+            't_wywazanie_drzwi_antywlamaniowe_dym0'                 : 450,
+            't_wywazanie_drzwi_antywlamaniowe_dym1'                 : 740,
 
         }
 
@@ -212,7 +212,7 @@ class DojazdMW:
         if self.conf['tryb'] == 'interaktywny':
             self.save_interaktywny(udane)
         else:
-            x=json.dumps({'results': udane, 'xy_samochody': self.conf['ogólne']['xy_samochody'], 'xyz_pozar': self.conf['pożar']['xyz']})
+            x=json.dumps({'results': udane, 'xy_samochody': self.conf['ogolne']['xy_samochody'], 'xyz_pozar': self.conf['pozar']['xyz']})
             if self.conf['status'] == 'Start':
                 with open('{}/wyniki.txt'.format(self.zbior), "w") as f: 
                     f.write(x+"\n") 
@@ -232,17 +232,17 @@ class DojazdMW:
         potrzeba_w75=0
         for i in data['segmenty']:
             if i['segment'][-1] == '1':
-                potrzeba_w52 += i['długość']
+                potrzeba_w52 += i['dlugosc']
             if i['segment'][-1] == '0':
-                potrzeba_w75 += i['długość']
+                potrzeba_w75 += i['dlugosc']
 
         self.raport_potrzeb={ 'w52': potrzeba_w52, 'w75': potrzeba_w75 }
 
         if potrzeba_w52 > self.sis['total_w52']:
-            return { "status": "ERR", "debug":  "Długość segmentów wewnątrz {}[m] przekracza sis_w52 {}[m]".format(round(potrzeba_w52), self.sis['total_w52']) }
+            return { "status": "ERR", "debug":  "Dlugosc segmentow wewnatrz {}[m] przekracza sis_w52 {}[m]".format(round(potrzeba_w52), self.sis['total_w52']) }
 
         if potrzeba_w75 > self.sis['total_w75']:
-            return { "status": "ERR", "debug":  "Długość segmentów na zewnątrz {}[m] przekracza sis_w75 {}[m]".format(round(potrzeba_w75), self.sis['total_w75']) }
+            return { "status": "ERR", "debug":  "Dlugosc segmentow na zewnatrz {}[m] przekracza sis_w75 {}[m]".format(round(potrzeba_w75), self.sis['total_w75']) }
 
         return { "status": "OK" }
 # }}}
@@ -255,8 +255,8 @@ class DojazdMW:
         # czy_wykluczamy_wariant_bo_zaloga()
 # }}}
     def czy_rozwiniecie_wezowe(self, segment):# {{{
-        # 0000000000000000 gaśnica schodami (droga tak jak rozwinięcie podstawowe)
-        # 0000000000000100 gaśnica dźwigiem
+        # 0000000000000000 gasnica schodami (droga tak jak rozwiniecie podstawowe)
+        # 0000000000000100 gasnica dzwigiem
 
         if segment['wariant'][-5] == '1' or segment['wariant'][-4] == '1' or segment['wariant'] == '0000000000000000' or segment['wariant'] == '0000000000000100' :
             return 0
@@ -269,22 +269,22 @@ class DojazdMW:
 
         if self.czy_rozwiniecie_wezowe(segment) == 0:
             if self.weze_nawodnione == 1:
-                return segment['długość'] / self.query("v_poruszenie_węże_nawodnione_wewn_poziom_dym0", segment['długość'])
+                return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_poziom_dym0", segment['dlugosc'])
             else:
-                return segment['długość'] / self.query("v_rozwijanie_kręgi_wewn_poziom_dym0", segment['długość'])
+                return segment['dlugosc'] / self.query("v_rozwijanie_kregi_wewn_poziom_dym0", segment['dlugosc'])
         else:
-            return segment['długość'] / self.query("v_bez_węża_wewn_poziom_dym0", segment['długość'])
+            return segment['dlugosc'] / self.query("v_bez_weza_wewn_poziom_dym0", segment['dlugosc'])
 # }}}
     def wewn_poziom_dym1(self, segment):# {{{
         # 0000000000000011 7/10
 
         if self.czy_rozwiniecie_wezowe(segment) == 0:
             if self.weze_nawodnione == 1:
-                return segment['długość'] / self.query("v_poruszenie_węże_nawodnione_wewn_poziom_dym1", segment['długość'])
+                return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_poziom_dym1", segment['dlugosc'])
             else:
-                return segment['długość'] / self.query("v_rozwijanie_kręgi_wewn_poziom_dym1", segment['długość'])
+                return segment['dlugosc'] / self.query("v_rozwijanie_kregi_wewn_poziom_dym1", segment['dlugosc'])
         else:
-            return segment['długość'] / self.query("v_bez_węża_wewn_poziom_dym1", segment['długość'])
+            return segment['dlugosc'] / self.query("v_bez_weza_wewn_poziom_dym1", segment['dlugosc'])
 
 # }}}
     def wewn_pion_dym0(self, segment):# {{{
@@ -292,11 +292,11 @@ class DojazdMW:
 
         if self.czy_rozwiniecie_wezowe(segment) == 0:
             if self.weze_nawodnione == 1:
-                return segment['długość'] / self.query("v_poruszenie_węże_nawodnione_wewn_pion_dym0", segment['długość'])
+                return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_pion_dym0", segment['dlugosc'])
             else:
-                return segment['długość'] / self.query("t_rozwijanie_kręgi_wewn_pion_dym0", segment['długość'])
+                return segment['dlugosc'] / self.query("t_rozwijanie_kregi_wewn_pion_dym0", segment['dlugosc'])
         else:
-            return segment['długość'] / self.query("t_bez_węża_wewn_pion_dym0", segment['długość'])
+            return segment['dlugosc'] / self.query("t_bez_weza_wewn_pion_dym0", segment['dlugosc'])
 
 # }}}
     def wewn_pion_dym1(self, segment):# {{{
@@ -304,37 +304,37 @@ class DojazdMW:
 
         if self.czy_rozwiniecie_wezowe(segment) == 0:
             if self.weze_nawodnione == 1:
-                return segment['długość'] / self.query("v_poruszenie_węże_nawodnione_wewn_pion_dym1", segment['długość'])
+                return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_pion_dym1", segment['dlugosc'])
             else:
-                return segment['długość'] / self.query("t_rozwijanie_kręgi_wewn_pion_dym1", segment['długość'])
+                return segment['dlugosc'] / self.query("t_rozwijanie_kregi_wewn_pion_dym1", segment['dlugosc'])
         else:
-            return segment['długość'] / self.query("t_bez_węża_wewn_pion_dym1", segment['długość'])
+            return segment['dlugosc'] / self.query("t_bez_weza_wewn_pion_dym1", segment['dlugosc'])
 # }}}
     def zewn_poziom(self, segment):# {{{
         # 0000001100000000 8/10 
 
         if self.czy_rozwiniecie_wezowe(segment) == 0:
-            return segment['długość'] / self.query("v_bez_węża_zewn_poziom_dym0", segment['długość'])
+            return segment['dlugosc'] / self.query("v_bez_weza_zewn_poziom_dym0", segment['dlugosc'])
         else:
-            return segment['długość'] / self.query('v_linia_główna_w75_do_rozdzielacza_poziom', segment['długość'])
+            return segment['dlugosc'] / self.query('v_linia_glowna_w75_do_rozdzielacza_poziom', segment['dlugosc'])
 
 # }}}
     def zewn_pion(self, segment):# {{{
         # 0000000100000000 8/10
         
         if self.czy_rozwiniecie_wezowe(segment) == 0:
-            return segment['długość'] / self.query("v_bez_węża_zewn_pion_dym0", segment['długość'])
+            return segment['dlugosc'] / self.query("v_bez_weza_zewn_pion_dym0", segment['dlugosc'])
         else:
-            return segment['długość'] / self.query('v_linia_główna_w75_do_rozdzielacza_pion', segment['długość'])
+            return segment['dlugosc'] / self.query('v_linia_glowna_w75_do_rozdzielacza_pion', segment['dlugosc'])
 # }}}
     def wewn_dzwig(self, segment):# {{{
         # 0000000000001001 8/10
 
         conf=OrderedDict()
-        conf['długość']=segment['długość']
-        conf['wysokość_budynku']=self.conf['ogólne']['wysokość_budynku']
-        conf['t_ostatnia']=self.query("t_przejazd_dźwig_ostatnia_kondygnacja")
-        conf['t']=conf['t_ostatnia'] * conf['długość'] / conf['wysokość_budynku']
+        conf['dlugosc']=segment['dlugosc']
+        conf['wysokosc_budynku']=self.conf['ogolne']['wysokosc_budynku']
+        conf['t_ostatnia']=self.query("t_przejazd_dzwig_ostatnia_kondygnacja")
+        conf['t']=conf['t_ostatnia'] * conf['dlugosc'] / conf['wysokosc_budynku']
         return conf['t']
 # }}}
     def wewn_dym0_hydrant(self, segment):# {{{
@@ -351,17 +351,17 @@ class DojazdMW:
     def zewn_drabina_przystawna(self,segment):# {{{
         # 0000010100000000 8/10
 
-        zdjecie_drabiny=self.query("t_drabina_przystawna_zdjęcie")
-        bieg_z_drabina=segment['długość'] * self.query("v_drabina_przystawna_bieg")
+        zdjecie_drabiny=self.query("t_drabina_przystawna_zdjecie")
+        bieg_z_drabina=segment['dlugosc'] * self.query("v_drabina_przystawna_bieg")
         drabine_spraw=self.query("t_drabina_przystawna_sprawianie")
         wspinaczka=self.query("t_drabina_przystawna_wspinanie")
-        przygotowanie_roty=self.query("t_przygotowanie_roty_gaśn")
+        przygotowanie_roty=self.query("t_przygotowanie_roty_gasn")
 
         # gaszenie 
         if segment['wariant'][-11] == '1' or segment['wariant'][-12] == '1': 
             return zdjecie_drabiny + bieg_z_drabina + drabine_spraw + wspinaczka
 
-        # strażak wchodzi przez okno 
+        # strazak wchodzi przez okno 
         if segment['wariant'][-9] == '1': 
             return zdjecie_drabiny + bieg_z_drabina + drabine_spraw + przygotowanie_roty + wspinaczka
             
@@ -370,25 +370,25 @@ class DojazdMW:
     def zewn_drabina_mechaniczna(self, segment):# {{{
         # 0000100100000000 9/10
 
-        przygotowanie_roty=self.query("t_przygotowanie_roty_gaśn")
+        przygotowanie_roty=self.query("t_przygotowanie_roty_gasn")
         if self.sis['jest_drabina_mechaniczna'] == 1:
-            przygotowanie_pojazdu=self.query('t_przygotowanie_działań_drabina_mechaniczna', segment['długość'])
+            przygotowanie_pojazdu=self.query('t_przygotowanie_dzialan_drabina_mechaniczna', segment['dlugosc'])
         else:
-            przygotowanie_pojazdu=self.query('t_przygotowanie_działań_podnośnik', segment['długość'])
+            przygotowanie_pojazdu=self.query('t_przygotowanie_dzialan_podnosnik', segment['dlugosc'])
 
         if przygotowanie_pojazdu == None:
             return None
 
-        # gaszenie z drabiny dużą wydajnością
+        # gaszenie z drabiny duza wydajnoscia
         if (segment['wariant'][-11] == '1' or segment['wariant'][-12] == '1') and (segment['wariant'][-16] == '1'):
-            czas_duza_woda=self.conf['ogólne']['odległość_duża_woda'] / self.query('v_duża_woda')
+            czas_duza_woda=self.conf['ogolne']['odleglosc_duza_woda'] / self.query('v_duza_woda')
             return max(czas_duza_woda, przygotowanie_pojazdu)
 
         # gaszenie
         if segment['wariant'][-11] == '1' or segment['wariant'][-12] == '1': 
             return przygotowanie_pojazdu
 
-        # strażak wchodzi przez okno
+        # strazak wchodzi przez okno
         if segment['wariant'][-9] == '1': 
             return przygotowanie_roty + przygotowanie_pojazdu
         
@@ -397,12 +397,12 @@ class DojazdMW:
     def wewn_dym0_lina_elewacja(self, segment):# {{{
         # 0000000000100001 8/10
         self.weze_nawodnione=1
-        return self.query('t_linia_gaśn_w52_elewacja_dym0', segment['długość'])
+        return self.query('t_linia_gasn_w52_elewacja_dym0', segment['dlugosc'])
 # }}}
     def wewn_dym1_lina_elewacja(self, segment):# {{{
-        # 0000000000100011 5/10  obliczyć dla dym1
+        # 0000000000100011 5/10  obliczyc dla dym1
         self.weze_nawodnione=1
-        return self.query('t_linia_gaśn_w52_elewacja_dym1', segment['długość'])
+        return self.query('t_linia_gasn_w52_elewacja_dym1', segment['dlugosc'])
 # }}}
 
     def debug(self,msg):# {{{
@@ -433,8 +433,8 @@ class DojazdMW:
         s['wariant']=wariant
         czas=handler(s)
         if czas == None:
-            return { 'segment_status': "ERR", 'segment': s['segment'], 'funkcja': funkcja, 'długość': round(s['długość']), 'debug': "None dla długości: {}, db_err ?".format(s['długość']) }
-        return { "segment_status": "OK", "segment": s['segment'], 'funkcja': funkcja, "długość": round(s['długość']), "czas": round(czas), "nawodniona": self.weze_nawodnione }
+            return { 'segment_status': "ERR", 'segment': s['segment'], 'funkcja': funkcja, 'dlugosc': round(s['dlugosc']), 'debug': "None dla dlugosci: {}, db_err ?".format(s['dlugosc']) }
+        return { "segment_status": "OK", "segment": s['segment'], 'funkcja': funkcja, "dlugosc": round(s['dlugosc']), "czas": round(czas), "nawodniona": self.weze_nawodnione }
 # }}}
     def main_process_wariant(self, wariant, data):# {{{
         self.weze_nawodnione=0

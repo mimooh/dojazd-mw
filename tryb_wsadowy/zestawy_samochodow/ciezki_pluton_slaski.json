@@ -1,12 +1,12 @@
 {
     "comments": [ 
-		"Losujemy na początku każdego scenariusza",
-		"Losujemy od min do max samochodów",
-		"Losujemy załogę",
-		"Wylosowany samochód nie może być wylosowany ponownie w tym samym scenariuszu",
-		"Wagi nie muszą się sumować do 1:",
-		"0.9 + 0.9 + 0.3 + 0.4 = 2.5  =>  rand(0, 2.5)=1.6  =>  wylosowano drugi samochód",
-		"0.9       + 0.3 + 0.4 = 1.6  =>  rand(0, 1.6)=1.5  =>  wylosowano czwarty samochód"
+		"Losujemy na poczatku kazdego scenariusza",
+		"Losujemy od min do max samochodow",
+		"Losujemy zaloge",
+		"Wylosowany samochod nie moze byc wylosowany ponownie w tym samym scenariuszu",
+		"Wagi nie musza sie sumowac do 1:",
+		"0.9 + 0.9 + 0.3 + 0.4 = 2.5  =>  rand(0, 2.5)=1.6  =>  wylosowano drugi samochod",
+		"0.9       + 0.3 + 0.4 = 1.6  =>  rand(0, 1.6)=1.5  =>  wylosowano czwarty samochod"
 
 	],
     "meta": {
