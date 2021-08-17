@@ -16,8 +16,8 @@ class DojazdMW:
             self.debugging=0
 
         self.json=Json()
-        self.debug("symulacje/{}/scenariusz.json".format(self.zbior))
-        self.debug("symulacje/{}/wyniki.txt".format(self.zbior))
+        self.debug("{}/scenariusz.json".format(self.zbior))
+        self.debug("{}/wyniki.txt".format(self.zbior))
         self.make_segments_map()
         self.make_db_czynnosci()
         self.s=Sqlite("sqlite/firetrucks.db")
@@ -214,13 +214,13 @@ class DojazdMW:
         else:
             x=json.dumps({'results': udane, 'xy_samochody': self.conf['ogólne']['xy_samochody'], 'xyz_pozar': self.conf['pożar']['xyz']})
             if self.conf['status'] == 'Start':
-                with open('symulacje/{}/wyniki.txt'.format(self.zbior), "w") as f: 
+                with open('{}/wyniki.txt'.format(self.zbior), "w") as f: 
                     f.write(x+"\n") 
-                with open('symulacje/{}/conf.txt'.format(self.zbior), "w") as f: 
+                with open('{}/conf.txt'.format(self.zbior), "w") as f: 
                     conf=json.dumps({'conf': self.conf})
                     f.write(conf+"\n") 
             else:
-                with open('symulacje/{}/wyniki.txt'.format(self.zbior), "a") as f: 
+                with open('{}/wyniki.txt'.format(self.zbior), "a") as f: 
                     f.write(x+"\n")
 
             if self.conf['status'] == 'Koniec':
@@ -454,7 +454,7 @@ class DojazdMW:
         return { 'wariant_status': "OK", "wariant": wariant, 'czas':round(czas_wariantu) }
 # }}}
     def main(self):# {{{
-        xj=self.json.read('symulacje/{}/scenariusz.json'.format(self.zbior))
+        xj=self.json.read('{}/scenariusz.json'.format(self.zbior))
         self.warianty=xj['warianty'] 
         self.conf=xj['conf']
         self.make_sis()

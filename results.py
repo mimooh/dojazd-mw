@@ -38,10 +38,10 @@ class DojazdMWResults:
             if i[0] not in count:
                 count[i[0]]=0
             count[i[0]]+=1
-        self.json.write(count, 'symulacje/{}/wyniki_stats.json'.format(self.zbior))
+        self.json.write(count, '{}/wyniki_stats.json'.format(self.zbior))
 # }}}
     def read_wyniki(self):# {{{
-        with open('symulacje/{}/wyniki.txt'.format(self.zbior)) as f: 
+        with open('{}/wyniki.txt'.format(self.zbior)) as f: 
             x=f.readlines()
         dat=[]
         self.stats=[]
@@ -50,14 +50,14 @@ class DojazdMWResults:
         for i in x:
             dat.append(json.loads(i))
 
-        self.img['obrys']=self.json.read('symulacje/{}/conf.txt'.format(self.zbior))['conf']['ogólne']['obrys_budynku']
+        self.img['obrys']=self.json.read('{}/conf.txt'.format(self.zbior))['conf']['ogólne']['obrys_budynku']
         for i in dat:
             self.img['pozary'].append(i['xyz_pozar'])
             self.stats.append((i['results']['best']['wariant'], i['results']['best']['czas']))
             self.bests.append((i['results']['best']['czas'], i['xy_samochody']))
 # }}}
     def svgwrite(self):# {{{
-        dwg = svgwrite.Drawing('symulacje/{}/best.svg'.format(self.zbior), profile='tiny')
+        dwg = svgwrite.Drawing('{}/best.svg'.format(self.zbior), profile='tiny')
         dwg.add(dwg.polyline(self.img['obrys'], fill='#fff', stroke_width=0.3, stroke='blue'))
         for i in self.img['pozary']:
             dwg.add(dwg.ellipse(center=(i[0],i[1]), r=(3, 3), fill='#f40', opacity=0.5))
@@ -66,8 +66,8 @@ class DojazdMWResults:
                 dwg.add(dwg.rect(insert=(p[1][0],p[1][1]), size=i, fill='#000', opacity=0.1))
         dwg.save()
         if os.environ['USERNAME']=='mimooh': 
-            os.system('inkscape {} -b white -h 1000 -D -e {} 2>/dev/null 1>/dev/null'.format('symulacje/{}/best.svg'.format(self.zbior), 'symulacje/{}/best.png'.format(self.zbior)))
-            os.system('feh symulacje/{}/best.png'.format(self.zbior))
+            os.system('inkscape {} -b white -h 1000 -D -e {} 2>/dev/null 1>/dev/null'.format('{}/best.svg'.format(self.zbior), '{}/best.png'.format(self.zbior)))
+            os.system('feh {}/best.png'.format(self.zbior))
 # }}}
     def main(self):# {{{
         self.read_wyniki()
