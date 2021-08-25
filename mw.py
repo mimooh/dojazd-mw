@@ -8,7 +8,8 @@ from include import Sqlite
 
 # TODO:
 # pionowa droga
-
+# sin(38)=0.615
+# wciaganie po elewacji segement to składowa pionowa
 
 class DojazdMW:
     def __init__(self):# {{{
@@ -203,20 +204,36 @@ class DojazdMW:
             '0000000000001011': 'wewn_dzwig',
         }
         self.wariants_map={
-            '0000000000000011': 'Wewnętrzne rozwinięcie gaśnicze od nasady tłocznej pompy (Standardowy)',
-            '0000000000001001': 'Rozwinięcie gaśnicze od hydrantu wewnętrznego (Hydranty)',
-            '0000000000000100': 'Działanie gaśnicze sprzętem podręcznym z wykorzystaniem dźwigu ratowniczego (Sprzęt podręczny)',
+            '0000000000000011': 'Wewnętrzne rozwinięcie gaśnicze od nasady tłocznej pompy',
+            '0000000000001001': 'Rozwinięcie gaśnicze od hydrantu wewnętrznego',
+            '0000000000000100': 'Działanie gaśnicze sprzętem podręcznym z wykorzystaniem dźwigu ratowniczego',
             '0000000000000000': 'Działanie gaśnicze sprzętem podręcznym',
-            '0000000000010001': 'Rozwinięcie gaśnicze z wciąganiem linii wężowej po elewacji (Elewacja)',
-            '0000000000010101': 'Rozwinięcie gaśnicze z wciąganiem linii wężowej po elewacji z wykorzystaniem dźwigu ratowniczego (Elewacja 2)',
-            '0000001100000000': 'Gaszenie z poziomu ziemi (Gaszenie z poziomu ziemi)',
+            '0000000000010001': 'Rozwinięcie gaśnicze z wciąganiem linii wężowej po elewacji',
+            '0000000000010101': 'Rozwinięcie gaśnicze z wciąganiem linii wężowej po elewacji z wykorzystaniem dźwigu ratowniczego',
+            '0000001100000000': 'Gaszenie z poziomu ziemi',
             '0000010100000000': 'Gaszenie z drabiny przystawnej',
-            '0000100100000000': 'Gaszenie z kosza drabiny lub podnośnika (Gaszenie na wysokości)',
-            '0000010100000001': 'Rozwinięcie gaśnicze z dostępem z drabiny przystawnej (Dostęp przez okno)',
-            '0000100100000001': 'Rozwinięcie gaśnicze z dostępem z kosza drabiny lub podnośnika (Dostęp przez okno 2)'
+            '0000100100000000': 'Gaszenie z kosza drabiny lub podnośnika',
+            '0000010100000001': 'Rozwinięcie gaśnicze z dostępem z drabiny przystawnej',
+            '0000100100000001': 'Rozwinięcie gaśnicze z dostępem z kosza drabiny lub podnośnika'
         }
 # }}}
     def save_interaktywny(self,udane,nieudane):# {{{
+        '''
+        Warianty ERR:
+Traceback (most recent call last):
+  File "mw.py", line 505, in <module>
+    d=DojazdMW()
+  File "mw.py", line 29, in __init__
+    self.main()
+  File "mw.py", line 502, in main
+    self.save(udane,nieudane)
+  File "mw.py", line 235, in save
+    self.save_interaktywny(udane,nieudane)
+  File "mw.py", line 224, in save_interaktywny
+    udane_sorted=sorted(collect)
+TypeError: '<' not supported between instances of 'dict' and 'dict'
+'''
+
         collect=[]
         for x,z in udane['warianty'].items():
             collect.append((z['czas'], { 'wariant': z['wariant'], 'status': z['wariant_status'], 'wynik': z['czas']}))
@@ -278,17 +295,19 @@ class DojazdMW:
     def czy_rozwiniecie_wezowe(self, segment):# {{{
         # 0000000000000000 gasnica schodami (droga tak jak rozwiniecie podstawowe)
         # 0000000000000100 gasnica dzwigiem
+        # TODO: self.bylo_wciaganie=1
+        # TODO: self.bylo_hydrant=1
 
         if segment['wariant'][-5] == '1' or segment['wariant'][-4] == '1' or segment['wariant'] == '0000000000000000' or segment['wariant'] == '0000000000000100' :
-            return 0
+            return 0 # nie wezowe
         else:
-            return 1
+            return 1 # tak wezowe
 # }}}
 
     def wewn_poziom_dym0(self, segment):# {{{
-        # 0000000000000001 7/10
+        # 0000000000000001 9/10
 
-        if self.czy_rozwiniecie_wezowe(segment) == 0:
+        if self.czy_rozwiniecie_wezowe(segment) == 1:
             if self.weze_nawodnione == 1:
                 return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_poziom_dym0", segment['dlugosc'])
             else:
@@ -297,21 +316,19 @@ class DojazdMW:
             return segment['dlugosc'] / self.query("v_bez_weza_wewn_poziom_dym0", segment['dlugosc'])
 # }}}
     def wewn_poziom_dym1(self, segment):# {{{
-        # 0000000000000011 7/10
+        # 0000000000000011 9/10
 
-        if self.czy_rozwiniecie_wezowe(segment) == 0:
-            if self.weze_nawodnione == 1:
-                return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_poziom_dym1", segment['dlugosc'])
-            else:
-                return segment['dlugosc'] / self.query("v_rozwijanie_kregi_wewn_poziom_dym1", segment['dlugosc'])
+        if self.czy_rozwiniecie_wezowe(segment) == 1:
+            self.weze_nawodnione=1
+            return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_poziom_dym1", segment['dlugosc'])
         else:
             return segment['dlugosc'] / self.query("v_bez_weza_wewn_poziom_dym1", segment['dlugosc'])
 
 # }}}
     def wewn_pion_dym0(self, segment):# {{{
-        # 0000000000000101 7/10
+        # 0000000000000101 9/10
 
-        if self.czy_rozwiniecie_wezowe(segment) == 0:
+        if self.czy_rozwiniecie_wezowe(segment) == 1:
             if self.weze_nawodnione == 1:
                 return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_pion_dym0", segment['dlugosc'])
             else:
@@ -321,35 +338,33 @@ class DojazdMW:
 
 # }}}
     def wewn_pion_dym1(self, segment):# {{{
-        # 0000000000000111 7/10
+        # 0000000000000111 9/10
 
-        if self.czy_rozwiniecie_wezowe(segment) == 0:
-            if self.weze_nawodnione == 1:
-                return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_pion_dym1", segment['dlugosc'])
-            else:
-                return segment['dlugosc'] / self.query("t_rozwijanie_kregi_wewn_pion_dym1", segment['dlugosc'])
+        if self.czy_rozwiniecie_wezowe(segment) == 1:
+            self.weze_nawodnione=1
+            return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_pion_dym1", segment['dlugosc'])
         else:
             return segment['dlugosc'] / self.query("t_bez_weza_wewn_pion_dym1", segment['dlugosc'])
 # }}}
     def zewn_poziom(self, segment):# {{{
-        # 0000001100000000 8/10 
+        # 0000001100000000 9/10 
 
-        if self.czy_rozwiniecie_wezowe(segment) == 0:
+        if self.czy_rozwiniecie_wezowe(segment) == 1:
             return segment['dlugosc'] / self.query("v_bez_weza_zewn_poziom_dym0", segment['dlugosc'])
         else:
             return segment['dlugosc'] / self.query('v_linia_glowna_w75_do_rozdzielacza_poziom', segment['dlugosc'])
 
 # }}}
     def zewn_pion(self, segment):# {{{
-        # 0000000100000000 8/10
+        # 0000000100000000 9/10
         
-        if self.czy_rozwiniecie_wezowe(segment) == 0:
+        if self.czy_rozwiniecie_wezowe(segment) == 1:
             return segment['dlugosc'] / self.query("v_bez_weza_zewn_pion_dym0", segment['dlugosc'])
         else:
             return segment['dlugosc'] / self.query('v_linia_glowna_w75_do_rozdzielacza_pion', segment['dlugosc'])
 # }}}
     def wewn_dzwig(self, segment):# {{{
-        # 0000000000001001 8/10
+        # 0000000000001001 9/10
 
         conf=OrderedDict()
         conf['dlugosc']=segment['dlugosc']
@@ -384,8 +399,8 @@ class DojazdMW:
 
         # strazak wchodzi przez okno 
         if segment['wariant'][-9] == '1': 
+            self.weze_nawodnione=1
             return zdjecie_drabiny + bieg_z_drabina + drabine_spraw + przygotowanie_roty + wspinaczka
-            
 
 # }}}
     def zewn_drabina_mechaniczna(self, segment):# {{{
@@ -411,8 +426,10 @@ class DojazdMW:
 
         # strazak wchodzi przez okno
         if segment['wariant'][-9] == '1': 
+            self.weze_nawodnione=1
             return przygotowanie_roty + przygotowanie_pojazdu
-        
+
+        # TODO: Unknown
 
 # }}}
     def wewn_dym0_lina_elewacja(self, segment):# {{{
