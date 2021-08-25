@@ -7,9 +7,9 @@ from include import Dump as dd
 from include import Sqlite
 
 # TODO:
-# pionowa droga
 # sin(38)=0.615
 # wciaganie po elewacji segement to składowa pionowa
+# drabina segment vs wariant bład w scenariusz.json
 
 class DojazdMW:
     def __init__(self):# {{{
@@ -428,8 +428,6 @@ TypeError: '<' not supported between instances of 'dict' and 'dict'
         if segment['wariant'][-9] == '1': 
             self.weze_nawodnione=1
             return przygotowanie_roty + przygotowanie_pojazdu
-
-        # TODO: Unknown
 
 # }}}
     def wewn_dym0_lina_elewacja(self, segment):# {{{

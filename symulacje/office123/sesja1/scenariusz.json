@@ -539,10 +539,22 @@
         "tryb_wsadowy_meta": null,
         "tryb_wsadowy_profil": null,
         "samochody": [
-            { "id": "gen5", "zaloga": 2 },
-            { "id": "gen3", "zaloga": 2 },
-            { "id": "gen1", "zaloga": 2 }
+            {
+                "id": "gen5",
+                "zaloga": 2
+            },
+            {
+                "id": "gen3",
+                "zaloga": 2
+            },
+            {
+                "id": "gen1",
+                "zaloga": 2
+            }
         ]
     },
-    "hydrants": []
+    "hydrants": [
+        { "id": 1, "objectId": 41, "longitude": 50.0541115, "latitude": 19.9332343, "name": "hydrant1", "type": "type1", "distance": 34.5, "upElevationProfile": 12.5, "downElevationProfile": 2.5 },
+        { "id": 2, "objectId": 42, "longitude": 50.0541125, "latitude": 19.9332345, "name": "hydrant2", "type": "type1", "distance": 38.5, "upElevationProfile": 12.5, "downElevationProfile": 2.5 }
+    ]
 }
