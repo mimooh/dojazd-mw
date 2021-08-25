@@ -6,10 +6,14 @@ from include import Json
 from include import Dump as dd
 from include import Sqlite
 
+# TODO:
+# pionowa droga
+
+
 class DojazdMW:
     def __init__(self):# {{{
         if len(sys.argv) < 2:
-            self.zbior='office123/sesja1'
+            self.zbior='symulacje/office123/sesja1'
             self.debugging=1
         else:
             self.zbior=sys.argv[1]
@@ -18,7 +22,8 @@ class DojazdMW:
         self.json=Json()
         self.debug("{}/scenariusz.json".format(self.zbior))
         self.debug("{}/wyniki.txt".format(self.zbior))
-        self.make_segments_map()
+        self.debug("{}/wynik_interaktywny.json".format(self.zbior))
+        self.make_maps()
         self.make_db_czynnosci()
         self.s=Sqlite("sqlite/firetrucks.db")
         self.main()
@@ -178,7 +183,7 @@ class DojazdMW:
         }
 
 # }}}
-    def make_segments_map(self):# {{{
+    def make_maps(self):# {{{
 
         self.segments_map={
             '0000000000000001': 'wewn_poziom_dym0',
@@ -197,20 +202,36 @@ class DojazdMW:
             '0000000000001001': 'wewn_dzwig',
             '0000000000001011': 'wewn_dzwig',
         }
+        self.wariants_map={
+            '0000000000000011': 'Wewnętrzne rozwinięcie gaśnicze od nasady tłocznej pompy (Standardowy)',
+            '0000000000001001': 'Rozwinięcie gaśnicze od hydrantu wewnętrznego (Hydranty)',
+            '0000000000000100': 'Działanie gaśnicze sprzętem podręcznym z wykorzystaniem dźwigu ratowniczego (Sprzęt podręczny)',
+            '0000000000000000': 'Działanie gaśnicze sprzętem podręcznym',
+            '0000000000010001': 'Rozwinięcie gaśnicze z wciąganiem linii wężowej po elewacji (Elewacja)',
+            '0000000000010101': 'Rozwinięcie gaśnicze z wciąganiem linii wężowej po elewacji z wykorzystaniem dźwigu ratowniczego (Elewacja 2)',
+            '0000001100000000': 'Gaszenie z poziomu ziemi (Gaszenie z poziomu ziemi)',
+            '0000010100000000': 'Gaszenie z drabiny przystawnej',
+            '0000100100000000': 'Gaszenie z kosza drabiny lub podnośnika (Gaszenie na wysokości)',
+            '0000010100000001': 'Rozwinięcie gaśnicze z dostępem z drabiny przystawnej (Dostęp przez okno)',
+            '0000100100000001': 'Rozwinięcie gaśnicze z dostępem z kosza drabiny lub podnośnika (Dostęp przez okno 2)'
+        }
 # }}}
-    def save_interaktywny(self,udane):# {{{
+    def save_interaktywny(self,udane,nieudane):# {{{
         collect=[]
         for x,z in udane['warianty'].items():
-            collect.append([z['czas'], z['wariant']])
-        c=sorted(collect)
+            collect.append((z['czas'], { 'wariant': z['wariant'], 'status': z['wariant_status'], 'wynik': z['czas']}))
+        udane_sorted=sorted(collect)
         out=OrderedDict()
-        for i in c:
-            out[i[1]]=i[0]
-        print(json.dumps(out))
+        for a,b in udane_sorted:
+            out[b['wariant']]={'status':b['status'], 'wynik':b['wynik']}
+        for a,b in nieudane.items():
+            out[a]={'status':"ERR: "+b['debug'], 'wynik':None }
+        self.json.write(out, '{}/wynik_interaktywny.json'.format(self.zbior))
+
 # }}}
-    def save(self,udane):# {{{
+    def save(self,udane,nieudane):# {{{
         if self.conf['tryb'] == 'interaktywny':
-            self.save_interaktywny(udane)
+            self.save_interaktywny(udane,nieudane)
         else:
             x=json.dumps({'results': udane, 'xy_samochody': self.conf['ogolne']['xy_samochody'], 'xyz_pozar': self.conf['pozar']['xyz']})
             if self.conf['status'] == 'Start':
@@ -427,7 +448,7 @@ class DojazdMW:
         #s['segment']='0000000000100011' # 'wewn_dym1_lina_elewacja',
 
         if s['segment'] not in self.segments_map:
-            return { "segment_status": "ERR", "debug": "{}: nieznany segment".format(s['segment']) }
+            return { "segment_status": "ERR", "debug": "{}: nieobsługiwany segment".format(s['segment']) }
         funkcja=self.segments_map[s['segment']]
         handler=getattr(self, funkcja)
         s['wariant']=wariant
@@ -476,7 +497,7 @@ class DojazdMW:
             print("\nBest:"    , udane['best'])
             dd("Warianty OK:"  , udane['warianty'])
             dd("Warianty ERR:" , nieudane)
-        self.save(udane)
+        self.save(udane,nieudane)
 # }}}
 
 d=DojazdMW()
