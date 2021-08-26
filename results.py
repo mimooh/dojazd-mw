@@ -5,15 +5,17 @@ import svgwrite
 from collections import OrderedDict
 from include import Json
 from include import Dump as dd
+from include import Segments_maps
 
 class DojazdMWResults:
 
     def __init__(self):# {{{
         if len(sys.argv) < 2:
-            self.zbior='office123/sesja1'
+            self.zbior='symulacje/office123/sesja1'
         else:
             self.zbior=sys.argv[1]
         self.json=Json()
+        self.maps=Segments_maps().maps
         self.main()
 # }}}
     def make_chunks(self, lst, n):# {{{
@@ -35,9 +37,9 @@ class DojazdMWResults:
 
         count={}
         for i in self.stats:
-            if i[0] not in count:
-                count[i[0]]=0
-            count[i[0]]+=1
+            if self.maps['wariants'][i[0]] not in count:
+                count[self.maps['wariants'][i[0]]]=0
+            count[self.maps['wariants'][i[0]]]+=1
         self.json.write(count, '{}/wyniki_stats.json'.format(self.zbior))
 # }}}
     def read_wyniki(self):# {{{
@@ -66,6 +68,8 @@ class DojazdMWResults:
                 dwg.add(dwg.rect(insert=(p[1][0],p[1][1]), size=i, fill='#000', opacity=0.1))
         dwg.save()
         if os.environ['USERNAME']=='mimooh': 
+            print("{}/wyniki_stats.json".format(self.zbior))
+            return
             os.system('inkscape {} -b white -h 1000 -D -e {} 2>/dev/null 1>/dev/null'.format('{}/best.svg'.format(self.zbior), '{}/best.png'.format(self.zbior)))
             os.system('feh {}/best.png'.format(self.zbior))
 # }}}

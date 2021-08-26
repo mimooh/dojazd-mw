@@ -97,7 +97,42 @@ class Sqlite: # {{{
         for i in self.query('SELECT * FROM aamks_geom order by floor,type_pri,global_type_id'):
             print(i)
 # }}}
+class Segments_maps:# {{{
+    def __init__(self):
+        self.maps={}
+        self.maps['segments']={
+            '0000000000000001': 'wewn_poziom_dym0',
+            '0000000000000011': 'wewn_poziom_dym1',
+            '0000000000000101': 'wewn_pion_dym0',
+            '0000000000000111': 'wewn_pion_dym1',
+            '0000010100000000': 'zewn_drabina_przystawna',
+            '0000100100000000': 'zewn_drabina_mechaniczna',
+            '0000000100000000': 'zewn_pion',
+            '0000001100000000': 'zewn_poziom',
+            '0000000000010101': 'wewn_dym0_hydrant',
+            '0000000000010001': 'wewn_dym0_hydrant',
+            '0000000000010011': 'wewn_dym1_hydrant',
+            '0000000000100001': 'wewn_dym0_lina_elewacja',
+            '0000000000100011': 'wewn_dym1_lina_elewacja',
+            '0000000000001001': 'wewn_dzwig',
+            '0000000000001011': 'wewn_dzwig'
+        }
+
+        self.maps['wariants']={
+            '0000000000000011': 'Wewnętrzne rozwinięcie gaśnicze od nasady tłocznej pompy',
+            '0000000000001001': 'Rozwinięcie gaśnicze od hydrantu wewnętrznego',
+            '0000000000000100': 'Działanie gaśnicze sprzętem podręcznym z wykorzystaniem dźwigu ratowniczego',
+            '0000000000000000': 'Działanie gaśnicze sprzętem podręcznym',
+            '0000000000010001': 'Rozwinięcie gaśnicze z wciąganiem linii wężowej po elewacji',
+            '0000000000010101': 'Rozwinięcie gaśnicze z wciąganiem linii wężowej po elewacji z wykorzystaniem dźwigu ratowniczego',
+            '0000001100000000': 'Gaszenie z poziomu ziemi',
+            '0000010100000000': 'Gaszenie z drabiny przystawnej',
+            '0000100100000000': 'Gaszenie z kosza drabiny lub podnośnika',
+            '0000010100000001': 'Rozwinięcie gaśnicze z dostępem z drabiny przystawnej',
+            '0000100100000001': 'Rozwinięcie gaśnicze z dostępem z kosza drabiny lub podnośnika',
+            '0000000100000000': 'Podejrzane działania 0000000100000000'
+        }
+# }}}
 
 dd=Dump
 JSON=Json()
-

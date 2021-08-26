@@ -5,9 +5,7 @@ from collections import OrderedDict
 from include import Json
 from include import Dump as dd
 from include import Sqlite
-
-# wciaganie po elewacji segement to składowa pionowa
-# drabina segment vs wariant bład w scenariusz.json
+from include import Segments_maps
 
 class DojazdMW:
     def __init__(self):# {{{
@@ -22,7 +20,7 @@ class DojazdMW:
         self.debug("{}/scenariusz.json".format(self.zbior))
         self.debug("{}/wyniki.txt".format(self.zbior))
         self.debug("{}/wynik_interaktywny.json".format(self.zbior))
-        self.make_maps()
+        self.maps=Segments_maps().maps
         self.make_db_czynnosci()
         self.s=Sqlite("sqlite/firetrucks.db")
         self.main()
@@ -182,39 +180,6 @@ class DojazdMW:
 
         }
 
-# }}}
-    def make_maps(self):# {{{
-
-        self.segments_map={
-            '0000000000000001': 'wewn_poziom_dym0',
-            '0000000000000011': 'wewn_poziom_dym1',
-            '0000000000000101': 'wewn_pion_dym0',
-            '0000000000000111': 'wewn_pion_dym1',
-            '0000010100000000': 'zewn_drabina_przystawna',
-            '0000100100000000': 'zewn_drabina_mechaniczna',
-            '0000000100000000': 'zewn_pion',
-            '0000001100000000': 'zewn_poziom',
-            '0000000000010101': 'wewn_dym0_hydrant',
-            '0000000000010001': 'wewn_dym0_hydrant',
-            '0000000000010011': 'wewn_dym1_hydrant',
-            '0000000000100001': 'wewn_dym0_lina_elewacja',
-            '0000000000100011': 'wewn_dym1_lina_elewacja',
-            '0000000000001001': 'wewn_dzwig',
-            '0000000000001011': 'wewn_dzwig',
-        }
-        self.wariants_map={
-            '0000000000000011': 'Wewnętrzne rozwinięcie gaśnicze od nasady tłocznej pompy',
-            '0000000000001001': 'Rozwinięcie gaśnicze od hydrantu wewnętrznego',
-            '0000000000000100': 'Działanie gaśnicze sprzętem podręcznym z wykorzystaniem dźwigu ratowniczego',
-            '0000000000000000': 'Działanie gaśnicze sprzętem podręcznym',
-            '0000000000010001': 'Rozwinięcie gaśnicze z wciąganiem linii wężowej po elewacji',
-            '0000000000010101': 'Rozwinięcie gaśnicze z wciąganiem linii wężowej po elewacji z wykorzystaniem dźwigu ratowniczego',
-            '0000001100000000': 'Gaszenie z poziomu ziemi',
-            '0000010100000000': 'Gaszenie z drabiny przystawnej',
-            '0000100100000000': 'Gaszenie z kosza drabiny lub podnośnika',
-            '0000010100000001': 'Rozwinięcie gaśnicze z dostępem z drabiny przystawnej',
-            '0000100100000001': 'Rozwinięcie gaśnicze z dostępem z kosza drabiny lub podnośnika'
-        }
 # }}}
     def save_interaktywny(self,udane,nieudane):# {{{
         collect=[]
@@ -456,9 +421,9 @@ class DojazdMW:
         #s['segment']='0000000000100001' # 'wewn_dym0_lina_elewacja',
         #s['segment']='0000000000100011' # 'wewn_dym1_lina_elewacja',
 
-        if s['segment'] not in self.segments_map:
+        if s['segment'] not in self.maps['segments']:
             return { "segment_status": "ERR", "debug": "{}: nieobsługiwany segment".format(s['segment']) }
-        funkcja=self.segments_map[s['segment']]
+        funkcja=self.maps['segments'][s['segment']]
         handler=getattr(self, funkcja)
         s['wariant']=wariant
         czas=handler(s)
