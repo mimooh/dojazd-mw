@@ -130,7 +130,8 @@ class Segments_maps:# {{{
             '0000100100000000': 'Gaszenie z kosza drabiny lub podnośnika',
             '0000010100000001': 'Rozwinięcie gaśnicze z dostępem z drabiny przystawnej',
             '0000100100000001': 'Rozwinięcie gaśnicze z dostępem z kosza drabiny lub podnośnika',
-            '0000000100000000': 'Podejrzane działania 0000000100000000'
+            '0000000100000000': 'Podejrzane działania 0000000100000000',
+            '0000000100000001': 'Podejrzane działania 0000000100000001'
         }
 # }}}
 
