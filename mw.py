@@ -254,6 +254,13 @@ class DojazdMW:
         else:
             return 1 # tak
 # }}}
+    def make_czas_duza_woda(self):# {{{
+        best=999999999999
+        for i in self.conf['hydrants']:
+            if i['distance'] < best:
+                best=i['distance']
+        return best / self.query('v_duza_woda')
+# }}}
 
     def wewn_poziom_dym0(self, segment):# {{{
         # 0000000000000001 9/10
@@ -371,7 +378,7 @@ class DojazdMW:
 
         # gaszenie z drabiny duza wydajnoscia
         if (segment['wariant'][-11] == '1' or segment['wariant'][-12] == '1') and (segment['wariant'][-16] == '1'):
-            czas_duza_woda=self.conf['ogolne']['odleglosc_duza_woda'] / self.query('v_duza_woda')
+            czas_duza_woda=self.make_czas_duza_woda()
             return max(czas_duza_woda, przygotowanie_pojazdu)
 
         # gaszenie
@@ -454,6 +461,7 @@ class DojazdMW:
         xj=self.json.read('{}/scenariusz.json'.format(self.zbior))
         self.warianty=xj['warianty'] 
         self.conf=xj['conf']
+        self.conf['hydrants']=xj['hydrants']
         self.make_sis()
         udane=OrderedDict()
         udane['best']={ 'wariant': None, 'czas': 9999999999 }
