@@ -6,8 +6,6 @@ from include import Json
 from include import Dump as dd
 from include import Sqlite
 
-# TODO:
-# sin(38)=0.615
 # wciaganie po elewacji segement to składowa pionowa
 # drabina segment vs wariant bład w scenariusz.json
 
@@ -52,6 +50,7 @@ class DojazdMW:
     def query(self, param, dlugosc=0):# {{{
         '''
         query odpowiada wartoscia lub trafia na liste przedzialow i do query_przedzialy()
+        sin(38)=0.615 in caller() sluzy do wyciagania skladowej pionowej
         '''
 
         if isinstance(self.db_czynnosci[param], list):
@@ -218,26 +217,10 @@ class DojazdMW:
         }
 # }}}
     def save_interaktywny(self,udane,nieudane):# {{{
-        '''
-        Warianty ERR:
-Traceback (most recent call last):
-  File "mw.py", line 505, in <module>
-    d=DojazdMW()
-  File "mw.py", line 29, in __init__
-    self.main()
-  File "mw.py", line 502, in main
-    self.save(udane,nieudane)
-  File "mw.py", line 235, in save
-    self.save_interaktywny(udane,nieudane)
-  File "mw.py", line 224, in save_interaktywny
-    udane_sorted=sorted(collect)
-TypeError: '<' not supported between instances of 'dict' and 'dict'
-'''
-
         collect=[]
         for x,z in udane['warianty'].items():
             collect.append((z['czas'], { 'wariant': z['wariant'], 'status': z['wariant_status'], 'wynik': z['czas']}))
-        udane_sorted=sorted(collect)
+        udane_sorted=sorted(collect, key=lambda x: x[0])
         out=OrderedDict()
         for a,b in udane_sorted:
             out[b['wariant']]={'status':b['status'], 'wynik':b['wynik']}
@@ -295,13 +278,16 @@ TypeError: '<' not supported between instances of 'dict' and 'dict'
     def czy_rozwiniecie_wezowe(self, segment):# {{{
         # 0000000000000000 gasnica schodami (droga tak jak rozwiniecie podstawowe)
         # 0000000000000100 gasnica dzwigiem
-        # TODO: self.bylo_wciaganie=1
-        # TODO: self.bylo_hydrant=1
+        if self.weszlismy_oknem == 1:
+            return 1 
+
+        if self.sprawilismy_hydrant == 1:
+            return 1 
 
         if segment['wariant'][-5] == '1' or segment['wariant'][-4] == '1' or segment['wariant'] == '0000000000000000' or segment['wariant'] == '0000000000000100' :
-            return 0 # nie wezowe
+            return 0 # nie
         else:
-            return 1 # tak wezowe
+            return 1 # tak
 # }}}
 
     def wewn_poziom_dym0(self, segment):# {{{
@@ -330,11 +316,11 @@ TypeError: '<' not supported between instances of 'dict' and 'dict'
 
         if self.czy_rozwiniecie_wezowe(segment) == 1:
             if self.weze_nawodnione == 1:
-                return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_pion_dym0", segment['dlugosc'])
+                return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_pion_dym0", 0.615 * segment['dlugosc'])
             else:
-                return segment['dlugosc'] / self.query("t_rozwijanie_kregi_wewn_pion_dym0", segment['dlugosc'])
+                return self.query("t_rozwijanie_kregi_wewn_pion_dym0", 0.615 * segment['dlugosc'])
         else:
-            return segment['dlugosc'] / self.query("t_bez_weza_wewn_pion_dym0", segment['dlugosc'])
+            return self.query("t_bez_weza_wewn_pion_dym0", 0.615 * segment['dlugosc'])
 
 # }}}
     def wewn_pion_dym1(self, segment):# {{{
@@ -342,9 +328,9 @@ TypeError: '<' not supported between instances of 'dict' and 'dict'
 
         if self.czy_rozwiniecie_wezowe(segment) == 1:
             self.weze_nawodnione=1
-            return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_pion_dym1", segment['dlugosc'])
+            return segment['dlugosc'] / self.query("v_poruszenie_weze_nawodnione_wewn_pion_dym1", 0.615 * segment['dlugosc'])
         else:
-            return segment['dlugosc'] / self.query("t_bez_weza_wewn_pion_dym1", segment['dlugosc'])
+            return self.query("t_bez_weza_wewn_pion_dym1", 0.615 * segment['dlugosc'])
 # }}}
     def zewn_poziom(self, segment):# {{{
         # 0000001100000000 9/10 
@@ -359,9 +345,9 @@ TypeError: '<' not supported between instances of 'dict' and 'dict'
         # 0000000100000000 9/10
         
         if self.czy_rozwiniecie_wezowe(segment) == 1:
-            return segment['dlugosc'] / self.query("v_bez_weza_zewn_pion_dym0", segment['dlugosc'])
+            return segment['dlugosc'] / self.query("v_bez_weza_zewn_pion_dym0", 0.615 * segment['dlugosc'])
         else:
-            return segment['dlugosc'] / self.query('v_linia_glowna_w75_do_rozdzielacza_pion', segment['dlugosc'])
+            return segment['dlugosc'] / self.query('v_linia_glowna_w75_do_rozdzielacza_pion', 0.615 * segment['dlugosc'])
 # }}}
     def wewn_dzwig(self, segment):# {{{
         # 0000000000001001 9/10
@@ -376,11 +362,13 @@ TypeError: '<' not supported between instances of 'dict' and 'dict'
     def wewn_dym0_hydrant(self, segment):# {{{
         # 0000000000010001 9/10
         self.weze_nawodnione=1
+        self.sprawilismy_hydrant=1
         return self.query("t_sprawianie_hydrantu_wewn_dym0")
 # }}}
     def wewn_dym1_hydrant(self, segment):# {{{
         # 0000000000010011 9/10
         self.weze_nawodnione=1
+        self.sprawilismy_hydrant=1
         return self.query("t_sprawianie_hydrantu_wewn_dym1")
         
 # }}}
@@ -399,6 +387,7 @@ TypeError: '<' not supported between instances of 'dict' and 'dict'
 
         # strazak wchodzi przez okno 
         if segment['wariant'][-9] == '1': 
+            self.weszlismy_oknem=1
             self.weze_nawodnione=1
             return zdjecie_drabiny + bieg_z_drabina + drabine_spraw + przygotowanie_roty + wspinaczka
 
@@ -426,17 +415,22 @@ TypeError: '<' not supported between instances of 'dict' and 'dict'
 
         # strazak wchodzi przez okno
         if segment['wariant'][-9] == '1': 
+            self.weszlismy_oknem=1
             self.weze_nawodnione=1
             return przygotowanie_roty + przygotowanie_pojazdu
 
 # }}}
     def wewn_dym0_lina_elewacja(self, segment):# {{{
         # 0000000000100001 8/10
+
+        self.weszlismy_oknem=1
         self.weze_nawodnione=1
         return self.query('t_linia_gasn_w52_elewacja_dym0', segment['dlugosc'])
 # }}}
     def wewn_dym1_lina_elewacja(self, segment):# {{{
         # 0000000000100011 5/10  obliczyc dla dym1
+
+        self.weszlismy_oknem=1
         self.weze_nawodnione=1
         return self.query('t_linia_gasn_w52_elewacja_dym1', segment['dlugosc'])
 # }}}
@@ -469,11 +463,13 @@ TypeError: '<' not supported between instances of 'dict' and 'dict'
         s['wariant']=wariant
         czas=handler(s)
         if czas == None:
-            return { 'segment_status': "ERR", 'segment': s['segment'], 'funkcja': funkcja, 'dlugosc': round(s['dlugosc']), 'debug': "None dla dlugosci: {}, db_err ?".format(s['dlugosc']) }
+            return { 'segment_status': "ERR", 'segment': s['segment'], 'funkcja': funkcja, 'dlugosc': round(s['dlugosc']), 'debug': "None. Nieobsługiwany return lub dberror dla dlugosci: {}".format(s['dlugosc']) }
         return { "segment_status": "OK", "segment": s['segment'], 'funkcja': funkcja, "dlugosc": round(s['dlugosc']), "czas": round(czas), "nawodniona": self.weze_nawodnione }
 # }}}
     def main_process_wariant(self, wariant, data):# {{{
         self.weze_nawodnione=0
+        self.weszlismy_oknem=0
+        self.sprawilismy_hydrant=0
         czas_wariantu=0
         if self.debugging == 1:
             print("\nwariant", wariant)
