@@ -54,9 +54,10 @@ class DojazdMWResults:
 
         self.img['obrys']=self.json.read('{}/conf.txt'.format(self.zbior))['conf']['ogolne']['obrys_budynku']
         for i in dat:
-            self.img['pozary'].append(i['xyz_pozar'])
-            self.stats.append((i['results']['best']['wariant'], i['results']['best']['czas']))
-            self.bests.append((i['results']['best']['czas'], i['xy_samochody']))
+            if i['results']['best']['wariant'] != None:
+                self.img['pozary'].append(i['xyz_pozar'])
+                self.stats.append((i['results']['best']['wariant'], i['results']['best']['czas']))
+                self.bests.append((i['results']['best']['czas'], i['xy_samochody']))
 # }}}
     def svgwrite(self):# {{{
         dwg = svgwrite.Drawing('{}/best.svg'.format(self.zbior), profile='tiny')
