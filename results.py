@@ -45,7 +45,7 @@ class DojazdMWResults:
         self.json.write(count, '{}/wyniki_stats.json'.format(self.zbior))
 # }}}
     def read_wyniki(self):# {{{
-        ''' Prawy bit=1 oznacza wariant zewnętrzny '''
+        ''' bit8=0: wariant wewnętrzny '''
 
         with open('{}/wyniki.txt'.format(self.zbior)) as f: 
             x=f.readlines()
@@ -55,7 +55,7 @@ class DojazdMWResults:
         self.img={ 'zewn': { 'best_samochody': [] } , 'wewn': { 'best_samochody': [] } , 'pozary': [] }
         for i in x:
             ii=json.loads(i)
-            if ii['results']['best']['wariant'][-1] == '0':
+            if ii['results']['best']['wariant'][-9] == '0':
                 wewn.append(ii)
             else:
                 zewn.append(ii)
