@@ -3,6 +3,7 @@ import os
 import sys
 import svgwrite
 from collections import OrderedDict
+from numpy.random import uniform
 from include import Json
 from include import Dump as dd
 from include import Segments_maps
@@ -23,14 +24,15 @@ class DojazdMWResults:
         for i in range(0, len(lst), n):
             yield lst[i:i + n]
 # }}}
-    def make_ranking(self):# {{{
-        s=sorted(self.bests)
+    def ranking_skaluj_samochody(self, gdzie):# {{{
+        s=sorted(self.img[gdzie]['best_samochody'])
         cc=int(len(s) / 5)
         if cc < 1:
-            print("Potrzeba minimum 5 symulacji")
-            exit()
-        chunks=list(self.make_chunks(s, cc))
-        self.img['samochody']={ (5,5): chunks[0], (4,4): chunks[1], (3,3): chunks[2], (2,2):chunks[3], (1,1): chunks[4] }
+            print("Potrzeba minimum 5 wyników żeby stworzyć analizę graficzną SVG dla wariantu {}".format(gdzie))
+            self.img[gdzie]['samochody']={ (1,1): [ (0, [0,0] ) ] }
+        else:
+            chunks=list(self.make_chunks(s, cc))
+            self.img[gdzie]['samochody']={ (6,6): chunks[0], (4,4): chunks[1], (3,3): chunks[2], (2,2):chunks[3], (1,1): chunks[4] }
 # }}}
     def make_stats(self):# {{{
         ''' Statystyka: ten byl najlepszy 100 razy, a ten 20 razy '''
@@ -43,42 +45,55 @@ class DojazdMWResults:
         self.json.write(count, '{}/wyniki_stats.json'.format(self.zbior))
 # }}}
     def read_wyniki(self):# {{{
+        ''' Prawy bit=1 oznacza wariant zewnętrzny '''
+
         with open('{}/wyniki.txt'.format(self.zbior)) as f: 
             x=f.readlines()
-        dat=[]
+        zewn=[]
+        wewn=[]
         self.stats=[]
-        self.bests=[]
-        self.img={'pozary':[], 'samochody':[]}
+        self.img={ 'zewn': { 'best_samochody': [] } , 'wewn': { 'best_samochody': [] } , 'pozary': [] }
         for i in x:
-            dat.append(json.loads(i))
+            ii=json.loads(i)
+            if ii['results']['best']['wariant'][-1] == '0':
+                wewn.append(ii)
+            else:
+                zewn.append(ii)
 
         self.img['obrys']=self.json.read('{}/conf.txt'.format(self.zbior))['conf']['ogolne']['obrys_budynku']
-        for i in dat:
+        for i in zewn:
             if i['results']['best']['wariant'] != None:
+                self.img['zewn']['best_samochody'].append((i['results']['best']['czas'], i['xy_samochody']))
                 self.img['pozary'].append(i['xyz_pozar'])
                 self.stats.append((i['results']['best']['wariant'], i['results']['best']['czas']))
-                self.bests.append((i['results']['best']['czas'], i['xy_samochody']))
+        for i in wewn:
+            if i['results']['best']['wariant'] != None:
+                self.img['wewn']['best_samochody'].append((i['results']['best']['czas'], i['xy_samochody']))
+                self.img['pozary'].append(i['xyz_pozar'])
+                self.stats.append((i['results']['best']['wariant'], i['results']['best']['czas']))
 # }}}
-    def svgwrite(self):# {{{
-        dwg = svgwrite.Drawing('{}/best.svg'.format(self.zbior), profile='tiny')
+    def svgwrite(self, gdzie):# {{{
+        dwg = svgwrite.Drawing('{}/best_{}.svg'.format(self.zbior, gdzie), profile='tiny')
         dwg.add(dwg.polyline(self.img['obrys'], fill='#fff', stroke_width=0.3, stroke='blue'))
         for i in self.img['pozary']:
             dwg.add(dwg.ellipse(center=(i[0],i[1]), r=(3, 3), fill='#f40', opacity=0.5))
-        for i,pozycje in self.img['samochody'].items():
+        for i,pozycje in self.img[gdzie]['samochody'].items():
             for p in pozycje:
-                dwg.add(dwg.rect(insert=(p[1][0],p[1][1]), size=i, fill='#000', opacity=0.1))
+                randx=p[1][0] + uniform(-3,3)
+                randy=p[1][1] + uniform(-3,3)
+                dwg.add(dwg.rect(insert=(randx,randy), opacity=0.5, fill='none', size=i, stroke_width=0.1, stroke='#000')) 
         dwg.save()
-        if os.environ['USERNAME']=='mimooh': 
-            print("{}/wyniki_stats.json".format(self.zbior))
-            return
-            os.system('inkscape {} -b white -h 1000 -D -e {} 2>/dev/null 1>/dev/null'.format('{}/best.svg'.format(self.zbior), '{}/best.png'.format(self.zbior)))
-            os.system('feh {}/best.png'.format(self.zbior))
 # }}}
     def main(self):# {{{
         self.read_wyniki()
         self.make_stats()
-        self.make_ranking()
-        self.svgwrite()
+        for gdzie in [ 'zewn', 'wewn' ]:
+            self.ranking_skaluj_samochody(gdzie)
+            self.svgwrite(gdzie)
+            if os.environ['USERNAME']=='mimooh': 
+                print("{}/wyniki_stats.json".format(self.zbior))
+                os.system('inkscape {} -b white -h 1000 -D -e {} 2>/dev/null 1>/dev/null'.format('{}/best_{}.svg'.format(self.zbior,gdzie), '{}/best_{}.png'.format(self.zbior, gdzie)))
+                os.system('feh {}/best_{}.png'.format(self.zbior, gdzie))
 # }}}
 
 d=DojazdMWResults()
