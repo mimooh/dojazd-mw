@@ -76,12 +76,14 @@ class DojazdMWResults:
         dwg = svgwrite.Drawing('{}/best_{}.svg'.format(self.zbior, gdzie), profile='tiny')
         dwg.add(dwg.polyline(self.img['obrys'], fill='#fff', stroke_width=0.3, stroke='blue'))
         for i in self.img['pozary']:
-            dwg.add(dwg.ellipse(center=(i[0],i[1]), r=(3, 3), fill='#f40', opacity=0.5))
+            randx=i[0] + uniform(-2,2)
+            randy=i[1] + uniform(-2,2)
+            dwg.add(dwg.ellipse(center=(randx,randy), r=(1, 1), fill='#f00', opacity=0.3, stroke_width=0.2, stroke='#c00'))
         for i,pozycje in self.img[gdzie]['samochody'].items():
             for p in pozycje:
                 randx=p[1][0] + uniform(-3,3)
                 randy=p[1][1] + uniform(-3,3)
-                dwg.add(dwg.rect(insert=(randx,randy), opacity=0.5, fill='none', size=i, stroke_width=0.1, stroke='#000')) 
+                dwg.add(dwg.ellipse(center=(randx,randy), opacity=0.2, fill='#aaa', r=i, stroke_width=0.1, stroke='#000')) 
         dwg.save()
 # }}}
     def main(self):# {{{
