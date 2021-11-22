@@ -15,7 +15,7 @@ Moduł wsadowy wymaga środowiska Python.
 Przy pierwszym uruchomieniu system automatycznie sprawdza kompletność zainstalowanego środowiska i ewentualnie dokonuje wymagananych instalacji.
 Powyższe instalacje użytkownik może wykonać samodzielnie poprzez przycisk "Ustawienia modułu wnioskowania" w oknie "Moduł wsadowy".
 
-* Uzupełnienie ustawień okna dialogowego
+* Uzupełnienie ustawień okna dialogowego (rys.konfiguracja.png):
 
 Konfigurację należy rozpocząć od przycisku "Rysuj linię samochodów".
 Na wyznaczonych punktach tej linii, w kolejnych symulacjach będą umieszczane samochody pożarnicze.
@@ -23,9 +23,9 @@ Linia to zazwyczaj powinna przebiegać wokół budynku w odległości kilku metr
 Linia pozwala na omijanie miejsc, w których samochody pożarnicze nie powinny się pojawiać, 
 
 
-Opis pól w oknie dialogowym (odległości w metrach) (rys.konfiguracja.png):
+Opis pól w oknie dialogowym (odległości w metrach) 
 Liczba pętli: Kontroluje umieszczanie samochodów na linii samochodów. Wartość większa od 1 oznacza, że po zapełnieniu całej linii samochody pożarnicze będą umieszczane ponownie celem przeprowadzenia kolejnych symulacji.
-Piętra: Puste pole oznacza że pożary będą powstawać na wszystkich piętrach. Pojedyncza liczba oznacza, że pożary będą powstawać tylko na zadanym piętrze. Liczy oddzielone przecinkiem definiują piętra na których będą powstawać pożary.
+Piętra: Puste pole oznacza że pożary będą powstawać na wszystkich piętrach. Pojedyncza liczba oznacza, że pożary będą powstawać tylko na zadanym piętrze. Liczby oddzielone przecinkiem definiują wybrane piętra na których będą powstawać pożary.
 Gęstość siatki pożaru: Odległości węzłów kwadratowej siatki, na której powstają pożary w budynku.
 Gęstość linii samochodów: Odległości między kolejnymi samochodami pożarniczymi.
 Promień zadymienia: Promień zadymienia. Opcjonalna wartość ± % kontroluje zmienność promienia zadymienia.
