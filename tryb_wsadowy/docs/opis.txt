@@ -1,0 +1,55 @@
+Moduł wsadowy
+
+Moduł wsadowy pozwala na uruchamianie wielu scenariuszy pożarowych. 
+W podstawowym (nie wsadowym) trybie operator tworzy pojedynczy scenariusz, w którym ustala parametry pożaru oraz zestaw dostępnych sił i środków.
+Kompletna analiza wymaga od operatora rozważenia wielu scenariuszy pożarowych dla badanego budynku.
+Moduł wsadowy automatyzuje powyższe zadanie rozpalając pożary i rozmieszczając siły i środki.
+Operator wprowadza w Module wsadowym niewielki zestaw parametrów, który pozwala konfigurować cały zestaw scenariuszy.
+Dla każdego scenariusza system tworzy około 7 wariantów gaszenia, np. rozwinięcie po klatce schodowej, rozwinięcie z drabiny przystawnej. 
+Istnieją reguły pozwalające wykluczać niektóre warianty, np. wariant gaszenia dużego pożaru gaśnicą. 
+
+* Wymagania do uruchomienia modułu wsadowego
+
+Moduł wsadowy zarządzany jest przez okno "Moduł wsadowy" uruchamiane w górnym menu aplikacji.
+Moduł wsadowy wymaga środowiska Python. 
+Przy pierwszym uruchomieniu system automatycznie sprawdza kompletność zainstalowanego środowiska i ewentualnie dokonuje wymagananych instalacji.
+Powyższe instalacje użytkownik może wykonać samodzielnie poprzez przycisk "Ustawienia modułu wnioskowania" w oknie "Moduł wsadowy".
+
+* Uzupełnienie ustawień okna dialogowego
+
+Konfigurację należy rozpocząć od przycisku "Rysuj linię samochodów".
+Na wyznaczonych punktach tej linii, w kolejnych symulacjach będą umieszczane samochody pożarnicze.
+Linia to zazwyczaj powinna przebiegać wokół budynku w odległości kilku metrów od ścian budynku.
+Linia pozwala na omijanie miejsc, w których samochody pożarnicze nie powinny się pojawiać, 
+
+Opis pól w oknie dialogowym (odległości w metrach) [rysunek konfiguracja.png]:
+Liczba pętli: Kontroluje umieszczanie samochodów na linii samochodów. Wartość większa od 1 oznacza, że po zapełnieniu całej linii samochody pożarnicze będą umieszczane ponownie celem przeprowadzenia kolejnych symulacji.
+Piętra: Puste pole oznacza że pożary będą powstawać na wszystkich piętrach. Pojedyncza liczba oznacza, że pożary będą powstawać tylko na zadanym piętrze. Liczy oddzielone przecinkiem definiują piętra na których będą powstawać pożary.
+Gęstość siatki pożaru: Odległości węzłów kwadratowej siatki, na której powstają pożary w budynku.
+Gęstość linii samochodów: Odległości między kolejnymi samochodami pożarniczymi.
+Promień zadymienia: Promień zadymienia. Opcjonalna wartość ± % kontroluje zmienność promienia zadymienia.
+Promień pożaru: Promień pożaru. Opcjonalna wartość ± % kontroluje zmienność promienia pożaru.
+Faza pożaru: Kontroluje wielkość pożaru (mały/duży/średni/losowy).
+Zestawy samochodów: Kontroluje wysyłanie dokładnie wskazanych bądź losowych zestawów samochodów pożarniczych.
+Meta: Opcje zarezerwowane na przyszłość.
+
+* Proces generowania scenariuszy pożarniczych
+
+Po skonfigurowaniu ustawień w oknie dialogowym i wybraniu "Generuj" system przedstawi podsumowanie, zwłaszcza liczbę symulacji do wykonania.
+Użytkownik potwierdza lub anuluje zadanie wykonania wszystkich zdefiniowanych symulacji.
+System wykonuje symulacje i na bieżąco przedstawia postęp. 
+Pojedyńcza symulacja trwa zazwyczaj kilka minut.
+
+* Prezentacja wyników Modułu Wsadowego
+
+Wyniki działania Modułu wsadowego przedstawiane są w postaci: 
+a) statystyki przedstawiającej ile razy dany typ działań gaśniczych okazał się najszybszy, np:
+
+"Gaszenie z poziomu ziemi": 143,
+"Wewnętrzne rozwinięcie gaśnicze od nasady tłocznej pompy": 12
+"Rozwinięcie gaśnicze z dostępem z drabiny przystawnej": 3,
+
+b) analizy graficznej w której [rysunek best_zewn.png]: 
+b.1) czerwone koła reprezentują miejsca powstania pożaru,
+b.2) szare koła reprezentują miejsca ustawień samochodów, z których czas dotarcia do pożaru był w danym scenariuszu najkrótszy,
+b.3) wielkości szarych wskazują jak szybkie jest dotarcie do pożaru z najszybszego punktu w danym scenariuszu względem innych scenariuszy - dłuższy promień oznacza lepsze akcje (krótsze czasy).
