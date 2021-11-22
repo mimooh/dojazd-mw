@@ -22,7 +22,8 @@ Na wyznaczonych punktach tej linii, w kolejnych symulacjach będą umieszczane s
 Linia to zazwyczaj powinna przebiegać wokół budynku w odległości kilku metrów od ścian budynku.
 Linia pozwala na omijanie miejsc, w których samochody pożarnicze nie powinny się pojawiać, 
 
-Opis pól w oknie dialogowym (odległości w metrach) [rysunek konfiguracja.png]:
+
+Opis pól w oknie dialogowym (odległości w metrach) (img: https://github.com/mimooh/dojazd-mw/blob/master/tryb_wsadowy/rysunek konfiguracja.png):
 Liczba pętli: Kontroluje umieszczanie samochodów na linii samochodów. Wartość większa od 1 oznacza, że po zapełnieniu całej linii samochody pożarnicze będą umieszczane ponownie celem przeprowadzenia kolejnych symulacji.
 Piętra: Puste pole oznacza że pożary będą powstawać na wszystkich piętrach. Pojedyncza liczba oznacza, że pożary będą powstawać tylko na zadanym piętrze. Liczy oddzielone przecinkiem definiują piętra na których będą powstawać pożary.
 Gęstość siatki pożaru: Odległości węzłów kwadratowej siatki, na której powstają pożary w budynku.
@@ -49,7 +50,7 @@ a) statystyki przedstawiającej ile razy dany typ działań gaśniczych okazał 
 "Wewnętrzne rozwinięcie gaśnicze od nasady tłocznej pompy": 12
 "Rozwinięcie gaśnicze z dostępem z drabiny przystawnej": 3,
 
-b) analizy graficznej w której [rysunek best_zewn.png]: 
+b) analizy graficznej w której (img: https://github.com/mimooh/dojazd-mw/blob/master/tryb_wsadowy/best_zewn.png): 
 b.1) czerwone koła reprezentują miejsca powstania pożaru,
 b.2) szare koła reprezentują miejsca ustawień samochodów, z których czas dotarcia do pożaru był w danym scenariuszu najkrótszy,
 b.3) wielkości szarych wskazują jak szybkie jest dotarcie do pożaru z najszybszego punktu w danym scenariuszu względem innych scenariuszy - dłuższy promień oznacza lepsze akcje (krótsze czasy).
