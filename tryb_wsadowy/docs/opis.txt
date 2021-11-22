@@ -1,4 +1,3 @@
-<pre>
 Moduł wsadowy
 
 Moduł wsadowy pozwala na uruchamianie wielu scenariuszy pożarowych. 
@@ -24,7 +23,7 @@ Linia to zazwyczaj powinna przebiegać wokół budynku w odległości kilku metr
 Linia pozwala na omijanie miejsc, w których samochody pożarnicze nie powinny się pojawiać, 
 
 
-Opis pól w oknie dialogowym (odległości w metrach) (rys.1):
+Opis pól w oknie dialogowym (odległości w metrach) (rys.konfiguracja.png):
 Liczba pętli: Kontroluje umieszczanie samochodów na linii samochodów. Wartość większa od 1 oznacza, że po zapełnieniu całej linii samochody pożarnicze będą umieszczane ponownie celem przeprowadzenia kolejnych symulacji.
 Piętra: Puste pole oznacza że pożary będą powstawać na wszystkich piętrach. Pojedyncza liczba oznacza, że pożary będą powstawać tylko na zadanym piętrze. Liczy oddzielone przecinkiem definiują piętra na których będą powstawać pożary.
 Gęstość siatki pożaru: Odległości węzłów kwadratowej siatki, na której powstają pożary w budynku.
@@ -44,7 +43,7 @@ Pojedyńcza symulacja trwa zazwyczaj kilka minut.
 
 * Prezentacja wyników Modułu Wsadowego
 
-Wyniki działania Modułu wsadowego przedstawiane są w postaci (rys.2) : 
+Wyniki działania Modułu wsadowego przedstawiane są w postaci (rys.best_zewn.png) : 
 a) statystyki przedstawiającej ile razy dany typ działań gaśniczych okazał się najszybszy, np:
 
 "Gaszenie z poziomu ziemi": 143,
@@ -57,7 +56,3 @@ b.2) szare koła reprezentują miejsca ustawień samochodów, z których czas do
 b.3) wielkości szarych wskazują jak szybkie jest dotarcie do pożaru z najszybszego punktu w danym scenariuszu względem innych scenariuszy - dłuższy promień oznacza lepsze akcje (krótsze czasy).
 
 
-</pre>
-<br>
-<img src=https://github.com/mimooh/dojazd-mw/blob/master/tryb_wsadowy/docs/konfiguracja.png><br>
-<img src=https://github.com/mimooh/dojazd-mw/blob/master/tryb_wsadowy/docs/best_zewn.png>
