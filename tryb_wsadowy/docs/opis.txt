@@ -43,14 +43,14 @@ Pojedyńcza symulacja trwa zazwyczaj kilka minut.
 
 * Prezentacja wyników Modułu Wsadowego
 
-Wyniki działania Modułu wsadowego przedstawiane są w postaci (rys.best_zewn.png) : 
+Wyniki działania Modułu wsadowego przedstawiane są w postaci (rys.best_zewn.png): 
 a) statystyki przedstawiającej ile razy dany typ działań gaśniczych okazał się najszybszy, np:
 
 "Gaszenie z poziomu ziemi": 143,
 "Wewnętrzne rozwinięcie gaśnicze od nasady tłocznej pompy": 12
 "Rozwinięcie gaśnicze z dostępem z drabiny przystawnej": 3,
 
-b) analizy graficznej w której 
+b) analizy graficznej w której: 
 b.1) czerwone koła reprezentują miejsca powstania pożaru,
 b.2) szare koła reprezentują miejsca ustawień samochodów, z których czas dotarcia do pożaru był w danym scenariuszu najkrótszy,
 b.3) wielkości szarych wskazują jak szybkie jest dotarcie do pożaru z najszybszego punktu w danym scenariuszu względem innych scenariuszy - dłuższy promień oznacza lepsze akcje (krótsze czasy).
