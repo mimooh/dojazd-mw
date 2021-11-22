@@ -53,3 +53,6 @@ b) analizy graficznej w której [rysunek best_zewn.png]:
 b.1) czerwone koła reprezentują miejsca powstania pożaru,
 b.2) szare koła reprezentują miejsca ustawień samochodów, z których czas dotarcia do pożaru był w danym scenariuszu najkrótszy,
 b.3) wielkości szarych wskazują jak szybkie jest dotarcie do pożaru z najszybszego punktu w danym scenariuszu względem innych scenariuszy - dłuższy promień oznacza lepsze akcje (krótsze czasy).
+
+
+
